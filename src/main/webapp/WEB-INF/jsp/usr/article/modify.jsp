@@ -25,11 +25,11 @@
 							<td>${article.getUpdateDate().substring(2, 16) }</td>
 						</tr>
 						<tr>
-							<th>제목</th>
-							<td><input class="input input-neutral" name="title" type="text" value="${article.getTitle() }" /></td>
+							<th>기관명</th>
+							<td><input class="input input-neutral" name="institutionName" type="text" value="${article.getInstitutionName() }" /></td>
 						</tr>
 						<tr>
-							<th>내용</th>
+							<th>한 줄 평</th>
 							<td><textarea class="textarea textarea-neutral" name="content">${article.getContent() }</textarea></td>
 						</tr>
 						<tr>

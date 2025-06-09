@@ -78,7 +78,7 @@
 					</div>
 				 <div class="option pr-10 pl-10 pt-4 pb-4 ">
 					 <div class="font-bold pb-4">기관유형</div>
-				     <select style ="height:40px; border-radius: 5px; width: 70%; " name="insitution-type-select" class="select">
+				     <select style ="height:40px; border-radius: 5px; width: 70%; " name="institution-type-select" class="select">
 					   <option class ="text-center h-40" value="" disabled selected>기관유형을 선택해주세요</option>
 				       <option>유치원</option>
 				       <option>어린이집</option>
@@ -123,33 +123,50 @@
 
 
 	<script>
-		  function goToWritePage() {
-		    const selected = document.querySelector('input[name="boardId"]:checked');
-		    if (!selected) {
-		      alert("후기 유형을 선택해주세요.");
-		      return;
-		    }
-		
-		    const boardId = selected.value;
-		    let url = "";
-		
-		    switch (boardId) {
-		      case "1":
-		        url = "/usr/article/workingWrite";
-		        break;
-		      case "2":
-		        url = "/usr/article/interviewWrite";
-		        break;
-		      case "3":
-		        url = "/usr/article/practiceWrite";
-		        break;
-		    }
-		
-		    location.href = url;
+	
+	function goToWritePage() {
+		  const workType = document.querySelector('select[name="work-type-select"]').value;
+		  const city = document.querySelector('select[name="city-select"]').value;
+		  const district = document.querySelector('select[name="district-select"]').value;
+		  const institutionType = document.querySelector('select[name="institution-type-select"]').value; // 수정
+		  const selectedReviewType = document.querySelector('input[name="boardId"]:checked');
+
+		  if (!workType) { alert("근무유형을 선택해주세요."); return; }
+		  if (!city) { alert("근무지역(시/도)을 선택해주세요."); return; }
+		  if (!district) { alert("근무지역(구/군)을 선택해주세요."); return; }
+		  if (!institutionType) { alert("기관유형을 선택해주세요."); return; }
+		  if (!selectedReviewType) { alert("후기 유형을 선택해주세요."); return; }
+
+		  const boardId = selectedReviewType.value;
+
+		  let url = "";
+		  switch (boardId) {
+		    case "1":
+		      url = "/usr/article/workingWrite?workType=" + encodeURIComponent(workType)
+		          + "&city=" + encodeURIComponent(city)
+		          + "&district=" + encodeURIComponent(district)
+		          + "&institutionType=" + encodeURIComponent(institutionType);
+		      break;
+		    case "2":
+		      url = "/usr/article/interviewWrite?workType=" + encodeURIComponent(workType)
+		          + "&city=" + encodeURIComponent(city)
+		          + "&district=" + encodeURIComponent(district)
+		          + "&institutionType=" + encodeURIComponent(institutionType);
+		      break;
+		    case "3":
+		      url = "/usr/article/practiceWrite?workType=" + encodeURIComponent(workType)
+		          + "&city=" + encodeURIComponent(city)
+		          + "&district=" + encodeURIComponent(district)
+		          + "&institutionType=" + encodeURIComponent(institutionType);
+		      break;
 		  }
 
+		  location.href = url;
+		}
 
-	
+
+
+
 	    const districtsByCity = {
 	      "서울": ["강남구", "서초구", "송파구", "강북구", "강동구"],
 	      "대전": ["서구", "중구", "동구", "대덕구", "유성구"],
@@ -210,22 +227,7 @@
 	            });
 	    });
 
-		/* const mainWriteChk = function (form) {
-			
-			if (form.loginId.value.length == 0) {
-				alert('아이디는 필수 입력 정보입니다');
-				form.loginId.focus();
-				return false;
-			}
-			
-			if (form.loginPw.value.length == 0) {
-				alert('비밀번호는 필수 입력 정보입니다');
-				form.loginPw.focus();
-				return false;
-			}
-			
-			return true;
-		} */
+		
 
 	  </script>
 	  

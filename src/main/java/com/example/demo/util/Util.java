@@ -27,6 +27,8 @@ public class Util {
 					</script>
 				""", msg, uri);
 	}
-	
-	
+
+	public static String jsBack(String msg) {
+	    return "<script>alert('" + msg + "'); history.back();</script>";
+	}
 }
