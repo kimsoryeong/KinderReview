@@ -24,30 +24,33 @@
 <%-- <%@ include file="/WEB-INF/jsp/common/header.jsp" %> --%>
 
 	<section class="mt-4 mx-auto container">
-		<div class=" icon-box flex justify-end h-20 items-center">
+		<div class=" icon-box flex justify-end h-15 text-orange-300 items-center">
 			<i class="fa-solid fa-house fa-2xl"></i>
 			&nbsp;&nbsp;&nbsp;&nbsp;
 			<i class="fa-regular fa-user fa-2xl"></i>
 		</div>			  
-		<div class="container">
+		<div class="container border-2 bg-gray-100 shadow-xl">
 			<form id="reviewForm" onsubmit="return false;">
-			<div class="rounded-2xl mx-auto text-center w-full max-w-2xl px-4">
-				<div class=" mt-5">
+			<div class="mx-auto text-center w-full max-w-2xl px-4 border-2">
+				<div class="mt-5 border">
 				<span class="px-2 items-center text-orange-500 font-bold text-3xl"><a href="/">KinderReview</a></span>
 				<span class="px-2 items-center font-bold text-2xl">기관 리뷰 작성</span>
 				</div>
-				<br></br>
 				
-				<div class="">
-					<div class="pr-10 pl-10 pt-4 pb-4">
-						<div class="font-bold pb-4 ">근무유형</div>
-					    <select style ="height:40px; border-radius: 5px; width: 70%;  " class="select " name="work-type-select">
+				<input type="hidden" name="workType" id="hiddenWorkType" />
+				<input type="hidden" name="city" id="hiddenCity" />
+				<input type="hidden" name="institutionType" id="hiddenInstitutionType" />
+				
+				<div class="py-5">
+					<div class="">
+						<div class="font-bold text-lg text-gray-700 mb-2 block">근무유형</div>
+					    <select id="workType" class="select w-full border rounded-md h-40 " name="work-type-select">
 						   <option class ="text-center h-40 " value="" disabled selected >근무유형을 선택해주세요</option>
-					       <option>담임교사</option>
-					       <option>부담임, 보조 및 연장반 교사</option>
-					       <option>실습 및 봉사학생</option>
-					       <option>대체교사</option>
-					       <option>기타종사자</option>
+					       <option value="담임교사">담임교사</option>
+					       <option value="부담임, 보조 및 연장반 교사">부담임, 보조 및 연장반 교사</option>
+					       <option value="실습 및 봉사생">실습 및 봉사생</option>
+					       <option value="대체교사">대체교사</option>
+					       <option value="기타종사자">기타종사자</option>
 					     </select>
 					</div>
 					<div class="pr-10 pl-10 pt-4 pb-4 ">
@@ -72,20 +75,18 @@
 					    <option value="충남">충남</option>
 					    <option value="충북">충북</option>
 					  	</select>	
-					  <select id="district" style ="height:40px; border-radius: 5px; width: 34%;" class="select" name="district-select">
-					    <option class ="text-center h-40" value="" disabled selected>-- 구/군 선택 --</option>
-					  	</select>
+					  
 					</div>
 				 <div class="option pr-10 pl-10 pt-4 pb-4 ">
 					 <div class="font-bold pb-4">기관유형</div>
-				     <select style ="height:40px; border-radius: 5px; width: 70%; " name="institution-type-select" class="select">
+				     <select id="institutionType" style ="height:40px; border-radius: 5px; width: 70%; " name="institution-type-select" class="select">
 					   <option class ="text-center h-40" value="" disabled selected>기관유형을 선택해주세요</option>
-				       <option>유치원</option>
-				       <option>어린이집</option>
+				       <option value="유치원">유치원</option>
+				       <option value="어린이집">어린이집</option>
 				     </select>
 				 </div>	
 				 <div class="text-center">
-					<div class="text-center font-bold pt-4">후기유형</div>
+					<div class="font-bold text-lg text-gray-700 mb-2 block">후기유형</div>
 					<br />
 						<div >
 						<label>
@@ -107,7 +108,7 @@
 				</div> 
 				<div class="text-center p-10">
 				  <button type="button"
-					        class="btn-wide btn-m text-black bg-[#ffbf73] border-none hover:bg-[#f79614df] hover:border-[#ff9d23]"
+					        class="btn-wide btn-m text-black bg-[#ffbf73] border-none hover:bg-[#f79614df] hover:border-[#ff9d23] transition"
 					        style="width:150px; height:40px; border-radius: 5px;"
 					        onclick="goToWritePage()">
 					  다음
@@ -124,88 +125,46 @@
 
 	<script>
 	
+	<!-- hidden fields 추가 -->
+	
+
 	function goToWritePage() {
-		  const workType = document.querySelector('select[name="work-type-select"]').value;
-		  const city = document.querySelector('select[name="city-select"]').value;
-		  const district = document.querySelector('select[name="district-select"]').value;
-		  const institutionType = document.querySelector('select[name="institution-type-select"]').value; // 수정
-		  const selectedReviewType = document.querySelector('input[name="boardId"]:checked');
+	    const workType = document.querySelector('select[name="work-type-select"]').value;
+	    const city = document.querySelector('select[name="city-select"]').value;
+	    const institutionType = document.querySelector('select[name="institution-type-select"]').value;
+	    const selectedReviewType = document.querySelector('input[name="boardId"]:checked');
 
-		  if (!workType) { alert("근무유형을 선택해주세요."); return; }
-		  if (!city) { alert("근무지역(시/도)을 선택해주세요."); return; }
-		  if (!district) { alert("근무지역(구/군)을 선택해주세요."); return; }
-		  if (!institutionType) { alert("기관유형을 선택해주세요."); return; }
-		  if (!selectedReviewType) { alert("후기 유형을 선택해주세요."); return; }
+	    if (!workType) { alert("근무유형을 선택해주세요."); return; }
+	    if (!city) { alert("근무지역을 선택해주세요."); return; }
+	    if (!institutionType) { alert("기관유형을 선택해주세요."); return; }
+	    if (!selectedReviewType) { alert("후기 유형을 선택해주세요."); return; }
 
-		  const boardId = selectedReviewType.value;
+	    // hidden 필드에 값 세팅 (POST 폼 제출용)
+	    document.getElementById('hiddenWorkType').value = workType;
+	    document.getElementById('hiddenCity').value = city;
+	    document.getElementById('hiddenInstitutionType').value = institutionType;
 
-		  let url = "";
-		  switch (boardId) {
-		    case "1":
-		      url = "/usr/article/workingWrite?workType=" + encodeURIComponent(workType)
-		          + "&city=" + encodeURIComponent(city)
-		          + "&district=" + encodeURIComponent(district)
-		          + "&institutionType=" + encodeURIComponent(institutionType);
-		      break;
-		    case "2":
-		      url = "/usr/article/interviewWrite?workType=" + encodeURIComponent(workType)
-		          + "&city=" + encodeURIComponent(city)
-		          + "&district=" + encodeURIComponent(district)
-		          + "&institutionType=" + encodeURIComponent(institutionType);
-		      break;
-		    case "3":
-		      url = "/usr/article/practiceWrite?workType=" + encodeURIComponent(workType)
-		          + "&city=" + encodeURIComponent(city)
-		          + "&district=" + encodeURIComponent(district)
-		          + "&institutionType=" + encodeURIComponent(institutionType);
-		      break;
-		  }
-
-		  location.href = url;
-		}
-
-
-
-
-	    const districtsByCity = {
-	      "서울": ["강남구", "서초구", "송파구", "강북구", "강동구"],
-	      "대전": ["서구", "중구", "동구", "대덕구", "유성구"],
-	      "대구": ["중구", "동구", "서구", "남구", "북구", "수성구", "달서구"],
-	      "부산": ["중구", "서구", "동구", "영도구", "부산진구", "해운대구"],
-	      "인천": ["중구", "동구", "남동구", "부평구", "연수구"],
-	      "광주": ["동구", "서구", "남구", "북구", "광산구"],
-	      "세종": ["세종시 전체"],
-	      "울산": ["중구", "남구", "동구", "북구", "울주군"],
-	      "강원": ["춘천시", "원주시", "강릉시", "속초시", "동해시"],
-	      "경기": ["수원시", "성남시", "고양시", "용인시", "부천시"],
-	      "경남": ["창원시", "진주시", "김해시", "양산시", "거제시"],
-	      "경북": ["포항시", "경주시", "구미시", "김천시", "안동시"],
-	      "전남": ["목포시", "여수시", "순천시", "나주시", "광양시"],
-	      "전북": ["전주시", "군산시", "익산시", "정읍시", "남원시"],
-	      "제주": ["제주시", "서귀포시"],
-	      "충남": ["천안시", "공주시", "아산시", "서산시", "논산시"],
-	      "충북": ["청주시", "충주시", "제천시", "보은군", "옥천군"]
-	    };
-	
-	    function updateDistricts() {
-	      const citySelect = document.getElementById("city");
-	      const districtSelect = document.getElementById("district");
-	
-	      const selectedCity = citySelect.value;
-	      const districts = districtsByCity[selectedCity] || [];
-	
-	      // 기존 옵션 초기화
-	      districtSelect.innerHTML = '<option value="">-- 구/군 선택 --</option>';
-	
-	      // 새 옵션 추가
-	      districts.forEach(d => {
-	        const option = document.createElement("option");
-	        option.value = d;
-	        option.textContent = d;
-	        districtSelect.appendChild(option);
-	      });
+	    const boardId = selectedReviewType.value;
+	    let url = "";
+	    switch (boardId) {
+	        case "1":
+	            url = "/usr/article/workingWrite?workType=" + encodeURIComponent(workType)
+	                + "&city=" + encodeURIComponent(city)
+	                + "&institutionType=" + encodeURIComponent(institutionType);
+	            break;
+	        case "2":
+	            url = "/usr/article/interviewWrite?workType=" + encodeURIComponent(workType)
+	                + "&city=" + encodeURIComponent(city)
+	                + "&institutionType=" + encodeURIComponent(institutionType);
+	            break;
+	        case "3":
+	            url = "/usr/article/practiceWrite?workType=" + encodeURIComponent(workType)
+	                + "&city=" + encodeURIComponent(city)
+	                + "&institutionType=" + encodeURIComponent(institutionType);
+	            break;
 	    }
-	    
+	    location.href = url;
+	}
 	    $(function() {
 	        $('.select')
 	            .css({

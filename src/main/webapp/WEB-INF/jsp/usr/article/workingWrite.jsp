@@ -32,10 +32,11 @@
 	    <i class="fa-regular fa-user fa-2xl"></i>
 	  </span>
 	</div>
-	
-	
 	  <div class="container w-min flex justify-center">
 	    <form action="doWrite" method="post">
+	      <input type="hidden" name="workType" value="${param.workType}" />
+		  <input type="hidden" name="city" value="${param.city}" />
+		  <input type="hidden" name="institutionType" value="${param.institutionType}" />
 	      <input type="hidden" name="boardId" value="4" />
 	      <div class="w-200 text-center border-2 border-[#ffbf73] mt-5">
 	        <span class=" border-2 border-[#ffbf73] font-bold text-2xl">근무 리뷰 작성</span>
@@ -46,7 +47,9 @@
 	          <span class="font-bold pr-4 text-xl">기관명</span>
 	          <span><input class="input input-neutral" name="institutionName" type="text" required /></span>
 	        </div>
-	
+			<div>
+				
+			</div>
 	        <div class="pr-10 pl-10 pt-2 pb-4">
 	          <div class="font-bold text-xl">기관 총 평점</div>
 	          <div>
@@ -72,18 +75,17 @@
 	           <div class="pt-2 pb-2 text-sm">아래 버튼을 클릭하여 작성해주세요</div>
 		         <div class="">
 		         <div class="flex gap-4 font-bold cursor-pointer mt-2">
-		           <div class="tab-title px-4 py-1 rounded-lg border border-black-800 hover:bg-[#ffbf73] hover:border  cursor-pointer" data-target="#salary-section">급여</div>
+		           <div class="tab-title px-4 py-1 rounded-lg border border-black-800 hover:bg-gray-200 hover:border-gray-200 cursor-pointer" data-target="#salary-section">급여</div>
 		           <div class="tab-title px-4 py-1 rounded-lg border border-black-800 hover:bg-[#ffbf73] hover:border  cursor-pointer" data-target="#welfare-section">복지</div>
 		           <div class="tab-title px-4 py-1 rounded-lg border border-black-800 hover:bg-[#ffbf73] hover:border  cursor-pointer" data-target="#work-section">근무환경</div>
 		         </div>
 		      	</div>
 	        </div>
 	
-	        <!-- 급여 영역 -->
 	        <div id="salary-section" class="tab-content mt-4 hidden pl-10 pr-10">
-	          <div class="border-2 border-[#ffbf73] pt-4 pb-4 rounded-lg">
-	            <span class="pl-10 pr-10 text-lg font-bold">급여</span>
-	            <div class="pr-10 pl-10 ">
+	          <div class="shadow-md rounded-lg p-4 mb-6 bg-yellow-50 pt-4 pb-4">
+	            <span class=" text-lg font-bold">급여</span>
+	            <div class="">
 	            <div class="review-form">
 	              <div class="star">
 	                <a href="#" class="on">★</a><a href="#" class="on">★</a><a href="#" class="on">★</a><a href="#" class="on">★</a><a href="#" class="on">★</a>
@@ -91,24 +93,23 @@
 	              </div>
 	            </div>
 	          </div>
-	            <div class="pt-2 pl-10 pr-10">
+	            <div class="pt-2">
 	              <div class="pt-2 pb-4 text-sm">원에서 제공하는 특징에 체크해주세요</div>
-	              <label><input class="checkbox-xs" name="salaryOptions" type="checkbox" value="overtime-pay" /> 시간 외 수당</label>&nbsp;
-	              <label><input class="checkbox-xs" name="salaryOptions" type="checkbox" value="severance-pay" /> 퇴직금</label>&nbsp;
-	              <label><input class="checkbox-xs" name="salaryOptions" type="checkbox" value="bonus" /> 상여금</label>&nbsp;
-	              <label><input class="checkbox-xs" name="salaryOptions" type="checkbox" value="food expenses" /> 식비</label>
+	              <label><input class="checkbox-xs" name="salaryOptions" type="checkbox" value="시간 외 수당" /> 시간 외 수당</label>&nbsp;
+	              <label><input class="checkbox-xs" name="salaryOptions" type="checkbox" value="퇴직금" /> 퇴직금</label>&nbsp;
+	              <label><input class="checkbox-xs" name="salaryOptions" type="checkbox" value="상여금" /> 상여금</label>&nbsp;
+	              <label><input class="checkbox-xs" name="salaryOptions" type="checkbox" value="식비" /> 식비</label>
 	            </div>
-	            <div class="pt-4 pl-10 pr-10">
+	            <div class="pt-4">
 	              <input type="text" name="salaryComment" placeholder="급여 관련 하고싶은 말을 작성해 주세요." style="width:100%;" class="input input-neutral" />
 	            </div>
 	          </div>
 	        </div>
 	
-	        <!-- 복지 영역 -->
 	        <div id="welfare-section" class="tab-content mt-4 hidden pl-10 pr-10">
-	          <div class="border-2 border-[#ffbf73] pt-4 pb-4 rounded-lg">
-	            <span class="pr-10 pl-10 text-lg font-bold">복지</span>
-	            <div class="pr-10 pl-10 ">
+	          <div class="shadow-md rounded-lg p-4 mb-6 bg-green-50 pt-4 pb-4">
+	            <span class="text-lg font-bold">복지</span>
+	            <div class="">
 	            <div class="review-form">
 	              <div class="star">
 	                <a href="#" class="on">★</a><a href="#" class="on">★</a><a href="#" class="on">★</a><a href="#" class="on">★</a><a href="#" class="on">★</a>
@@ -116,25 +117,24 @@
 	              </div>
 	            </div>
 	          </div>
-	            <div class="pt-2 pl-10 pr-10">
+	            <div class="pt-2">
 	              <div class="pt-2 pb-4 text-sm">원에서 제공하는 특징에 체크해주세요</div>
-	              <label><input class="checkbox-xs" name="welfareOptions" type="checkbox" value="annualleave" /> 연반차 사용</label>&nbsp;
-	              <label><input class="checkbox-xs" name="welfareOptions" type="checkbox" value="sickLeave" /> 병가</label>&nbsp;
-	              <label><input class="checkbox-xs" name="welfareOptions" type="checkbox" value="vacation" /> 방학</label>&nbsp;
-	              <label><input class="checkbox-xs" name="welfareOptions" type="checkbox" value="parentalLeave" /> 육아휴직</label>&nbsp;
-	              <label><input class="checkbox-xs" name="welfareOptions" type="checkbox" value="BreakTime" /> 휴게시간</label>
+	              <label><input class="checkbox-xs" name="welfareOptions" type="checkbox" value="연반차 사용" /> 연반차 사용</label>&nbsp;
+	              <label><input class="checkbox-xs" name="welfareOptions" type="checkbox" value="병가" /> 병가</label>&nbsp;
+	              <label><input class="checkbox-xs" name="welfareOptions" type="checkbox" value="방학" /> 방학</label>&nbsp;
+	              <label><input class="checkbox-xs" name="welfareOptions" type="checkbox" value="육아휴직" /> 육아휴직</label>&nbsp;
+	              <label><input class="checkbox-xs" name="welfareOptions" type="checkbox" value="휴게시간" /> 휴게시간</label>
 	            </div>
-	            <div class="pt-4 pl-10 pr-10">
+	            <div class="pt-4">
 	              <input type="text" name="welfareComment" placeholder="복지 관련 하고싶은 말을 작성해 주세요." style="width:100%;" class="input input-neutral" />
 	            </div>
 	          </div>
 	        </div>
 	
-	        <!-- 근무환경 영역 -->
 	        <div id="work-section" class="tab-content mt-4 hidden pl-10 pr-10">
-	          <div class="border-2 border-[#ffbf73] pt-4 pb-4 rounded-lg">
-	            <span class="pr-10 pl-10 text-lg font-bold ">근무환경</span>
-		           <div class="pr-10 pl-10 ">
+	          <div class="shadow-md rounded-lg p-4 mb-6 bg-blue-50 pt-4 pb-4"">
+	            <span class="text-lg font-bold ">근무환경</span>
+		           <div class="">
 		            <div class="review-form ">
 		              <div class="star">
 		                <a href="#" class="on">★</a><a href="#" class="on">★</a><a href="#" class="on">★</a><a href="#" class="on">★</a><a href="#" class="on">★</a>
@@ -142,9 +142,9 @@
 		              </div>
 		            </div>
 		          </div>
-	            <div class="pt-4 pl-10 pr-10">
+	            <div class="pt-4">
 	            <div class="font-bold pb-2 text-m">출퇴근 시간</div>
-	              <input type="text" name="environmentComment" id="CommuteTime" placeholder="기관의 출퇴근 시간을 작성해주세요." style="width:100%;" class="input input-neutral" />
+	              <input type="text" name="commuteTimeComment" id="CommuteTime" placeholder="기관의 출퇴근 시간을 작성해주세요." style="width:100%;" class="input input-neutral" />
 	            <div class="font-bold pt-2 pb-2 text-m">기타</div>
 	            <div class="text-xs pb-2">기관 내 분위기, 행사 빈도수, 특성화 활동, 원내 문화, 평가제, 교사 대 아동 비율 등&nbsp; 자유롭게 작성해주세요.</div>	
 	              <input type="text" name="environmentComment" id="environment" placeholder="기관의 근무환경에 대해 자유롭게 작성해주세요." style="width:100%;" class="input input-neutral" />

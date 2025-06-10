@@ -30,11 +30,11 @@ public class UsrMemberController {
 	
 	@PostMapping("/usr/member/doJoin")
 	@ResponseBody
-	public String doJoin(String loginId, String loginPw, String name) {
+	public String doJoin(String loginId, String loginPw, String nickname) {
 		
-		this.memberService.joinMember(loginId, loginPw, name);
+		this.memberService.joinMember(loginId, loginPw, nickname);
 		
-		return Util.jsReplace(String.format("[ %s ] 님의 가입이 완료되었습니다", name), "/");
+		return Util.jsReplace(String.format("[ %s ] 님의 가입이 완료되었습니다", nickname), "/");
 	}
 	
 	@GetMapping("/usr/member/loginIdDupChk")

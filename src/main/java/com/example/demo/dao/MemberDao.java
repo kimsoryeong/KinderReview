@@ -2,6 +2,7 @@ package com.example.demo.dao;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import com.example.demo.dto.Member;
@@ -15,9 +16,9 @@ public interface MemberDao {
 			        , updateDate = NOW()
 			        , loginId = #{loginId}
 			        , loginPw = #{loginPw}
-			        , `name` = #{name}
+			        , nickname = #{nickname}
 			""")
-	void joinMember(String loginId, String loginPw, String name);
+	void joinMember(@Param("loginId") String loginId, @Param("loginPw") String loginPw, @Param("nickname") String nickname);
 
 	@Select("""
 			SELECT *

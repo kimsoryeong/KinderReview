@@ -16,26 +16,28 @@ import com.example.demo.dto.Article;
 public interface ArticleDao {
 	
 	@Insert("""
-	        INSERT INTO article
-	            SET regDate = NOW(),
-	                updateDate = NOW(),
-	                memberId = #{memberId},
-	                institutionName = #{institutionName},
-	                boardId = #{boardId},
-	                content = #{content},
-	                salaryScore = #{salaryScore},
-	                welfareScore = #{welfareScore},
-	                environmentScore = #{environmentScore},
-	                salaryComment = #{salaryComment},
-	                welfareComment = #{welfareComment},
-	                environmentComment = #{environmentComment},
-	                workType = #{workType},
-	                city = #{city},
-	                district = #{district},
-	                institutionType = #{institutionType}
-	    """)
-	    @Options(useGeneratedKeys = true, keyProperty = "id")
-	    int writeArticle(Article article);
+		    INSERT INTO article
+		        SET regDate = NOW(),
+		            updateDate = NOW(),
+		            memberId = #{memberId},
+		            institutionName = #{institutionName},
+		            boardId = #{boardId},
+		            content = #{content},
+		            salaryScore = #{salaryScore},
+		            welfareScore = #{welfareScore},
+		            environmentScore = #{environmentScore},
+		            salaryComment = #{salaryComment},
+		            welfareComment = #{welfareComment},
+		            environmentComment = #{environmentComment},
+		            commuteTimeComment = #{commuteTimeComment},
+		            workType = #{workType},
+		            city = #{city},
+		            institutionType = #{institutionType}
+		""")
+		@Options(useGeneratedKeys = true, keyProperty = "id")
+		int writeArticle(Article article);
+
+
 
 	@Insert({
         "<script>",
@@ -73,10 +75,28 @@ public interface ArticleDao {
 		public List<Article> getArticles( int boardId, int articlesInPage, int limitFrom);
 		
 		@Select("""
-		        SELECT a.*, m.loginId AS writerName
-		        FROM article a
-		        INNER JOIN `member` m ON a.memberId = m.id
-		        WHERE a.id = #{id}
+		        SELECT
+				    a.id,
+				    a.regDate,
+				    a.updateDate,
+				    a.institutionName,
+				    a.content,
+				    a.boardId,
+				    a.memberId,
+				    a.salaryScore,
+				    a.welfareScore,
+				    a.environmentScore,
+				    a.salaryComment,
+				    a.welfareComment,
+				    a.environmentComment,
+				    a.commuteTimeComment,
+				    a.workType,
+				    a.city,
+				    a.institutionType,
+				    m.loginId AS writerName
+				FROM article a
+				JOIN member m ON a.memberId = m.id
+				WHERE a.id = #{id}
 		    """)
 		    Article getArticleById(int id);
 	
@@ -111,11 +131,9 @@ public interface ArticleDao {
 			    FROM article
 			    WHERE boardId = #{boardId}
 			    AND (#{city} IS NULL OR city = #{city})
-			    AND (#{district} IS NULL OR district = #{district})
 			""")
 			int getArticlesCntWithRegion(@Param("boardId") int boardId,
-			                             @Param("city") String city,
-			                             @Param("district") String district);
+			                             @Param("city") String city);
 	
 		@Select("""
 				SELECT a.title, a.content
@@ -136,9 +154,6 @@ public interface ArticleDao {
 			        <if test="city != null and city != ''">
 			            AND a.city = #{city}
 			        </if>
-			        <if test="district != null and district != ''">
-			            AND a.district = #{district}
-			        </if>
 			        ORDER BY a.id DESC
 			        LIMIT #{limitFrom}, #{articlesInPage}
 			    </script>
@@ -146,7 +161,6 @@ public interface ArticleDao {
 			List<Article> getArticlesWithRegion(
 			    @Param("boardId") int boardId,
 			    @Param("city") String city,
-			    @Param("district") String district,
 			    @Param("articlesInPage") int articlesInPage,
 			    @Param("limitFrom") int limitFrom
 			);

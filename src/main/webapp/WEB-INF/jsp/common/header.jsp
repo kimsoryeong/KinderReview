@@ -20,8 +20,7 @@
 </head>
 <body>
 
-	<div class="container mt-12 h-15 flex mx-auto max-w-5xl text-l">
-		<div><a class="flex h-full px-2 items-center text-orange-500 font-bold text-xl" href="/">KinderReview</a></div>
+	<div class="container pt-3 pb-3 h-20 flex justify-items-center mx-auto max-w-5xl text-l">
 		<ul class="flex">
 			<li class="hover:underline underline-offset-8"><a class="flex h-full px-3 items-center" href="/">홈</a></li>
 			<li class="relative group">
@@ -39,7 +38,7 @@
 			    <li><a class="block px-4 py-2 hover:bg-base-300" href="/usr/article/list?boardId=6">실습 및 봉사 리뷰</a></li>
 			  </ul>
 			</li>
-			<li class="hover:underline underline-offset-8"><a class="flex h-full px-3 items-center" href="/usr/article/list?boardId=3">채용공고</a></li>
+			<li class="hover:underline underline-offset-8"><a class="flex h-full px-3 items-center" href="/usr/article/list?boardId=3">지역별 커뮤니티</a></li>
 		</ul>
 		<div class="grow"></div>
 		<ul class="flex">

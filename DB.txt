@@ -13,10 +13,12 @@ CREATE TABLE `member`(
     , email VARCHAR(100) NOT NULL
 );
 
+ALTER TABLE `member` DROP COLUMN email;
 
 
 DROP TABLE IF EXISTS article_option;
 DROP TABLE IF EXISTS article;
+DELETE FROM article WHERE welfareScore =3;
 
 CREATE TABLE article(
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -36,8 +38,9 @@ CREATE TABLE article(
     city VARCHAR(100),
     district VARCHAR(100),
     institutionType VARCHAR(100)
-    -- 필요한 인덱스나 제약 조건 추가 가능
 );
+ALTER TABLE article ADD COLUMN commuteTimeComment TEXT AFTER environmentComment;
+ALTER TABLE article DROP COLUMN district;
 
 CREATE TABLE article_option (
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -47,12 +50,14 @@ CREATE TABLE article_option (
     FOREIGN KEY (articleId) REFERENCES article(id) ON DELETE CASCADE
 );
 
+DROP TABLE IF EXISTS board;
 
 CREATE TABLE board(
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT
     , `name` VARCHAR(50) NOT NULL
 );
 
+ 
 SELECT * FROM board;
 SELECT * FROM article;
 SELECT * FROM `member`;
@@ -67,7 +72,7 @@ INSERT INTO board
     SET `name` = '기관 리뷰';
     
 INSERT INTO board
-    SET `name` = '채용 공고';
+    SET `name` = '지역별 커뮤니티';
 
 INSERT INTO board
     SET `name` = '근무 리뷰';
@@ -76,7 +81,7 @@ INSERT INTO board
     SET `name` = '면접 리뷰';
     
 INSERT INTO board
-    SET `name` = '실습 및 봉사  리뷰';
+    SET `name` = '실습 및 봉사 리뷰';
 
 INSERT INTO board
     SET `name` = '유치원 정보';
@@ -92,7 +97,6 @@ INSERT INTO article
         , institutionName = '기관명 예시'
         , content = '기관명 한줄평'
         , city = '서울'
-        , district = '강남구'
         , workType = '담임교사'
         , institutionType = '어린이집'
         , salaryScore = 4
@@ -100,7 +104,8 @@ INSERT INTO article
         , environmentScore = 5
         , salaryComment = '급여 만족'
         , welfareComment = '복지 괜찮음'
-        , environmentComment = '환경 좋아요';
+        , environmentComment = '환경 좋아요'
+        , commuteTimeComment = '8:00~ 19:00';
 
         
         
