@@ -35,5 +35,12 @@ public interface MemberDao {
 			        , loginPw = #{loginPw}
 			""")
 	void loginMember(String loginId, String loginPw);
+
+	@Select("""
+			SELECT *
+			FROM `member`
+			WHERE nickname = #{nickname}
+			""")
+	Member getMemberBynickname(String nickname);
 	
 }

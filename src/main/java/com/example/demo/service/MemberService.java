@@ -27,4 +27,8 @@ public class MemberService {
 		
 	}
 
+	public Member getMemberBynickname(String nickname) {
+		return this.memberDao.getMemberBynickname(nickname);
+	}
+
 }

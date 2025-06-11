@@ -1,107 +1,107 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<c:set var="pageTitle" value="${board.getName()} 게시판" />
+<c:set var="pageTitle" value="${board.boardName} 게시판" />
 
 <%@ include file="/WEB-INF/jsp/common/header.jsp" %>
 
-<section class="bg-gray-50 py-8">
-  <div class="container mx-auto max-w-5xl">
-    <div class="bg-white rounded-t-lg shadow-sm p-6 mb-1 border border-red-500">
-      <div class="flex justify-between items-center">
-        <div>
-          <h1 class="text-2xl font-bold text-orange-400">${board.getName()}</h1>
-          <p class="text-sm text-gray-500 mt-1">총 ${articlesCnt}개의 게시글</p>
-        </div>
-        
-        <c:if test="${req.getLoginedMember().getId() != 0}">
-          <c:choose>
-            <c:when test="${req.getLoginedMember().getAuthLevel() == 0}">
-              <a href="/usr/article/mainWrite?boardId=${board.getId()}" class="bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded-md transition">글쓰기</a>
-            </c:when>
-            <c:otherwise>
-              <c:if test="${board.getId() != 1}">
-                <a href="/usr/article/mainWrite?boardId=${board.getId()}" class="bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded-md transition">글쓰기</a>
-              </c:if>
-            </c:otherwise>
-          </c:choose>
-        </c:if>
+<section class="bg-gray-100 min-h-screen py-8">
+  <div class="container mx-auto max-w-4xl">
+    <!-- 상단 헤더 -->
+    <div class="bg-white rounded-t-lg shadow p-6 mb-4 border-b-4 border-orange-300 flex justify-between items-center">
+      <div>
+        <h1 class="text-2xl font-bold text-orange-400">${board.boardName}</h1>
+        <p class="text-sm text-gray-500 mt-1">총 <span class="font-semibold text-orange-400">${articlesCnt}</span>개의 게시글</p>
       </div>
+      <c:set var="isLogined" value="${req.getLoginedMember().getId() != 0}" />
+      <button
+        class="bg-orange-400 hover:bg-orange-500 text-white px-5 py-2 rounded-lg font-semibold shadow transition"
+        onclick="
+          if (!${isLogined}) {
+            alert('로그인 후 이용해주세요.');
+          } else {
+            var authLevel = ${req.getLoginedMember().getAuthLevel()};
+            var boardId = ${board.getId()};
+            if (authLevel == 0 || boardId != 1) {
+              location.href = '/usr/article/mainWrite?boardId=${board.getId()}';
+            } else {
+              alert('권한이 없습니다.');
+            }
+          }
+        "
+      >
+        글쓰기
+      </button>
     </div>
     
-   <div class="flex">
-    <c:if test="${board.id == 1 or board.id == 2 or board.id == 3}">
-      <div class="w-1/5 bg-white rounded-lg  p-4 h-fit">
-        <div class="font-bold text-lg mb-4 text-gray-800 border-b-2 border-orange-400 pb-2">${board.getName()}</div>
-        
-        <c:if test="${board.id == 1}">
-          <div class="pb-2">
-            <a href="/usr/article/list?boardId=7" class="block py-2 pl-1 hover:bg-orange-100 rounded-md ">유치원 정보</a>
-            <a href="/usr/article/list?boardId=8" class="block py-2 pl-1 hover:bg-orange-100 rounded-md ">어린이집 정보</a>
-          </div>
-        </c:if>
-        
-        <c:if test="${board.id == 2}">
-          <div class="pb-2">
-            <a href="/usr/article/list?boardId=4" class="block py-2 pl-1 hover:bg-orange-100 rounded-md">근무후기</a>
-            <a href="/usr/article/list?boardId=5" class="block py-2 pl-1 hover:bg-orange-100 rounded-md ">면접후기</a>
-            <a href="/usr/article/list?boardId=6" class="block py-2 pl-1 hover:bg-orange-100 rounded-md ">실습 및 봉사후기</a>
-          </div>
-        </c:if>
-      </div>
-	
-	</c:if>
-      <div class="w-5/5 border">
-        <div class="bg-white rounded-lg shadow-sm p-4 mb-4">
-          <div class="flex flex-col ">
-            <div class="border border-red-500">
-              <div class="text-sm font-medium text-gray-700 mb-2">지역별 기관찾기</div>
-              <form method="get" action="/usr/article/list" class="flex gap-2">
-                <input type="hidden" name="boardId" value="${board.id}" />
-                <select id="city" name="city-select" onchange="updateDistricts()" class="flex-1 border border-gray-500 rounded-md px-3 py-2 outline-none">
-                  <option value="" disabled selected>-- 시/도 선택 --</option>
-                  <option value="서울">서울</option>
-                  <option value="대전">대전</option>
-                  <option value="대구">대구</option>
-                  <option value="부산">부산</option>
-                  <option value="인천">인천</option>
-                  <option value="광주">광주</option>
-                  <option value="세종">세종</option>
-                  <option value="울산">울산</option>
-                  <option value="강원">강원</option>
-                  <option value="경기">경기</option>
-                  <option value="경남">경남</option>
-                  <option value="경북">경북</option>
-                  <option value="전남">전남</option>
-                  <option value="전북">전북</option>
-                  <option value="제주">제주</option>
-                  <option value="충남">충남</option>
-                  <option value="충북">충북</option>
-                </select>
-                <button type="submit" class="bg-gray-200 hover:bg-gray-500 px-4 py-2 rounded-md ">조회</button>
-              </form>
-            </div>
-			<div class="text-right border border-gray-500 py-2">
-			<form action="/"  method="get">
-				<select name="searchType" class="border border-gray-500 rounded-md px-1 py-1 outline-none">
-					<option selected value="">선택</option>
-					<option value="institution">제목</option>
-					<option value="content">내용</option>
-					<option value="institution+content">제목+내용</option>
-				</select>
-				<input type="text" name="keyword" id="keyword" class="border border-gray-500 rounded-md px-1 py-1 outline-none">
-				<button class="border border-gray-500 rounded-md px-2 py-1 btn-outline" type="submit">검색</button>
-			</form>
-			</div>
-          </div>
+    <div class="flex flex-col md:flex-row gap-4">
+      <!-- 사이드 메뉴 -->
+      <c:if test="${board.id == 1 or board.id == 2 or board.id == 3}">
+        <aside class="w-full md:w-48 min-w-40 bg-white rounded-lg shadow p-4 h-fit mb-4 md:mb-0">
+          <div class="font-bold text-lg mb-4 text-gray-800 border-b-2 border-orange-400 pb-2">${board.boardName}</div>
+          <c:if test="${board.id == 1}">
+            <a href="/usr/article/list?boardId=7" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">유치원 정보</a>
+            <a href="/usr/article/list?boardId=8" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">어린이집 정보</a>
+          </c:if>
+          <c:if test="${board.id == 2}">
+            <a href="/usr/article/list?boardId=4" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">근무후기</a>
+            <a href="/usr/article/list?boardId=5" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">면접후기</a>
+            <a href="/usr/article/list?boardId=6" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">실습 및 봉사후기</a>
+          </c:if>
+        </aside>
+      </c:if>
+
+      <!-- 메인 컨텐츠 -->
+      <div class="flex-1 min-w-0">
+        <!-- 필터/검색 영역 -->
+        <div class="bg-white rounded-lg shadow p-4 mb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <!-- 지역 필터 -->
+          <form method="get" action="/usr/article/list" class="flex items-center gap-2">
+            <input type="hidden" name="boardId" value="${board.id}" />
+            <label for="city" class="text-sm font-medium text-gray-700">지역</label>
+            <select id="city" name="city-select" onchange="updateDistricts()" class="border border-gray-300 rounded-md px-3 py-2 outline-none">
+              <option value="" disabled selected>시/도</option>
+              <option value="서울">서울</option>
+              <option value="대전">대전</option>
+              <option value="대구">대구</option>
+              <option value="부산">부산</option>
+              <option value="인천">인천</option>
+              <option value="광주">광주</option>
+              <option value="세종">세종</option>
+              <option value="울산">울산</option>
+              <option value="강원">강원</option>
+              <option value="경기">경기</option>
+              <option value="경남">경남</option>
+              <option value="경북">경북</option>
+              <option value="전남">전남</option>
+              <option value="전북">전북</option>
+              <option value="제주">제주</option>
+              <option value="충남">충남</option>
+              <option value="충북">충북</option>
+            </select>
+            <button type="submit" class="bg-orange-100 hover:bg-orange-300 text-orange-700 px-4 py-2 rounded-md transition">조회</button>
+          </form>
+          <!-- 검색 -->
+          <form action="/" method="get" class="flex items-center gap-2">
+            <select name="searchType" class="border border-gray-300 rounded-md px-2 py-2 outline-none">
+              <option selected value="">선택</option>
+              <option value="institution">제목</option>
+              <option value="content">내용</option>
+              <option value="institution+content">제목+내용</option>
+            </select>
+            <input type="text" name="keyword" id="keyword" class="border border-gray-300 rounded-md px-2 py-2 outline-none" placeholder="검색어 입력">
+            <button class="bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded-md transition" type="submit">검색</button>
+          </form>
         </div>
-        
-        <div class="bg-white rounded-lg shadow-sm divide-y">
+
+        <!-- 글 리스트 -->
+        <div class="px-2 bg-white border-2 border-green-400 rounded-lg shadow-sm divide-y-2 divide-gray-200">
           <c:forEach items="${articles}" var="article">
-            <div class="p-5 hover:bg-gray-50 transition">
+            <div class="p-5 hover:bg-orange-50 transition group">
               <div class="flex justify-between items-start">
-                <a href="detail?id=${article.getId()}" class="text-lg font-bold text-gray-800 hover:text-orange-500 transition">
-                  ${article.getInstitutionName()}
+                <a href="detail?id=${article.getId()}" class="text-lg font-bold text-gray-800 group-hover:text-orange-500 transition flex items-center gap-2">
+                  <i class="fa-solid fa-school fa-base text-gray-800"></i>
+                  <span>${article.getInstitutionName()}</span>
                 </a>
                 <span class="text-yellow-500 font-bold flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
@@ -110,47 +110,46 @@
                   ${article.getStar()}
                 </span>
               </div>
-              <p class="text-gray-600 mt-2 text-sm">
-                "${article.getContent()}"
-              </p>
-              <div class="flex justify-between items-center mt-3">
-                <div class="text-xs text-gray-500">
+              <div class="flex pt-3">
+                <div class="text-sm text-gray-600 italic truncate max-w-xl">
+                  "${article.getInstitutionComment()}"
                 </div>
+              </div>
+              <div class="flex gap-4 pt-2 text-xs text-gray-400">
+                <span>작성자: ${article.getWriterName()}</span>
+                <span>작성일: <fmt:formatDate value="${article.getRegDate()}" pattern="yyyy-MM-dd"/></span>
               </div>
             </div>
           </c:forEach>
-          
           <c:if test="${empty articles}">
             <div class="p-8 text-center text-gray-500">
               등록된 게시글이 없습니다.
             </div>
           </c:if>
         </div>
-        
+
+        <!-- 페이지네이션 -->
         <div class="flex justify-center mt-6">
-          <div class="flex rounded-md">
+          <div class="flex rounded-md overflow-hidden shadow">
             <c:set var="queryString" value="?boardId=${board.getId()}" />
-            
             <c:if test="${begin != 1}">
-              <a href="${queryString}&cPage=1" class="px-3 py-2 bg-white border border-gray-300 rounded-l-md hover:bg-gray-100">
+              <a href="${queryString}&cPage=1" class="px-3 py-2 bg-white border border-gray-300 hover:bg-gray-100">
                 <i class="fa-solid fa-angles-left"></i>
               </a>
               <a href="${queryString}&cPage=${begin - 1}" class="px-3 py-2 bg-white border-t border-b border-gray-300 hover:bg-gray-100">
                 <i class="fa-solid fa-caret-left"></i>
               </a>
             </c:if>
-            
             <c:forEach begin="${begin}" end="${end}" var="i">
               <a href="${queryString}&cPage=${i}" class="px-3 py-2 bg-white border border-gray-300 hover:bg-gray-100 ${cPage == i ? 'bg-orange-100 text-orange-600 font-bold' : ''}">
                 ${i}
               </a>
             </c:forEach>
-            
             <c:if test="${end != totalPagesCnt}">
               <a href="${queryString}&cPage=${end + 1}" class="px-3 py-2 bg-white border-t border-b border-gray-300 hover:bg-gray-100">
                 <i class="fa-solid fa-caret-right"></i>
               </a>
-              <a href="${queryString}&cPage=${totalPagesCnt}" class="px-3 py-2 bg-white border border-gray-300 rounded-r-md hover:bg-gray-100">
+              <a href="${queryString}&cPage=${totalPagesCnt}" class="px-3 py-2 bg-white border border-gray-300 hover:bg-gray-100">
                 <i class="fa-solid fa-angles-right"></i>
               </a>
             </c:if>
@@ -158,7 +157,7 @@
         </div>
       </div>
     </div>
-   </div>
+  </div>
 </section>
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp" %>

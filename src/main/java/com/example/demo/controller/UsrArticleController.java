@@ -42,8 +42,8 @@ public class UsrArticleController {
 	@ResponseBody
 	public String doWrite(
 	    @RequestParam String institutionName,
-	    @RequestParam String content,
-	    @RequestParam int boardId,
+	    @RequestParam String institutionComment,
+	    @RequestParam String boardName,
 	    @RequestParam Integer salaryScore,
 	    @RequestParam Integer welfareScore,
 	    @RequestParam Integer environmentScore,
@@ -73,7 +73,7 @@ public class UsrArticleController {
 
 	    // 한 번만 호출
 	    int articleId = this.articleService.writeArticle(
-	            institutionName, content, memberId, boardId,
+	            institutionName, institutionComment, memberId,  boardName,
 	            salaryScore, welfareScore, environmentScore,
 	            salaryComment, welfareComment, environmentComment, commuteTimeComment,
 	            salaryOptions, welfareOptions, environmentOptions,
@@ -107,7 +107,9 @@ public class UsrArticleController {
 	@GetMapping("/usr/article/detail")
 	public String detail(Model model, int id) {
 	    Article article = articleService.getArticleById(id);
-
+	    Board board = boardService.getBoard(article.getBoardId());
+	    model.addAttribute("article", article);
+	    model.addAttribute("board", board);
 	    System.out.println("salaryScore: " + article.getSalaryScore());
 	    System.out.println("welfareScore: " + article.getWelfareScore());
 	    System.out.println("environmentScore: " + article.getEnvironmentScore());
@@ -180,9 +182,9 @@ public class UsrArticleController {
 	
 	@PostMapping("/usr/article/doModify")
 	@ResponseBody
-	public String doModify(String institutionName, int id, String content) {
+	public String doModify(String institutionName, int id, String institutionComment) {
 		
-		this.articleService.modifyArticle(institutionName, id, content);
+		this.articleService.modifyArticle(institutionName, id, institutionComment);
 		
 		return Util.jsReplace(String.format("%d번 게시물을 수정했습니다", id), String.format("detail?id=%d", id));
 	}

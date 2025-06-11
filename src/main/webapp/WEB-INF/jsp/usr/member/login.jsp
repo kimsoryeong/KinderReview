@@ -21,10 +21,10 @@
 <link rel="shortcut icon" href="/resource/images/favicon.ico" />
 </head>
 
-<section class="flex items-center justify-center pt-40 bg-gray-100">
+<section class="flex items-center justify-center pb-20 h-screen bg-gray-100">
 	<div class="bg-white shadow-xl rounded-xl p-10 w-full max-w-md">
 		<div class="text-center mb-8">
-		<div class="flex justify-end text-orange-300 hover:text-orange-400 mb-5 items-center">
+		<div class="flex justify-end text-orange-300 hover:text-orange-400 mb-10 items-center">
 			<a href="/"><i class="fa-solid fa-house fa-2xl"></i></a>
 		</div>	
 			<h1 class="text-3xl font-bold text-orange-500">KinderReview</h1>

@@ -21,8 +21,9 @@ public interface ArticleDao {
 		            updateDate = NOW(),
 		            memberId = #{memberId},
 		            institutionName = #{institutionName},
+		            boardName = #{boardName},
 		            boardId = #{boardId},
-		            content = #{content},
+		            institutionComment = #{institutionComment},
 		            salaryScore = #{salaryScore},
 		            welfareScore = #{welfareScore},
 		            environmentScore = #{environmentScore},
@@ -80,7 +81,7 @@ public interface ArticleDao {
 				    a.regDate,
 				    a.updateDate,
 				    a.institutionName,
-				    a.content,
+				    a.institutionComment,
 				    a.boardId,
 				    a.memberId,
 				    a.salaryScore,
@@ -107,13 +108,13 @@ public interface ArticleDao {
 				        <if test="institutionName != null and institutionName != ''">
 				        	, institutionName = #{institutionName}
 				        </if>
-				        <if test="content != null and content != ''">
-				        	, content = #{content}
+				        <if test="institutionComment != null and institutionComment != ''">
+				        	, institutionComment = #{institutionComment}
 				        </if>
 				    WHERE id = #{id}
 			    </script>
 				""")
-		public void modifyArticle(String institutionName, int id, String content);
+		public void modifyArticle(String institutionName, int id, String institutionComment);
 	
 		@Delete("""
 				DELETE FROM article
@@ -136,12 +137,12 @@ public interface ArticleDao {
 			                             @Param("city") String city);
 	
 		@Select("""
-				SELECT a.title, a.content
+				SELECT a.title, a.institutionComment
 			    FROM article AS a
 			    INNER JOIN board AS b
 			    ON a.boardId = b.Id
 			    WHERE a.title LIKE CONCAT ('%', #{keyword} ,'%')
-			    OR a.content  LIKE CONCAT ('%', #{keyword} ,'%')
+			    OR a.institutionComment  LIKE CONCAT ('%', #{keyword} ,'%')
 				""")
 		List<Article> searchKeyword(String searchType, String keyword);
 	

@@ -37,6 +37,19 @@ public class UsrMemberController {
 		return Util.jsReplace(String.format("[ %s ] 님의 가입이 완료되었습니다", nickname), "/");
 	}
 	
+	@GetMapping("/usr/member/nicknameDupChk")
+	@ResponseBody
+	public ResultData nicknameDupChk(String nickname) {
+		
+		Member member = this.memberService.getMemberBynickname(nickname);
+		
+		if (member != null) {
+			return ResultData.from("F-1", String.format("[ %s ] 은(는) 이미 사용중인 닉네임입니다", nickname));
+		}
+		
+		return ResultData.from("S-1", String.format("[ %s ] 은(는) 사용가능한 닉네임입니다", nickname));
+	}
+	
 	@GetMapping("/usr/member/loginIdDupChk")
 	@ResponseBody
 	public ResultData loginIdDupChk(String loginId) {

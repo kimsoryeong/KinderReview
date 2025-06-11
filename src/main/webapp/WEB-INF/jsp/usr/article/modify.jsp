@@ -32,9 +32,9 @@
                 <input id="institutionName" name="institutionName" type="text" value="${article.institutionName}"
                     class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-#FFCC80" />
             </div>
-            <label for="content" class="block text-gray-700 font-semibold mb-1">한 줄 평</label>
-            <textarea id="content" name="content" rows="3"
-                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500">${article.content}</textarea>
+            <label for="institutionComment" class="block text-gray-700 font-semibold mb-1">한 줄 평</label>
+            <textarea id="institutionComment" name="institutionComment" rows="3"
+                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500">${article.institutionComment}</textarea>
         </div>
 
         <!-- 급여 섹션 -->

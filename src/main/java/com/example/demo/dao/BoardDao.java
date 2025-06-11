@@ -14,4 +14,11 @@ public interface BoardDao {
 				WHERE id = #{boardId} 
 			""")
 	Board getBoard(int boardId);
+	
+	 @Select("""
+		        SELECT * 
+	 		    	FROM board 
+	 		    	WHERE boardName = #{boardName}
+		    """)
+	Board getBoardByName(String boardName);
 }

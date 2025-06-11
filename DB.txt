@@ -41,6 +41,9 @@ CREATE TABLE article(
 );
 ALTER TABLE article ADD COLUMN commuteTimeComment TEXT AFTER environmentComment;
 ALTER TABLE article DROP COLUMN district;
+ALTER TABLE article DROP COLUMN content;
+ALTER TABLE article ADD COLUMN institutionComment TEXT AFTER institutionName;
+ALTER TABLE article ADD COLUMN boardName VARCHAR(50) AFTER boardId;
 
 CREATE TABLE article_option (
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -56,6 +59,7 @@ CREATE TABLE board(
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT
     , `name` VARCHAR(50) NOT NULL
 );
+ALTER TABLE board CHANGE `name` boardName VARCHAR(50) NOT NULL;
 
  
 SELECT * FROM board;
@@ -94,8 +98,9 @@ INSERT INTO article
         , updateDate = NOW()
         , memberId = 1
         , boardId = 2
+        , boardName = '근무 리뷰'
         , institutionName = '기관명 예시'
-        , content = '기관명 한줄평'
+        , institutionComment = '기관명 한줄평'
         , city = '서울'
         , workType = '담임교사'
         , institutionType = '어린이집'
@@ -107,20 +112,19 @@ INSERT INTO article
         , environmentComment = '환경 좋아요'
         , commuteTimeComment = '8:00~ 19:00';
 
-        
+DELETE FROM article 
+WHERE memberId = 1;      
         
 INSERT INTO `member`
     SET regDate = NOW()
         , updateDate = NOW()
         , loginId = 'test1'
         , loginPw = 'test1'
-        , nickname = '유저1'
-        , email = 'test1@naver.com';
+        , nickname = '유저1';
 
 INSERT INTO `member`
     SET regDate = NOW()
         , updateDate = NOW()
         , loginId = 'test2'
         , loginPw = 'test2'
-        , nickname = '유저2'
-        , email = 'test1@naver.com';
+        , nickname = '유저2';
