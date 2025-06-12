@@ -4,10 +4,10 @@
 <c:set var="pageTitle" value="${board.boardName} 게시판" />
 
 <%@ include file="/WEB-INF/jsp/common/header.jsp" %>
+<%@ include file="/WEB-INF/jsp/common/topbar.jsp" %>
 
 <section class="bg-gray-100 min-h-screen py-8">
   <div class="container mx-auto max-w-4xl">
-    <!-- 상단 헤더 -->
     <div class="bg-white rounded-t-lg shadow p-6 mb-4 border-b-4 border-orange-300 flex justify-between items-center">
       <div>
         <h1 class="text-2xl font-bold text-orange-400">${board.boardName}</h1>
@@ -35,7 +35,6 @@
     </div>
     
     <div class="flex flex-col md:flex-row gap-4">
-      <!-- 사이드 메뉴 -->
       <c:if test="${board.id == 1 or board.id == 2 or board.id == 3}">
         <aside class="w-full md:w-48 min-w-40 bg-white rounded-lg shadow p-4 h-fit mb-4 md:mb-0">
           <div class="font-bold text-lg mb-4 text-gray-800 border-b-2 border-orange-400 pb-2">${board.boardName}</div>
@@ -44,18 +43,15 @@
             <a href="/usr/article/list?boardId=8" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">어린이집 정보</a>
           </c:if>
           <c:if test="${board.id == 2}">
-            <a href="/usr/article/list?boardId=4" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">근무후기</a>
-            <a href="/usr/article/list?boardId=5" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">면접후기</a>
-            <a href="/usr/article/list?boardId=6" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">실습 및 봉사후기</a>
+            <a href="/usr/article/list?boardId=4" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">근무 리뷰</a>
+            <a href="/usr/article/list?boardId=5" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">면접 리뷰</a>
+            <a href="/usr/article/list?boardId=6" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">실습 및 봉사 리뷰</a>
           </c:if>
         </aside>
       </c:if>
 
-      <!-- 메인 컨텐츠 -->
       <div class="flex-1 min-w-0">
-        <!-- 필터/검색 영역 -->
         <div class="bg-white rounded-lg shadow p-4 mb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <!-- 지역 필터 -->
           <form method="get" action="/usr/article/list" class="flex items-center gap-2">
             <input type="hidden" name="boardId" value="${board.id}" />
             <label for="city" class="text-sm font-medium text-gray-700">지역</label>
@@ -81,7 +77,6 @@
             </select>
             <button type="submit" class="bg-orange-100 hover:bg-orange-300 text-orange-700 px-4 py-2 rounded-md transition">조회</button>
           </form>
-          <!-- 검색 -->
           <form action="/" method="get" class="flex items-center gap-2">
             <select name="searchType" class="border border-gray-300 rounded-md px-2 py-2 outline-none">
               <option selected value="">선택</option>
@@ -94,8 +89,90 @@
           </form>
         </div>
 
-        <!-- 글 리스트 -->
-        <div class="px-2 bg-white border-2 border-green-400 rounded-lg shadow-sm divide-y-2 divide-gray-200">
+        <div class="px-2 bg-white rounded-lg shadow-sm divide-y-2 divide-gray-200">
+
+		<c:if test="${board.id == 2}">     
+		<div class="bg-white rounded-lg shadow p-4 mb-4">
+		  <div class="font-bold text-lg mb-3 flex items-center">
+		    <i class="fa-solid fa-briefcase mr-2 text-orange-400"></i>
+		    <span>근무 리뷰 인기글</span>
+		    <a href="/usr/article/list?boardId=4" class="ml-auto text-sm text-orange-400 hover:underline">더보기</a>
+		  </div>
+		  <c:forEach items="${workingTopArticles}" var="article">
+		    <div class="p-3 hover:bg-orange-50 transition">
+		      <a href="detail?id=${article.getId()}" class="font-medium text-gray-800 hover:text-orange-500">
+		        ${article.getInstitutionName()}
+		      </a>
+		      <div class="text-sm text-gray-500 mt-1 truncate">
+		        "${article.getInstitutionComment()}"
+		      </div>
+		      <div class="flex justify-between items-center mt-2">
+		        <span class="text-xs text-gray-400">${article.getRegDate()}</span>
+		        <span class="text-yellow-500 font-bold flex items-center">
+		          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+		            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951.-69l1.07-3.292z" />
+		          </svg> ${article.getStar()}
+		        </span>
+		      </div>
+		    </div>
+		  </c:forEach>
+		</div>
+		
+		<div class="bg-white rounded-lg shadow p-4 mb-4">
+		  <div class="font-bold text-lg mb-3 flex items-center">
+		    <i class="fa-solid fa-graduation-cap mr-2 text-orange-400"></i>
+		    <span>면접 리뷰 인기글</span>
+		    <a href="/usr/article/list?boardId=5" class="ml-auto text-sm text-orange-400 hover:underline">더보기</a>
+		  </div>
+		    <c:forEach items="${interviewTopArticles}" var="article">
+		    <div class="p-3 hover:bg-orange-50 transition">
+		      <a href="detail?id=${article.getId()}" class="font-medium text-gray-800 hover:text-orange-500">
+		        ${article.getInstitutionName()}
+		      </a>
+		      <div class="text-sm text-gray-500 mt-1 truncate">
+		        "${article.getInstitutionComment()}"
+		      </div>
+		      <div class="flex justify-between items-center mt-2">
+		        <span class="text-xs text-gray-400">${article.getRegDate()}</span>
+		        <span class="text-yellow-500 font-bold flex items-center">
+		          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+		            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951.-69l1.07-3.292z" />
+		          </svg> ${article.getStar()}
+		        </span>
+		      </div>
+		    </div>
+		  </c:forEach>
+		</div>
+		
+		<div class="bg-white rounded-lg shadow p-4 mb-4">
+		  <div class="font-bold text-lg mb-3 flex items-center">
+		    <i class="fa-solid fa-seedling mr-2 text-orange-400"></i>
+		    <span>실습 및 봉사 리뷰 인기글</span>
+		    <a href="/usr/article/list?boardId=6" class="ml-auto text-sm text-orange-400 hover:underline">더보기</a>
+		  </div>
+		
+		  <c:forEach items="${practiceTopArticles}" var="article">
+		    <div class="p-3 hover:bg-orange-50 transition">
+		      <a href="detail?id=${article.getId()}" class="font-medium text-gray-800 hover:text-orange-500">
+		        ${article.getInstitutionName()}
+		      </a>
+		      <div class="text-sm text-gray-500 mt-1 truncate">
+		        "${article.getInstitutionComment()}"
+		      </div>
+		      <div class="flex justify-between items-center mt-2">
+		        <span class="text-xs text-gray-400">${article.getRegDate()}</span>
+		        <span class="text-yellow-500 font-bold flex items-center">
+		          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+		            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951.-69l1.07-3.292z" />
+		          </svg> ${article.getStar()}
+		        </span>
+		      </div>
+		    </div>
+		  </c:forEach>
+		</div>
+		</c:if>  
+		
+		<c:if test="${board.id == 4 or board.id == 5 or board.id == 6 or board.id == 7 or board.id == 8}">
           <c:forEach items="${articles}" var="article">
             <div class="p-5 hover:bg-orange-50 transition group">
               <div class="flex justify-between items-start">
@@ -106,8 +183,7 @@
                 <span class="text-yellow-500 font-bold flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  ${article.getStar()}
+                  </svg> ${article.getStar()}
                 </span>
               </div>
               <div class="flex pt-3">
@@ -116,8 +192,7 @@
                 </div>
               </div>
               <div class="flex gap-4 pt-2 text-xs text-gray-400">
-                <span>작성자: ${article.getWriterName()}</span>
-                <span>작성일: <fmt:formatDate value="${article.getRegDate()}" pattern="yyyy-MM-dd"/></span>
+                <span>작성일: ${article.getRegDate()}"</span>
               </div>
             </div>
           </c:forEach>
@@ -126,9 +201,9 @@
               등록된 게시글이 없습니다.
             </div>
           </c:if>
+		</c:if>          
         </div>
 
-        <!-- 페이지네이션 -->
         <div class="flex justify-center mt-6">
           <div class="flex rounded-md overflow-hidden shadow">
             <c:set var="queryString" value="?boardId=${board.getId()}" />
@@ -159,5 +234,7 @@
     </div>
   </div>
 </section>
+
+
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp" %>

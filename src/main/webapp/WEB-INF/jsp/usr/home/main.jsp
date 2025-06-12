@@ -4,9 +4,10 @@
 <c:set var="pageTitle" value="메인" />
 
 <%@ include file="/WEB-INF/jsp/common/header.jsp" %>
+<%@ include file="/WEB-INF/jsp/common/topbar.jsp" %>
 
 <section class="bg-gray-100 p-5 h-screen">
-  <div class="container mx-auto max-w-5xl">
+  <div class="container mx-auto max-w-4xl">
     <div class="my-5 text-center">
       <div class="text-4xl font-bold text-orange-500 mb-2">KinderReview</div>
       <div class="text-lg text-gray-600">유아교사를 위한 유아교육기관 리뷰 & 정보 플랫폼</div>

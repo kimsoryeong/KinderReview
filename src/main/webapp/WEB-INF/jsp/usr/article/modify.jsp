@@ -5,6 +5,7 @@
 <c:set var="pageTitle" value="수정" />
 
 <%@ include file="/WEB-INF/jsp/common/header.jsp" %>
+<%@ include file="/WEB-INF/jsp/common/topbar.jsp" %>
 
 <section class="mt-10 max-w-2xl mx-auto bg-white p-8 rounded-lg border border-gray-300">
     <h2 class="text-xl font-bold mb-6 border-b pb-2">기관 정보 수정</h2>

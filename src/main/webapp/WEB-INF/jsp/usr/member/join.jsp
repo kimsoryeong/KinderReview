@@ -3,25 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <c:set var="pageTitle" value="회원가입" />
+<%@ include file="/WEB-INF/jsp/common/header.jsp" %> 
 
-<!DOCTYPE html>
-<html>
-<head>
-<!-- 제이쿼리 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<!-- 테일윈드, 데이지UI -->
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-<!-- 폰트어썸 -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
-<!-- 공용 CSS -->
-<link rel="stylesheet" href="/resource/common.css" />
-<meta charset="UTF-8">
-<title>${pageTitle}</title>
-<link rel="shortcut icon" href="/resource/images/favicon.ico" />
-</head>
-
-<body>
 <section class="h-screen flex items-center pt-10 justify-center bg-gray-100">
 	<div class="bg-white shadow-xl rounded-xl p-10 mb-30 w-full max-w-md">
 		<div class="flex justify-end text-orange-300 hover:text-orange-400 mb-5 items-center">

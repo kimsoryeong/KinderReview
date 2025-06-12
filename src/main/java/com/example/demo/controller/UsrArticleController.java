@@ -71,7 +71,8 @@ public class UsrArticleController {
 
 	    int memberId = this.req.getLoginedMember().getId();
 
-	    // 한 번만 호출
+
+	    
 	    int articleId = this.articleService.writeArticle(
 	            institutionName, institutionComment, memberId,  boardName,
 	            salaryScore, welfareScore, environmentScore,
