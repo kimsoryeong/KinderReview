@@ -24,7 +24,7 @@
         <form action="/"  method="get">
           <div class="block  text-sm font-semibold text-gray-700 mb-2">지역별 유아교육기관 찾기</div>
           <input type="search" class="search-input w-62 border border-gray-300 rounded-md px-3 py-2 mb-2 outline-none" placeholder="기관명을 입력하세요" />
-          <button class="w-14 bg-gray-200 hover:bg-orange-300 py-2 rounded-md transition" type="submit">검색</button>
+          <button class="w-14 bg-orange-100 hover:bg-orange-300 text-orange-700 py-2 rounded-md transition" type="submit">검색</button>
         </form>
         </div>
         <div class=" mt-3">

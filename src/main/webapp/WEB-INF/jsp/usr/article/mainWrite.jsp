@@ -6,7 +6,7 @@
 <%@ include file="/WEB-INF/jsp/common/header.jsp" %> 
 
 	<section class="flex items-center justify-center bg-gray-100 h-screen">
-		<div class="bg-white mb-30 min-w-max shadow-xl rounded-xl h-fit">
+		<div class="bg-white mx-auto  max-w-2xl shadow-xl rounded-xl mb-20 h-fit">
 		<div class="flex justify-end pr-5 pt-2 text-orange-300 hover:text-orange-400 items-center h-15">
 			<a href="/usr/article/list?boardId=2"><i class="fa-solid fa-arrow-right-from-bracket fa-2xl"></i></a>
 		</div>

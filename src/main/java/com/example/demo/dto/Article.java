@@ -27,6 +27,8 @@ public class Article {
     private int salaryScore;
     private int welfareScore;
     private int environmentScore;
+    private int interviewScore;
+    private int practiceScore;
     private String salaryComment;
     private String welfareComment;
     private String environmentComment;
@@ -34,6 +36,16 @@ public class Article {
     private List<String> salaryOptions;
     private List<String> welfareOptions;
     private List<String> environmentOptions;
+    private String interviewComment;
+    private String personalHistory;
+    private String interviewMaterial;
+    private String interviewQnA;
+    private String interviewResults;
+    private String practiceComment;
+    private String educationalBackground;
+    private String practiceAtmosphere;
+    private String practiceExperience;
+    private String practiceReview;
 
 
     public double calculateStar() {

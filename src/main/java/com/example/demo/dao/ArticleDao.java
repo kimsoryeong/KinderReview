@@ -27,13 +27,25 @@ public interface ArticleDao {
 		            salaryScore = #{salaryScore},
 		            welfareScore = #{welfareScore},
 		            environmentScore = #{environmentScore},
+		            interviewScore = #{interviewScore},
+		            practiceScore = #{practiceScore},
 		            salaryComment = #{salaryComment},
 		            welfareComment = #{welfareComment},
 		            environmentComment = #{environmentComment},
 		            commuteTimeComment = #{commuteTimeComment},
 		            workType = #{workType},
 		            city = #{city},
-		            institutionType = #{institutionType}
+		            institutionType = #{institutionType},
+		            interviewComment = #{interviewComment},
+		            personalHistory = #{personalHistory},
+		            interviewMaterial = #{interviewMaterial},
+		            interviewQnA = #{interviewQnA},
+		            interviewResults = #{interviewResults},
+		            practiceComment = #{practiceComment},
+		            educationalBackground = #{educationalBackground},
+		            practiceAtmosphere = #{practiceAtmosphere},
+		            practiceExperience = #{practiceExperience},
+		            practiceReview = #{practiceReview}
 		""")
 		@Options(useGeneratedKeys = true, keyProperty = "id")
 		int writeArticle(Article article);
@@ -94,6 +106,16 @@ public interface ArticleDao {
 				    a.workType,
 				    a.city,
 				    a.institutionType,
+				    a.interviewComment,
+		            a.personalHistory,
+		            a.interviewMaterial,
+		            a.interviewQnA,
+		            a.interviewResults,
+		            a.practiceComment,
+		            a.educationalBackground,
+		            a.practiceAtmosphere,
+		            a.practiceExperience,
+					a.practiceReview,
 				    m.loginId AS writerName
 				FROM article a
 				JOIN member m ON a.memberId = m.id

@@ -85,7 +85,7 @@
               <option value="institution+content">제목+내용</option>
             </select>
             <input type="text" name="keyword" id="keyword" class="border border-gray-300 rounded-md px-2 py-2 outline-none" placeholder="검색어 입력">
-            <button class="bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded-md transition" type="submit">검색</button>
+            <button class="bg-orange-100 hover:bg-orange-300 text-orange-700 px-4 py-2 rounded-md transition" type="submit">검색</button>
           </form>
         </div>
 

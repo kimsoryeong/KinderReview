@@ -18,49 +18,26 @@ public class ArticleService {
 		this.boardService = boardService;
 	}
 	
-	public int writeArticle(String institutionName, String institutionComment, int memberId, String boardName, Integer salaryScore, Integer welfareScore, Integer environmentScore,
-            String salaryComment, String welfareComment, String environmentComment, String commuteTimeComment,
-            List<String> salaryOptions, List<String> welfareOptions, List<String> environmentOptions,
-            String workType, String city, String institutionType) {
+	public int writeArticle(Article article) {
+			int boardId = boardService.getBoardIdByName(article.getBoardName());
+			article.setBoardId(boardId);
 
-		int boardId = boardService.getBoardIdByName(boardName);
-		
-		Article article = new Article();
-		article.setInstitutionName(institutionName);
-		article.setInstitutionComment(institutionComment);
-		article.setMemberId(memberId);
-		article.setBoardName(boardName);
-		article.setBoardId(boardId);
-		article.setSalaryScore(salaryScore);
-		article.setWelfareScore(welfareScore);
-		article.setEnvironmentScore(environmentScore);
-		article.setSalaryComment(salaryComment);
-		article.setWelfareComment(welfareComment);
-		article.setEnvironmentComment(environmentComment);
-		article.setEnvironmentComment(commuteTimeComment);
-		article.setWorkType(workType);
-		article.setCity(city);
-		article.setInstitutionType(institutionType);
-		
-		articleDao.writeArticle(article);
-		int articleId = article.getId();
-		
-		if (salaryOptions != null && !salaryOptions.isEmpty()) {
-		articleDao.insertOptions(articleId, "salary", salaryOptions);
-		}
-		if (welfareOptions != null && !welfareOptions.isEmpty()) {
-		articleDao.insertOptions(articleId, "welfare", welfareOptions);
-		}
-		if (environmentOptions != null && !environmentOptions.isEmpty()) {
-		articleDao.insertOptions(articleId, "environment", environmentOptions);
-		}
-		
-		return articleId;
+			articleDao.writeArticle(article);
+			int articleId = article.getId();
+
+			if (article.getSalaryOptions() != null && !article.getSalaryOptions().isEmpty()) {
+				articleDao.insertOptions(articleId, "salary", article.getSalaryOptions());
+			}
+			if (article.getWelfareOptions() != null && !article.getWelfareOptions().isEmpty()) {
+				articleDao.insertOptions(articleId, "welfare", article.getWelfareOptions());
+			}
+			if (article.getEnvironmentOptions() != null && !article.getEnvironmentOptions().isEmpty()) {
+				articleDao.insertOptions(articleId, "environment", article.getEnvironmentOptions());
+			}
+
+			return articleId;
 	}
-
-	
-	
-	
+		
 	public List<String> getOptions(int articleId, String type) {
         return articleDao.getOptionsByType(articleId, type);
     }
@@ -94,6 +71,9 @@ public class ArticleService {
         return articleDao.searchKeyword(searchType, keyword);
     }
 
+	
+
+	
 	
 	
 	

@@ -42,11 +42,13 @@ public class UsrArticleController {
 	@ResponseBody
 	public String doWrite(
 	    @RequestParam String institutionName,
-	    @RequestParam String institutionComment,
+	    @RequestParam(required = false) String institutionComment,
 	    @RequestParam String boardName,
-	    @RequestParam Integer salaryScore,
-	    @RequestParam Integer welfareScore,
-	    @RequestParam Integer environmentScore,
+	    @RequestParam(required = false) Integer salaryScore,
+	    @RequestParam(required = false) Integer welfareScore,
+	    @RequestParam(required = false) Integer environmentScore,
+	    @RequestParam(required = false) Integer interviewScore,
+	    @RequestParam(required = false) Integer practiceScore,
 	    @RequestParam(required = false) String salaryComment,
 	    @RequestParam(required = false) String welfareComment,
 	    @RequestParam(required = false) String environmentComment,
@@ -56,31 +58,60 @@ public class UsrArticleController {
 	    @RequestParam(required = false) List<String> environmentOptions,
 	    @RequestParam(required = false) String workType,
 	    @RequestParam(required = false) String city,
-	    @RequestParam(required = false) String institutionType) {
+	    @RequestParam(required = false) String institutionType,
+	    @RequestParam(required = false) String interviewComment,
+	    @RequestParam(required = false) String personalHistory,
+	    @RequestParam(required = false) String interviewMaterial,
+	    @RequestParam(required = false) String interviewQnA,
+	    @RequestParam(required = false) String interviewResults,
+	    @RequestParam(required = false) String practiceComment,
+	    @RequestParam(required = false) String educationalBackground,
+	    @RequestParam(required = false) String practiceAtmosphere,
+	    @RequestParam(required = false) String practiceExperience,
+	    @RequestParam(required = false) String practiceReview
+	    ) {
 		
 		 
-	    if (salaryScore == null) {
-	        return Util.jsBack("급여 별점을 선택해 주세요.");
-	    }
-	    if (welfareScore == null) {
-	        return Util.jsBack("복지 별점을 선택해 주세요.");
-	    }
-	    if (environmentScore == null) {
-	        return Util.jsBack("근무환경 별점을 선택해 주세요.");
-	    }
+	  
+		int memberId = this.req.getLoginedMember().getId();
 
-	    int memberId = this.req.getLoginedMember().getId();
+	    Article article = new Article();
+	    article.setInstitutionName(institutionName);
+	    article.setInstitutionComment(institutionComment);
+	    article.setBoardName(boardName);
+	    article.setMemberId(memberId);
+	    article.setWorkType(workType);
+	    article.setCity(city);
+	    article.setInstitutionType(institutionType);
 
+	    if ("근무 리뷰".equals(boardName)) {
+	        article.setSalaryScore(salaryScore != null ? salaryScore : 0);
+	        article.setWelfareScore(welfareScore != null ? welfareScore : 0);
+	        article.setEnvironmentScore(environmentScore != null ? environmentScore : 0);
+	        article.setSalaryComment(salaryComment);
+	        article.setWelfareComment(welfareComment);
+	        article.setEnvironmentComment(environmentComment);
+	        article.setCommuteTimeComment(commuteTimeComment);
+	        article.setSalaryOptions(salaryOptions);
+	        article.setWelfareOptions(welfareOptions);
+	        article.setEnvironmentOptions(environmentOptions);
+	    } else if ("면접 리뷰".equals(boardName)) {
+	    	article.setInterviewScore(interviewScore != null ? interviewScore : 0);
+	        article.setInterviewComment(interviewComment);
+	        article.setPersonalHistory(personalHistory);
+	        article.setInterviewMaterial(interviewMaterial);
+	        article.setInterviewQnA(interviewQnA);
+	        article.setInterviewResults(interviewResults);
+		} else if ("실습 및 봉사 리뷰".equals(boardName)) {
+			article.setPracticeScore(practiceScore != null ? practiceScore : 0);
+			article.setPracticeComment(practiceComment);
+			article.setEducationalBackground(educationalBackground);
+			article.setPracticeAtmosphere(practiceAtmosphere);
+			article.setPracticeExperience(practiceExperience);
+			article.setPracticeReview(practiceReview);
+		}
 
-	    
-	    int articleId = this.articleService.writeArticle(
-	            institutionName, institutionComment, memberId,  boardName,
-	            salaryScore, welfareScore, environmentScore,
-	            salaryComment, welfareComment, environmentComment, commuteTimeComment,
-	            salaryOptions, welfareOptions, environmentOptions,
-	            workType, city,  institutionType
-	    );
-
+	    int articleId = this.articleService.writeArticle(article);
 	    return Util.jsReplace("게시글 작성!", String.format("detail?id=%d", articleId));
 	}
 
@@ -98,8 +129,8 @@ public class UsrArticleController {
 	
 	@GetMapping("/usr/article/workingWrite")
 	public String workingWrite(Model model) {
-	    Article article = new Article();  // 빈 객체 생성
-	    model.addAttribute("article", article);  // 뷰에서 article 사용 가능하게
+	    Article article = new Article();  
+	    model.addAttribute("article", article);  
 
 	    return "usr/article/workingWrite";
 	}
@@ -114,6 +145,8 @@ public class UsrArticleController {
 	    System.out.println("salaryScore: " + article.getSalaryScore());
 	    System.out.println("welfareScore: " + article.getWelfareScore());
 	    System.out.println("environmentScore: " + article.getEnvironmentScore());
+	    System.out.println("interviewScore: " + article.getInterviewScore());
+	    System.out.println("practiceScore: " + article.getPracticeScore());
 	    
 	    List<String> salaryOptions = articleService.getOptions(id, "salary");
 	    List<String> welfareOptions = articleService.getOptions(id, "welfare");

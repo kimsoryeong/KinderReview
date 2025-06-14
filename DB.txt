@@ -10,15 +10,7 @@ CREATE TABLE `member`(
     , loginId VARCHAR(50) NOT NULL UNIQUE
     , loginPw VARCHAR(100) NOT NULL
     , nickname VARCHAR(50) NOT NULL
-    , email VARCHAR(100) NOT NULL
 );
-
-ALTER TABLE `member` DROP COLUMN email;
-
-
-DROP TABLE IF EXISTS article_option;
-DROP TABLE IF EXISTS article;
-DELETE FROM article WHERE welfareScore =3;
 
 CREATE TABLE article(
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -26,24 +18,28 @@ CREATE TABLE article(
     updateDate DATETIME NOT NULL,
     memberId INT UNSIGNED NOT NULL,
     boardId INT UNSIGNED NOT NULL,
+    boardName VARCHAR(50),
+    institutionType VARCHAR(100),
     institutionName VARCHAR(255),
-    content TEXT NOT NULL,
+    institutionComment TEXT,
     salaryScore INT DEFAULT 0,
     welfareScore INT DEFAULT 0,
     environmentScore INT DEFAULT 0,
     salaryComment TEXT,
     welfareComment TEXT,
     environmentComment TEXT,
+    commuteTimeComment TEXT,
+    interviewComment TEXT,
+    personalHistory TEXT,
+    interviewMaterial TEXT,
+    interviewQnA TEXT,
+    interviewResults TEXT,
+    InterviewProgress TEXT,
+    InterviewTip TEXT,
     workType VARCHAR(100),
-    city VARCHAR(100),
-    district VARCHAR(100),
-    institutionType VARCHAR(100)
+    city VARCHAR(100)
 );
-ALTER TABLE article ADD COLUMN commuteTimeComment TEXT AFTER environmentComment;
-ALTER TABLE article DROP COLUMN district;
-ALTER TABLE article DROP COLUMN content;
-ALTER TABLE article ADD COLUMN institutionComment TEXT AFTER institutionName;
-ALTER TABLE article ADD COLUMN boardName VARCHAR(50) AFTER boardId;
+
 
 CREATE TABLE article_option (
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -53,14 +49,12 @@ CREATE TABLE article_option (
     FOREIGN KEY (articleId) REFERENCES article(id) ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS board;
+
 
 CREATE TABLE board(
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT
-    , `name` VARCHAR(50) NOT NULL
+    , boardName VARCHAR(50) NOT NULL
 );
-ALTER TABLE board CHANGE `name` boardName VARCHAR(50) NOT NULL;
-
  
 SELECT * FROM board;
 SELECT * FROM article;
@@ -70,34 +64,34 @@ SELECT * FROM reply;
 SELECT * FROM article_option;
 
 INSERT INTO board
-    SET `name` = '기관 정보';
+    SET boardName = '기관 정보';
 
 INSERT INTO board
-    SET `name` = '기관 리뷰';
+    SET boardName = '기관 리뷰';
     
 INSERT INTO board
-    SET `name` = '지역별 커뮤니티';
+    SET boardName = '지역별 커뮤니티';
 
 INSERT INTO board
-    SET `name` = '근무 리뷰';
+    SET boardName = '근무 리뷰';
     
 INSERT INTO board
-    SET `name` = '면접 리뷰';
+    SET boardName = '면접 리뷰';
     
 INSERT INTO board
-    SET `name` = '실습 및 봉사 리뷰';
+    SET boardName = '실습 및 봉사 리뷰';
 
 INSERT INTO board
-    SET `name` = '유치원 정보';
+    SET boardName = '유치원 정보';
     
 INSERT INTO board
-    SET `name` = '어린이집 정보';
+    SET boardName = '어린이집 정보';
     
 INSERT INTO article
     SET regDate = NOW()
         , updateDate = NOW()
         , memberId = 1
-        , boardId = 2
+        , boardId = 4
         , boardName = '근무 리뷰'
         , institutionName = '기관명 예시'
         , institutionComment = '기관명 한줄평'
@@ -111,9 +105,23 @@ INSERT INTO article
         , welfareComment = '복지 괜찮음'
         , environmentComment = '환경 좋아요'
         , commuteTimeComment = '8:00~ 19:00';
-
-DELETE FROM article 
-WHERE memberId = 1;      
+        
+INSERT INTO article
+    SET regDate = NOW(),
+        updateDate = NOW(),
+        memberId = 2,
+        boardId = 5,
+        boardName = '면접 리뷰',
+        institutionName = '햇살 어린이집',
+        institutionComment = '친절한 면접분위기입니다',
+        city = '부산',
+        workType = '보조교사',
+        institutionType = '어린이집',
+        interviewComment = '친절하고 편안한 분위기였어요.',
+        personalHistory = '신입 교사',
+        interviewMaterial = '이력서, 자소서',
+        interviewQnA = '1. 지원동기, 2. 갈등상황 해결법',
+        interviewResults = '합격';            
         
 INSERT INTO `member`
     SET regDate = NOW()
