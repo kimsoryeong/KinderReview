@@ -49,14 +49,14 @@
           </c:if>
         </aside>
       </c:if>
-
       <div class="flex-1 min-w-0">
         <div class="bg-white rounded-lg shadow p-4 mb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <form method="get" action="/usr/article/list" class="flex items-center gap-2">
             <input type="hidden" name="boardId" value="${board.id}" />
             <label for="city" class="text-sm font-medium text-gray-700">지역</label>
-            <select id="city" name="city-select" onchange="updateDistricts()" class="border border-gray-300 rounded-md px-3 py-2 outline-none">
+            <select id="city" name="city" onchange="updateDistricts()" class="border border-gray-300 rounded-md px-3 py-2 outline-none">
               <option value="" disabled selected>시/도</option>
+              <option value="">전체</option>
               <option value="서울">서울</option>
               <option value="대전">대전</option>
               <option value="대구">대구</option>
@@ -77,12 +77,13 @@
             </select>
             <button type="submit" class="bg-orange-100 hover:bg-orange-300 text-orange-700 px-4 py-2 rounded-md transition">조회</button>
           </form>
-          <form action="/" method="get" class="flex items-center gap-2">
+          <form action="/usr/article/list" method="get" class="flex items-center gap-2">
+            <input type="hidden" name="boardId" value="${board.id}" />
             <select name="searchType" class="border border-gray-300 rounded-md px-2 py-2 outline-none">
               <option selected value="">선택</option>
-              <option value="institution">제목</option>
+              <option value="institutionName">기관명</option>
               <option value="content">내용</option>
-              <option value="institution+content">제목+내용</option>
+              <option value="institutionName+cotent">기관명+내용</option>
             </select>
             <input type="text" name="keyword" id="keyword" class="border border-gray-300 rounded-md px-2 py-2 outline-none" placeholder="검색어 입력">
             <button class="bg-orange-100 hover:bg-orange-300 text-orange-700 px-4 py-2 rounded-md transition" type="submit">검색</button>
@@ -100,14 +101,14 @@
 		  </div>
 		  <c:forEach items="${workingTopArticles}" var="article">
 		    <div class="p-3 hover:bg-orange-50 transition">
-		      <a href="detail?id=${article.getId()}" class="font-medium text-gray-800 hover:text-orange-500">
-		        ${article.getInstitutionName()}
+		      <a href="detail?id=${article.id}" class="font-medium text-gray-800 hover:text-orange-500">
+		        ${article.institutionName}
 		      </a>
 		      <div class="text-sm text-gray-500 mt-1 truncate">
-		        "${article.getInstitutionComment()}"
+		        "${article.institutionComment}"
 		      </div>
 		      <div class="flex justify-between items-center mt-2">
-		        <span class="text-xs text-gray-400">${article.getRegDate()}</span>
+		        <span class="text-xs text-gray-400">${article.regDate}</span>
 		        <span class="text-yellow-500 font-bold flex items-center">
 		          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
 		            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951.-69l1.07-3.292z" />
@@ -126,14 +127,14 @@
 		  </div>
 		    <c:forEach items="${interviewTopArticles}" var="article">
 		    <div class="p-3 hover:bg-orange-50 transition">
-		      <a href="detail?id=${article.getId()}" class="font-medium text-gray-800 hover:text-orange-500">
-		        ${article.getInstitutionName()}
+		      <a href="detail?id=${article.id}" class="font-medium text-gray-800 hover:text-orange-500">
+		        ${article.institutionName}
 		      </a>
 		      <div class="text-sm text-gray-500 mt-1 truncate">
-		        "${article.getInstitutionComment()}"
+		        "${article.institutionComment}"
 		      </div>
 		      <div class="flex justify-between items-center mt-2">
-		        <span class="text-xs text-gray-400">${article.getRegDate()}</span>
+		        <span class="text-xs text-gray-400">${article.regDate}</span>
 		        <span class="text-yellow-500 font-bold flex items-center">
 		          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
 		            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951.-69l1.07-3.292z" />
@@ -153,14 +154,14 @@
 		
 		  <c:forEach items="${practiceTopArticles}" var="article">
 		    <div class="p-3 hover:bg-orange-50 transition">
-		      <a href="detail?id=${article.getId()}" class="font-medium text-gray-800 hover:text-orange-500">
-		        ${article.getInstitutionName()}
+		      <a href="detail?id=${article.id}" class="font-medium text-gray-800 hover:text-orange-500">
+		        ${article.institutionName}
 		      </a>
 		      <div class="text-sm text-gray-500 mt-1 truncate">
-		        "${article.getInstitutionComment()}"
+		        "${article.institutionComment}"
 		      </div>
 		      <div class="flex justify-between items-center mt-2">
-		        <span class="text-xs text-gray-400">${article.getRegDate()}</span>
+		        <span class="text-xs text-gray-400">${article.regDate}</span>
 		        <span class="text-yellow-500 font-bold flex items-center">
 		          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
 		            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951.-69l1.07-3.292z" />
@@ -174,25 +175,58 @@
 		
 		<c:if test="${board.id == 4 or board.id == 5 or board.id == 6 or board.id == 7 or board.id == 8}">
           <c:forEach items="${articles}" var="article">
-            <div class="p-5 hover:bg-orange-50 transition group">
+            <div class="p-5 hover:bg-orange-50 transition">
               <div class="flex justify-between items-start">
-                <a href="detail?id=${article.getId()}" class="text-lg font-bold text-gray-800 group-hover:text-orange-500 transition flex items-center gap-2">
+                <a href="detail?id=${article.id}" class="text-lg font-bold text-gray-800  flex items-center gap-2">
+                  <span class="text-sm hover:text-black">[${article.city}]</span>
                   <i class="fa-solid fa-school fa-base text-gray-800"></i>
-                  <span>${article.getInstitutionName()}</span>
+                  <span class="hover:text-orange-500 transition">${article.institutionName}</span>
                 </a>
+                <c:if test="${board.id == 4}">
                 <span class="text-yellow-500 font-bold flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg> ${article.getStar()}
                 </span>
+                </c:if>
+                <c:if test="${board.id == 5}">
+                <span class="text-yellow-500 font-bold flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg> ${article.interviewScore}
+                </span>
+                </c:if>
+                <c:if test="${board.id == 6}">
+                <span class="text-yellow-500 font-bold flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg> ${article.practiceScore}
+                </span>
+                </c:if>
               </div>
+			<c:if test="${board.id == 4}">
               <div class="flex pt-3">
                 <div class="text-sm text-gray-600 italic truncate max-w-xl">
-                  "${article.getInstitutionComment()}"
+                  "${article.institutionComment}"
                 </div>
               </div>
+            </c:if>
+			<c:if test="${board.id == 5}">
+              <div class="flex pt-3">
+                <div class="text-sm text-gray-600 italic truncate max-w-xl">
+                  "${article.interviewComment}"
+                </div>
+              </div>
+            </c:if>
+			<c:if test="${board.id == 6}">
+              <div class="flex pt-3">
+                <div class="text-sm text-gray-600 italic truncate max-w-xl">
+                  "${article.practiceComment}"
+                </div>
+              </div>
+            </c:if>
               <div class="flex gap-4 pt-2 text-xs text-gray-400">
-                <span>작성일: ${article.getRegDate()}"</span>
+                <span>작성일: ${article.regDate}</span>
               </div>
             </div>
           </c:forEach>

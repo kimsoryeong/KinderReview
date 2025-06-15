@@ -40,6 +40,9 @@ public interface ArticleDao {
 		            personalHistory = #{personalHistory},
 		            interviewMaterial = #{interviewMaterial},
 		            interviewQnA = #{interviewQnA},
+		            interviewProgress = #{interviewProgress},
+		            interviewTip = #{interviewTip},
+		            interviewCompleted = #{interviewCompleted},
 		            interviewResults = #{interviewResults},
 		            practiceComment = #{practiceComment},
 		            educationalBackground = #{educationalBackground},
@@ -52,15 +55,15 @@ public interface ArticleDao {
 
 
 
-	@Insert({
-        "<script>",
-        "INSERT INTO article_option (articleId, type, value) VALUES ",
-        "<foreach collection='options' item='opt' separator=','>",
-        "(#{articleId}, #{type}, #{opt})",
-        "</foreach>",
-        "</script>"
-    })
-    void insertOptions(@Param("articleId") int articleId, @Param("type") String type, @Param("options") List<String> options);
+		@Insert({
+	        "<script>",
+	        "INSERT INTO article_option (articleId, type, value) VALUES ",
+	        "<foreach collection='options' item='opt' separator=','>",
+	        "(#{articleId}, #{type}, #{opt})",
+	        "</foreach>",
+	        "</script>"
+	    })
+	    void insertOptions(@Param("articleId") int articleId, @Param("type") String type, @Param("options") List<String> options);
 
 
 
@@ -99,6 +102,8 @@ public interface ArticleDao {
 				    a.salaryScore,
 				    a.welfareScore,
 				    a.environmentScore,
+				    a.interviewScore,
+				    a.practiceScore,
 				    a.salaryComment,
 				    a.welfareComment,
 				    a.environmentComment,
@@ -109,6 +114,9 @@ public interface ArticleDao {
 				    a.interviewComment,
 		            a.personalHistory,
 		            a.interviewMaterial,
+		            a.interviewTip,
+		            a.interviewProgress,
+		            a.interviewCompleted,
 		            a.interviewQnA,
 		            a.interviewResults,
 		            a.practiceComment,
@@ -159,13 +167,63 @@ public interface ArticleDao {
 			                             @Param("city") String city);
 	
 		@Select("""
-				SELECT a.title, a.institutionComment
-			    FROM article AS a
-			    INNER JOIN board AS b
-			    ON a.boardId = b.Id
-			    WHERE a.title LIKE CONCAT ('%', #{keyword} ,'%')
-			    OR a.institutionComment  LIKE CONCAT ('%', #{keyword} ,'%')
-				""")
+			    <script>
+			        SELECT a.*
+			        FROM article a
+			        <where>
+			            <choose>
+			                <when test="searchType == 'institution'">
+			                    a.institutionName LIKE CONCAT('%', #{keyword}, '%')
+			                </when>
+			                <when test="searchType == 'content'">
+			                    (
+			                        a.institutionComment LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.salaryComment LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.welfareComment LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.environmentComment LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.commuteTimeComment LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.interviewComment LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.personalHistory LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.interviewMaterial LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.interviewQnA LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.interviewResults LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.interviewProgress LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.interviewTip LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.interviewCompleted LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.practiceComment LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.educationalBackground LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.practiceAtmosphere LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.practiceExperience LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.practiceReview LIKE CONCAT('%', #{keyword}, '%')
+			                    )
+			                </when>
+			                <otherwise>
+			                    (
+			                        a.institutionName LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.institutionComment LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.salaryComment LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.welfareComment LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.environmentComment LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.commuteTimeComment LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.interviewComment LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.personalHistory LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.interviewMaterial LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.interviewQnA LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.interviewResults LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.interviewProgress LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.interviewTip LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.interviewCompleted LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.practiceComment LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.educationalBackground LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.practiceAtmosphere LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.practiceExperience LIKE CONCAT('%', #{keyword}, '%')
+			                        OR a.practiceReview LIKE CONCAT('%', #{keyword}, '%')
+			                    )
+			                </otherwise>
+			            </choose>
+			        </where>
+			    </script>
+			""")
 		List<Article> searchKeyword(String searchType, String keyword);
 	
 		@Select("""

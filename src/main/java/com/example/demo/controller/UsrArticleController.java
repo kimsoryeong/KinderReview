@@ -63,7 +63,10 @@ public class UsrArticleController {
 	    @RequestParam(required = false) String personalHistory,
 	    @RequestParam(required = false) String interviewMaterial,
 	    @RequestParam(required = false) String interviewQnA,
+	    @RequestParam(required = false) String interviewCompleted,
 	    @RequestParam(required = false) String interviewResults,
+	    @RequestParam(required = false) String interviewTip,
+	    @RequestParam(required = false) String interviewProgress,
 	    @RequestParam(required = false) String practiceComment,
 	    @RequestParam(required = false) String educationalBackground,
 	    @RequestParam(required = false) String practiceAtmosphere,
@@ -101,6 +104,9 @@ public class UsrArticleController {
 	        article.setPersonalHistory(personalHistory);
 	        article.setInterviewMaterial(interviewMaterial);
 	        article.setInterviewQnA(interviewQnA);
+	        article.setInterviewProgress(interviewProgress);
+	        article.setInterviewTip(interviewTip);
+	        article.setInterviewCompleted(interviewCompleted);
 	        article.setInterviewResults(interviewResults);
 		} else if ("실습 및 봉사 리뷰".equals(boardName)) {
 			article.setPracticeScore(practiceScore != null ? practiceScore : 0);
@@ -239,4 +245,6 @@ public class UsrArticleController {
 		model.addAttribute("articles", articles);
 		
 	}
+	
+	
 }

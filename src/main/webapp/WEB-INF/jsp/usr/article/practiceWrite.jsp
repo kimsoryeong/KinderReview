@@ -56,13 +56,13 @@
 			</div>
 			<div class="px-10  py-3">
 				<div class="font-bold text-lg text-orange-400">
-					<i class="fa-regular fa-square-check pr-5"></i>학력 사항
+					<i class="fa-solid fa-graduation-cap pr-3 "></i>학력 사항
 				</div>
 				<div class="mt-3">
-					<label><input class="radio radio-xs mr-2" name="educationalBackground" type="radio" value="2~3년제 졸" />2~3년제 졸업</label> 
-					<label><input class="radio radio-xs mx-1" name="educationalBackground" type="radio" value="4년제 졸" />4년제 졸업</label>
+					<label><input class="radio radio-xs mr-2" name="educationalBackground" type="radio" value="2~3년제" />2~3년제</label> 
+					<label><input class="radio radio-xs mx-1" name="educationalBackground" type="radio" value="4년제" />4년제</label>
 					<label><input class="radio radio-xs mx-2" name="educationalBackground" type="radio" value="학점은행제" />학점은행제</label>
-					<label><input class="radio radio-xs mx-2" name="educationalBackground" type="radio" value="사이버대 졸" />사이버대 졸</label>
+					<label><input class="radio radio-xs mx-2" name="educationalBackground" type="radio" value="사이버대" />사이버대</label>
 				</div>
 				<div class="error-message-educationalBackground text-red-500 text-sm mt-1 hidden">학력 사항을 선택해주세요.</div>
 			</div>
@@ -90,16 +90,16 @@
 			    <div class="py-1">
 			      <div class="font-bold pb-1 text-m">세부 경험</div>
 			      <div class="text-sm pt-1 pb-2">본인이 맡은 업무, 출퇴근 시간, 맡은 연령, 수업(부분·연계·올데이) 횟수<br />등 자유롭게 작성해주세요.</div>
-			      <textarea name="practiceatExperience" cols=60 rows=2
+			      <textarea name="practiceExperience" cols=60 rows=2
 				        placeholder="10~100자 이내로 세부 경험에 대해 작성해주세요."
 				        style="overflow-x: hidden; width:450px;"
 				        class="p-2 bg-white text-sm border-gray-300 rounded-sm w-full"></textarea> 
 			      <div class="comment-error-message text-red-500 text-sm mt-1 hidden">세부 경험을 10~100자 이내로 입력해주세요.</div>
 			    </div>
 			    <div class="py-1">
-			      <div class="font-bold pb-1 text-m">기관 지원 및 소감</div>
-			      <div class="text-sm pt-1 pb-2">기관의 지원 및 개선점 등 자유롭게 작성해주세요.</div>
-			      <textarea name="practiceatReview" cols=60 rows=2
+			      <div class="font-bold pb-1 text-m">기관의 지원 및 소감</div>
+			      <div class="text-sm pt-1 pb-2">기관의 지원 및 개선점, 소감 등 자유롭게 작성해주세요.</div>
+			      <textarea name="practiceReview" cols=60 rows=2
 				        placeholder="10~100자 이내로 기관 지원 및 소감에 대해 작성해주세요."
 				        style="overflow-x: hidden; width:450px;"
 				        class="p-2 bg-white text-sm border-gray-300 rounded-sm w-full"></textarea> 

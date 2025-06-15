@@ -56,7 +56,7 @@
 			</div>
 			<div class="px-10  py-3">
 				<div class="font-bold text-lg text-orange-400">
-					<i class="fa-regular fa-square-check pr-5"></i>경력 사항
+					<i class="fa-solid fa-briefcase pr-5"></i>경력사항
 				</div>
 				<div class="mt-3">
 					<label><input class="radio radio-xs mr-2" name="personalHistory" type="radio" value="신입 교사" />신입 교사</label> 
@@ -76,7 +76,7 @@
 			</div>
 			<div class="px-10 py-4">
 			  <div class="font-bold text-lg text-orange-400">
-			    <i class="fa-regular fa-square-check pr-5"></i>면접의 특징
+			    <i class="fa-solid regular fa-circle-info pr-5"></i>기관의 특징
 			  </div>
 			  <div class="pt-2 pb-2 text-sm">아래 버튼을 클릭하여 작성해주세요</div>
 			  <div>
@@ -94,7 +94,7 @@
 			</div>
 
 			<div id="interviewInformation-section" class="tab-content mt-4 pl-10 pr-10">
-			  <div class="shadow-md rounded-lg w-full mb-5 p-6 my-1 bg-yellow-500 min-h-[220px]">
+			  <div class="shadow-md rounded-lg w-full mb-5 p-6 my-1 bg-yellow-50 min-h-[220px]">
 			    <span class="text-lg font-bold pr-3"><i class="fa-solid pr-3 fa-circle-info"></i>면접정보</span>
 			    <div class="py-3">
 			      <div class="font-bold pb-1 text-m">면접 준비</div>
@@ -117,7 +117,7 @@
 			    <div class="py-1">
 			      <div class="font-bold pb-1 text-m">면접 마무리</div>
 			      <div class="pt-1 pb-2 text-sm">결과 통보 기간, 면접관의 피드백 등 자유롭게 작성해주세요.</div>
-			      <textarea name="interviewResults" cols=60 rows=2
+			      <textarea name="interviewCompleted" cols=60 rows=2
 			        placeholder="10~100자 이내로 기관 면접 마무리 과정에 대해 작성해주세요."
 			        style="overflow-x: hidden; width:450px;"
 			        class="p-2 bg-white text-sm border-gray-300 rounded-sm w-full"></textarea>
@@ -127,7 +127,7 @@
 			</div>
 			
 			<div id="interviewQnA-section" class="tab-content mt-4 pl-10 pr-10 hidden">
-			  <div class="shadow-md rounded-lg w-full mb-5 p-6 my-1 bg-green-500 min-h-[220px]">
+			  <div class="shadow-md rounded-lg w-full mb-5 p-6 my-1 bg-green-50 min-h-[220px]">
 			    <span class="text-lg font-bold pr-3"><i class="pr-3 fa-solid fa-circle-question"></i>질의응답 및 조언</span>
 			    <div class="font-bold pt-3 pb-1 text-m">질의응답</div>
 			    <div class="pt-1 pb-2 text-sm">기억에 남는 면접 질문과 본인의 답변을 작성해주세요.</div>
@@ -138,7 +138,7 @@
 			    <div class="error-message text-red-500 textarea-sm mt-1 hidden">질의응답을 10~100자 이내로 입력해주세요.</div>
 			    <div class="py-1">
 			      <div class="font-bold pb-1 text-m">조언</div>
-			      <div class="text-sm pt-1 pb-2">면접 분위기, 기관의 특성 등 자유롭게 작성해주세요.</div>
+			      <div class="text-sm pt-1 pb-2">면접 소감 및 조언 등 자유롭게 작성해주세요.</div>
 			      <textarea name="interviewTip" cols=60 rows=2
 			        placeholder="10~100자 이내로 기관의 면접 조언에 대해 작성해주세요."
 			        style="overflow-x: hidden; width:450px;"

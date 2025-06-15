@@ -40,7 +40,10 @@ public class Article {
     private String personalHistory;
     private String interviewMaterial;
     private String interviewQnA;
+    private String interviewProgress;
     private String interviewResults;
+    private String interviewTip;
+    private String interviewCompleted;
     private String practiceComment;
     private String educationalBackground;
     private String practiceAtmosphere;
@@ -57,4 +60,11 @@ public class Article {
         return calculateStar();
     }
 
+    public int getPracticeScore() {
+        return practiceScore;
+    }
+
+    public int getInterviewScore() {
+        return interviewScore;
+    }
 }
