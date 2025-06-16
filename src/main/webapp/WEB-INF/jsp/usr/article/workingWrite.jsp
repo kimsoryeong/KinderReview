@@ -28,7 +28,7 @@
           </div>
 
           <div class="px-10 py-4 option">
-            <div class="font-bold text-lg text-orange-400"><i class="fa-regular fa-pen-to-square pr-5"></i>기관 한 줄 평</div>
+            <div class="font-bold text-lg text-orange-400"><i class="fa-solid fa-quote-left pr-5"></i>기관 한 줄 평</div>
             <div class="pt-3 pb-4 text-sm">작성하실 리뷰의 제목을 입력해 주세요. (20자 이내)</div>
             <div>
               <input name="institutionComment" maxlength="20" 
@@ -39,7 +39,7 @@
           </div>
 
           <div class="px-10  py-4">
-		  <div class="font-bold text-lg text-orange-400"><i class="fa-regular fa-square-check pr-5"></i>기관의 특징</div>
+		  <div class="font-bold text-lg text-orange-400"><i class="fa-regular fa-pen-to-square pr-5"></i>기관의 특징</div>
 		  <div class="pt-2 pb-2 text-sm">아래 버튼을 클릭하여 작성해주세요</div>
 		  <div>
 		    <div class="flex gap-4 font-bold cursor-pointer mt-2 justify-center">
@@ -58,7 +58,7 @@
 
 
           <div id="salary-section" class="tab-content mt-4 pl-10 pr-10 hidden">
-             <div class="shadow-md rounded-lg w-full mb-5 p-6 my-1 bg-yellow-500 min-h-[220px]">
+             <div class="shadow-md rounded-lg w-full mb-5 p-6 my-1 bg-yellow-50 min-h-[220px]">
               <span class="text-lg font-bold pr-3"><i class="fa-solid fa-sack-dollar pr-5 "></i>급여</span>
               <span class="review-form">
                 <span class="star">
@@ -82,7 +82,7 @@
           </div>
 
           <div id="welfare-section" class="tab-content mt-4 pl-10 pr-10 hidden">
-            <div class="shadow-md rounded-lg w-full mb-5 p-6 my-1 bg-green-500 min-h-[220px]">
+            <div class="shadow-md rounded-lg w-full mb-5 p-6 my-1 bg-green-50 min-h-[220px]">
               <span class="text-lg font-bold pr-3"><i class="fa-solid fa-hand-holding-heart pr-5"></i>복지</span>
               <span class="review-form">
                 <span class="star">
@@ -107,7 +107,7 @@
           </div>
 
           <div id="work-section" class="tab-content mt-4 pl-10 pr-10 hidden">
-            <div class="shadow-md rounded-lg w-full mb-5 p-6 my-1 bg-blue-500 min-h-[220px]">
+            <div class="shadow-md rounded-lg w-full mb-5 p-6 my-1 bg-blue-50 min-h-[220px]">
             <span class="text-lg font-bold pr-3"><i class="fa-solid fa-users pr-5"></i>근무환경</span>
               <span class="review-form">
                 <span class="star">
@@ -167,10 +167,8 @@
 
 <script>
 $(function () {
-  // 별점 클릭 여부 관리
   var isStarClicked = { overall: false, salary: false, welfare: false, env: false };
 
-  // 별점 클릭 이벤트
   $(".review-form .star a").click(function (e) {
     e.preventDefault();
 
@@ -187,7 +185,6 @@ $(function () {
     const count = $form.find(".on").length;
     $form.find("input[type='hidden']").val(count);
 
-    // 에러 메시지 숨기기 & 클릭 여부 저장
     if ($form.attr("id") === "overall-star") {
       $form.parent().find(".error-message").addClass("hidden");
       isStarClicked.overall = true;
@@ -202,7 +199,6 @@ $(function () {
     checkTabErrors();
   });
 
-  // 코멘트 입력 실시간 검증
   $("input[name$='Comment']").on("input", function () {
     const name = $(this).attr("name");
     const len = $(this).val().trim().length;
@@ -217,16 +213,14 @@ $(function () {
     checkTabErrors();
   });
 
-//탭 클릭 이벤트
   $(".tab-title").click(function () {
     if ($(this).text().trim() === "뒤로가기") return;
     $(".tab-content").hide();
     $($(this).data("target")).slideDown();
-    $(".tab-title").removeClass("border-orange-400 text-orange-400 bg-gray-100 bg-white");
-    $(this).addClass("border-orange-400 text-orange-400 bg-gray-100");
+    $(".tab-title").removeClass("border-orange-400 text-orange-400 bg-white");
+    $(this).addClass("border-orange-400 text-orange-400 ");
   });
 
-  // 탭 에러 표시 함수
   function checkTabErrors() {
     [
       {section: "#salary-section", tab: "급여"},
@@ -238,20 +232,17 @@ $(function () {
     });
   }
 
-  // 페이지 로드시 "급여" 탭 자동 활성화
   $(document).ready(function () {
     const $salaryTab = $(".tab-title:contains('급여')");
     const targetSelector = $salaryTab.data("target");
     $(".tab-content").hide();
     $(targetSelector).slideDown(0);
-    $(".tab-title").removeClass("border-orange-400 text-orange-400 bg-gray-100 bg-white");
-    $salaryTab.addClass("border-orange-400 text-orange-400 bg-gray-100");
+    $(".tab-title").removeClass("border-orange-400 text-orange-400  bg-white");
+    $salaryTab.addClass("border-orange-400 text-orange-400 ");
   });
 
 
-  // 폼 제출 시: 에러 메시지가 남아있는지만 체크
   $("#reviewForm").on("submit", function(e){
-    // 별점 클릭 여부도 최종 확인 (실시간 검증에서 놓칠 수 있으므로)
     if ($("#overall-star .star .on").length === 0) {
       $("#overall-star").parent().find(".error-message").removeClass("hidden");
     }
@@ -267,7 +258,6 @@ $(function () {
 
     checkTabErrors();
 
-    // 남아있는 에러 메시지가 있으면 제출 막고, 첫 에러로 스크롤
     var $firstError = $(".error-message:not(.hidden), .comment-error-message:not(.hidden)").first();
     if($firstError.length > 0){
       $('html, body').animate({ scrollTop: ($firstError.offset().top - 100) }, 300);
@@ -279,4 +269,3 @@ $(function () {
 
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp" %>
-

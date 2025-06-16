@@ -1,5 +1,7 @@
 package com.example.demo.dto;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -35,7 +37,8 @@ public class Article {
     private String commuteTimeComment;
     private List<String> salaryOptions;
     private List<String> welfareOptions;
-    private List<String> environmentOptions;
+    private String salaryOptionsStr;
+    private String welfareOptionsStr;
     private String interviewComment;
     private String personalHistory;
     private String interviewMaterial;
@@ -49,6 +52,26 @@ public class Article {
     private String practiceAtmosphere;
     private String practiceExperience;
     private String practiceReview;
+    private int likePoint;
+	private int views;
+
+    public void setWelfareOptionsStr(String welfareOptionsStr) {
+        this.welfareOptionsStr = welfareOptionsStr;
+        if (welfareOptionsStr != null && !welfareOptionsStr.isEmpty()) {
+            this.welfareOptions = Arrays.asList(welfareOptionsStr.split("\\s*,\\s*"));
+        } else {
+            this.welfareOptions = new ArrayList<>();
+        }
+    }
+    public void setSalaryOptionsStr(String salaryOptionsStr) {
+        this.salaryOptionsStr = salaryOptionsStr;
+        if (salaryOptionsStr != null && !salaryOptionsStr.isEmpty()) {
+            this.salaryOptions = Arrays.asList(salaryOptionsStr.split("\\s*,\\s*"));
+        } else {
+            this.salaryOptions = new ArrayList<>();
+        }
+    }
+
 
 
     public double calculateStar() {

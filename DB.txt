@@ -12,6 +12,7 @@ CREATE TABLE `member`(
     , nickname VARCHAR(50) NOT NULL
 );
 
+
 CREATE TABLE article(
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     regDate DATETIME NOT NULL,
@@ -25,21 +26,30 @@ CREATE TABLE article(
     salaryScore INT DEFAULT 0,
     welfareScore INT DEFAULT 0,
     environmentScore INT DEFAULT 0,
+    salaryOptionsStr TEXT,
+    welfareOptionsStr TEXT,
     salaryComment TEXT,
     welfareComment TEXT,
     environmentComment TEXT,
     commuteTimeComment TEXT,
+    interviewScore INT,
     interviewComment TEXT,
     personalHistory TEXT,
     interviewMaterial TEXT,
     interviewQnA TEXT,
     interviewResults TEXT,
-    InterviewProgress TEXT,
-    InterviewTip TEXT,
+    interviewProgress TEXT,
+    interviewTip TEXT,
+    interviewCompleted TEXT,
     workType VARCHAR(100),
-    city VARCHAR(100)
+    city VARCHAR(100),
+    practiceComment TEXT,
+    practiceScore INT DEFAULT 0,
+    educationalBackground TEXT,
+    practiceAtmosphere TEXT,
+    practiceExperience TEXT,
+    practiceReview TEXT
 );
-
 
 CREATE TABLE article_option (
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -109,7 +119,7 @@ INSERT INTO article
 INSERT INTO article
     SET regDate = NOW(),
         updateDate = NOW(),
-        memberId = 2,
+        memberId = 1,
         boardId = 5,
         boardName = '면접 리뷰',
         institutionName = '햇살 어린이집',
@@ -117,11 +127,32 @@ INSERT INTO article
         city = '부산',
         workType = '보조교사',
         institutionType = '어린이집',
+        interviewScore = 3,
+        interviewProgress = '면접진행과정',
+        interviewTip = '면접 조언과 팁',
+        interviewCompleted ='면접 마무리 진행과정',
         interviewComment = '친절하고 편안한 분위기였어요.',
         personalHistory = '신입 교사',
-        interviewMaterial = '이력서, 자소서',
+        interviewMaterial = '면접 준비물',
         interviewQnA = '1. 지원동기, 2. 갈등상황 해결법',
         interviewResults = '합격';            
+
+INSERT INTO article
+    SET regDate = NOW(),
+        updateDate = NOW(),
+        memberId = 1,
+        boardId = 6,
+        boardName = '실습 및 봉사 리뷰',
+        institutionName = '굿모닝 어린이집',
+        practiceComment = '친절한 실습분위기입니다',
+        city = '대전',
+        workType = '실습 및 봉사생',
+        institutionType = '어린이집',
+        practiceExperience ='실습하며 나의 경험',
+        practiceReview ='실습봉사소감'
+        educationalBackground = '4년제',
+        practiceAtmosphere = '기관분위기는 어저구',
+        practiceScore ='3';            
         
 INSERT INTO `member`
     SET regDate = NOW()

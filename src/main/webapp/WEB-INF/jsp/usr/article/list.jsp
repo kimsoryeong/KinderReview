@@ -121,7 +121,7 @@
 		
 		<div class="bg-white rounded-lg shadow p-4 mb-4">
 		  <div class="font-bold text-lg mb-3 flex items-center">
-		    <i class="fa-solid fa-graduation-cap mr-2 text-orange-400"></i>
+		    <i class="fa-solid fa-handshake mr-2 text-orange-400"></i>
 		    <span>면접 리뷰 인기글</span>
 		    <a href="/usr/article/list?boardId=5" class="ml-auto text-sm text-orange-400 hover:underline">더보기</a>
 		  </div>
@@ -176,28 +176,28 @@
 		<c:if test="${board.id == 4 or board.id == 5 or board.id == 6 or board.id == 7 or board.id == 8}">
           <c:forEach items="${articles}" var="article">
             <div class="p-5 hover:bg-orange-50 transition">
-              <div class="flex justify-between items-start">
+              <div class="flex items-center">
                 <a href="detail?id=${article.id}" class="text-lg font-bold text-gray-800  flex items-center gap-2">
                   <span class="text-sm hover:text-black">[${article.city}]</span>
                   <i class="fa-solid fa-school fa-base text-gray-800"></i>
                   <span class="hover:text-orange-500 transition">${article.institutionName}</span>
                 </a>
                 <c:if test="${board.id == 4}">
-                <span class="text-yellow-500 font-bold flex items-center">
+                <span class="text-yellow-500 font-bold pl-3 flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg> ${article.getStar()}
                 </span>
                 </c:if>
                 <c:if test="${board.id == 5}">
-                <span class="text-yellow-500 font-bold flex items-center">
+                <span class="text-yellow-500 font-bold pl-3 flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg> ${article.interviewScore}
                 </span>
                 </c:if>
                 <c:if test="${board.id == 6}">
-                <span class="text-yellow-500 font-bold flex items-center">
+                <span class="text-yellow-500 font-bold pl-3 flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg> ${article.practiceScore}

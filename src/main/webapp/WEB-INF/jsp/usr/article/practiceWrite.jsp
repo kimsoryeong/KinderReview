@@ -44,7 +44,7 @@
 			
 			<div class="px-10  py-4 option">
 				<div class="font-bold text-lg text-orange-400">
-					<i class="fa-regular fa-pen-to-square pr-5"></i>실습 · 봉사 한 줄 평
+					<i class="fa-solid fa-quote-left pr-5"></i>실습 · 봉사 한 줄 평
 				</div>
 				<div class="pt-3 pb-4 text-sm">작성하실 실습 · 봉사 리뷰의 제목을 입력해 주세요. (20자	이내)</div>
 				<div>
@@ -68,7 +68,7 @@
 			</div>
 			
 			 <div class="px-10  py-4">
-		  <div class="font-bold text-lg text-orange-400"><i class="fa-solid pr-3 fa-circle-info"></i>기관의 특징</div>
+		  <div class="font-bold text-lg text-orange-400"><i class="pr-3 fa-regular fa-pen-to-square"></i>기관의 특징</div>
 		  <div class="pt-2 pb-2 text-sm">아래 버튼을 클릭하여 작성해주세요</div>
 		    <div class="flex gap-4 font-bold cursor-pointer mt-2 justify-center">
 		      <div class="tab-title px-4 py-1 rounded-lg border border-black-800 text-gray-500 hover:text-orange-400 transition cursor-pointer" data-tab="practice" data-target="#practice-section">
@@ -78,7 +78,7 @@
 		</div>
 			
 			<div id="practice-section" class="tab-content mt-4 pl-10 pr-10 hidden">
-             <div class="shadow-md rounded-lg w-full mb-5 p-6 my-1 bg-yellow-500 min-h-[220px]">
+             <div class="shadow-md rounded-lg w-full mb-5 p-6 my-1 bg-yellow-50 min-h-[220px]">
 			    <span class="text-lg font-bold pr-3"><i class="pr-3 fa-solid fa-circle-question"></i>활동 내용 및 소감</span>
 			    <div class="font-bold pt-3 pb-1 text-m">기관의 분위기</div>
 			    <div class="pt-1 pb-2 text-sm">기관의 분위기, 실습 · 봉사생을 대하는 태도 등 자유롭게 작성해주세요.</div>
@@ -151,7 +151,6 @@ textarea.input {
 
 <script>
 $(function () {
-  // 별점 클릭
   $(".review-form .star a").click(function (e) {
     e.preventDefault();
     const $star = $(this);
@@ -165,16 +164,14 @@ $(function () {
     checkTabErrors();
   });
 
-  // 탭 전환
   $(".tab-title").click(function () {
     if ($(this).text().trim() === "뒤로가기") return;
     $(".tab-content").hide();
     $($(this).data("target")).slideDown();
-    $(".tab-title").removeClass("border-orange-400 text-orange-400 bg-gray-100 bg-white");
-    $(this).addClass("border-orange-400 text-orange-400 bg-gray-100");
+    $(".tab-title").removeClass("border-orange-400 text-orange-400  bg-white");
+    $(this).addClass("border-orange-400 text-orange-400");
   });
 
-  // 실시간 입력 검증 (10~100자)
   $(document).on("input", "input[name^='practice'], textarea[name^='practice']", function () {
     const len = ($(this).val() || "").trim().length;
     const hasError = len < 10 || len > 100;
@@ -182,7 +179,6 @@ $(function () {
     checkTabErrors();
   });
 
-  // 학력사항 라디오 선택 시 에러 숨기기
   $("input[name='educationalBackground']").on("change", function() {
     $(".error-message-educationalBackground").addClass("hidden");
   });
@@ -197,24 +193,19 @@ $(function () {
     });
   }
 
-  // 폼 제출 시 검증
   $("#reviewForm").on("submit", function(e){
-    // 별점 체크
     if ($("#overall-star .star .on").length === 0) {
       $("#overall-star").parent().find(".error-message").removeClass("hidden");
     }
-    // 학력사항(라디오) 체크
     if ($("input[name='educationalBackground']:checked").length === 0) {
       $(".error-message-educationalBackground").removeClass("hidden");
     }
-    // 입력 필드 체크
     $("input[name^='practice'], textarea[name^='practice']").each(function() {
       const len = ($(this).val() || "").trim().length;
       const hasError = len < 10 || len > 100;
       $(this).siblings(".error-message, .comment-error-message").toggleClass("hidden", !hasError);
     });
     checkTabErrors();
-    // 에러 있으면 스크롤 & 제출 막기
     var $firstError = $(".error-message:not(.hidden), .comment-error-message:not(.hidden), .error-message-EducationalBackground:not(.hidden)").first();
     if($firstError.length > 0){
       $('html, body').animate({ scrollTop: ($firstError.offset().top - 100) }, 300);
@@ -222,7 +213,6 @@ $(function () {
     }
   });
 
-  // 최초 에러 체크
   checkTabErrors();
 });
 </script>

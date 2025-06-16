@@ -48,10 +48,13 @@ public interface ArticleDao {
 		            educationalBackground = #{educationalBackground},
 		            practiceAtmosphere = #{practiceAtmosphere},
 		            practiceExperience = #{practiceExperience},
-		            practiceReview = #{practiceReview}
+		            practiceReview = #{practiceReview},
+		            salaryOptionsStr = #{salaryOptionsStr},
+		            welfareOptionsStr = #{welfareOptionsStr}
 		""")
 		@Options(useGeneratedKeys = true, keyProperty = "id")
 		int writeArticle(Article article);
+
 
 
 
@@ -108,6 +111,8 @@ public interface ArticleDao {
 				    a.welfareComment,
 				    a.environmentComment,
 				    a.commuteTimeComment,
+				    a.salaryOptionsStr,
+					a.welfareOptionsStr,
 				    a.workType,
 				    a.city,
 				    a.institutionType,
@@ -132,20 +137,109 @@ public interface ArticleDao {
 		    Article getArticleById(int id);
 	
 		@Update("""
-				<script>
-				UPDATE article
-				    SET updateDate = NOW()
-				        <if test="institutionName != null and institutionName != ''">
-				        	, institutionName = #{institutionName}
-				        </if>
-				        <if test="institutionComment != null and institutionComment != ''">
-				        	, institutionComment = #{institutionComment}
-				        </if>
-				    WHERE id = #{id}
+			    <script>
+			    UPDATE article
+			        SET updateDate = NOW()
+			        <if test="institutionName != null and institutionName != ''">
+			            , institutionName = #{institutionName}
+			        </if>
+			        <if test="workType != null and workType != ''">
+			            , workType = #{workType}
+			        </if>
+			        <if test="city != null and city != ''">
+			            , city = #{city}
+			        </if>
+			        <if test="institutionType != null and institutionType != ''">
+			            , institutionType = #{institutionType}
+			        </if>
+			        <if test="institutionComment != null and institutionComment != ''">
+			            , institutionComment = #{institutionComment}
+			        </if>
+			        <if test="salaryOptionsStr != null and salaryOptionsStr != ''">
+			            , salaryOptionsStr = #{salaryOptionsStr}
+			        </if>
+			        <if test="welfareOptionsStr != null and welfareOptionsStr != ''">
+			            , welfareOptionsStr = #{welfareOptionsStr}
+			        </if>
+			        <if test="salaryComment != null and salaryComment != ''">
+			            , salaryComment = #{salaryComment}
+			        </if>
+			        <if test="welfareComment != null and welfareComment != ''">
+			            , welfareComment = #{welfareComment}
+			        </if>
+			        <if test="environmentComment != null and environmentComment != ''">
+			            , environmentComment = #{environmentComment}
+			        </if>
+			        <if test="commuteTimeComment != null and commuteTimeComment != ''">
+			            , commuteTimeComment = #{commuteTimeComment}
+			        </if>
+			        <if test="salaryScore != null">
+			            , salaryScore = #{salaryScore}
+			        </if>
+			        <if test="welfareScore != null">
+			            , welfareScore = #{welfareScore}
+			        </if>
+			        <if test="environmentScore != null">
+			            , environmentScore = #{environmentScore}
+			        </if>
+			        <if test="interviewScore != null">
+			            , interviewScore = #{interviewScore}
+			        </if>
+			        <if test="interviewComment != null and interviewComment != ''">
+			            , interviewComment = #{interviewComment}
+			        </if>
+			        <if test="interviewResults != null and interviewResults != ''">
+			            , interviewResults = #{interviewResults}
+			        </if>
+			        <if test="personalHistory != null and personalHistory != ''">
+			            , personalHistory = #{personalHistory}
+			        </if>
+			        <if test="interviewMaterial != null and interviewMaterial != ''">
+			            , interviewMaterial = #{interviewMaterial}
+			        </if>
+			        <if test="interviewProgress != null and interviewProgress != ''">
+			            , interviewProgress = #{interviewProgress}
+			        </if>
+			        <if test="interviewCompleted != null and interviewCompleted != ''">
+			            , interviewCompleted = #{interviewCompleted}
+			        </if>
+			        <if test="interviewQnA != null and interviewQnA != ''">
+			            , interviewQnA = #{interviewQnA}
+			        </if>
+			        <if test="interviewTip != null and interviewTip != ''">
+			            , interviewTip = #{interviewTip}
+			        </if>
+			        <if test="practiceScore != null">
+			            , practiceScore = #{practiceScore}
+			        </if>
+			        <if test="practiceComment != null and practiceComment != ''">
+			            , practiceComment = #{practiceComment}
+			        </if>
+			        <if test="educationalBackground != null and educationalBackground != ''">
+			            , educationalBackground = #{educationalBackground}
+			        </if>
+			        <if test="practiceExperience != null and practiceExperience != ''">
+			            , practiceExperience = #{practiceExperience}
+			        </if>
+			        <if test="practiceReview != null and practiceReview != ''">
+			            , practiceReview = #{practiceReview}
+			        </if>
+			        <if test="practiceAtmosphere != null and practiceAtmosphere != ''">
+			            , practiceAtmosphere = #{practiceAtmosphere}
+			        </if>
+			    WHERE id = #{id}
 			    </script>
-				""")
-		public void modifyArticle(String institutionName, int id, String institutionComment);
-	
+			""")
+
+		void modifyArticle(
+			    String institutionName, int id, String workType, String city, String institutionType, String institutionComment,
+			    String salaryOptionsStr, String welfareOptionsStr, String salaryComment, String welfareComment, String environmentComment, String commuteTimeComment,
+			    Integer salaryScore, Integer welfareScore, Integer environmentScore, Integer interviewScore, String interviewComment, String interviewResults, String personalHistory,
+			    String interviewMaterial, String interviewProgress, String interviewCompleted, String interviewQnA, String interviewTip,
+			    Integer practiceScore, String practiceComment, String educationalBackground, String practiceExperience, String practiceReview, String practiceAtmosphere
+			);
+
+
 		@Delete("""
 				DELETE FROM article
 					WHERE id = #{id}
@@ -171,12 +265,13 @@ public interface ArticleDao {
 			        SELECT a.*
 			        FROM article a
 			        <where>
+			        a.boardId = #{boardId}
 			            <choose>
-			                <when test="searchType == 'institution'">
-			                    a.institutionName LIKE CONCAT('%', #{keyword}, '%')
+			                <when test="searchType.equals('institutionName')">
+								AND a.institutionName LIKE CONCAT('%', #{keyword}, '%')
 			                </when>
 			                <when test="searchType == 'content'">
-			                    (
+			                    AND (
 			                        a.institutionComment LIKE CONCAT('%', #{keyword}, '%')
 			                        OR a.salaryComment LIKE CONCAT('%', #{keyword}, '%')
 			                        OR a.welfareComment LIKE CONCAT('%', #{keyword}, '%')
@@ -198,7 +293,7 @@ public interface ArticleDao {
 			                    )
 			                </when>
 			                <otherwise>
-			                    (
+			                   AND (
 			                        a.institutionName LIKE CONCAT('%', #{keyword}, '%')
 			                        OR a.institutionComment LIKE CONCAT('%', #{keyword}, '%')
 			                        OR a.salaryComment LIKE CONCAT('%', #{keyword}, '%')
@@ -224,7 +319,7 @@ public interface ArticleDao {
 			        </where>
 			    </script>
 			""")
-		List<Article> searchKeyword(String searchType, String keyword);
+		List<Article> searchKeyword(@Param("boardId") int boardId,@Param("searchType") String searchType, @Param("keyword") String keyword);
 	
 		@Select("""
 			    <script>
@@ -245,6 +340,18 @@ public interface ArticleDao {
 			    @Param("articlesInPage") int articlesInPage,
 			    @Param("limitFrom") int limitFrom
 			);
+		
+		
+		@Update("""
+				UPDATE article
+					SET views = views + 1
+					WHERE id = #{id}
+				""")
+		public void increaseViews(int id);
+
+
+
+	
 
 	
 

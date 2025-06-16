@@ -44,7 +44,7 @@
 			
 			<div class="px-10  py-4 option">
 				<div class="font-bold text-lg text-orange-400">
-					<i class="fa-regular fa-pen-to-square pr-5"></i>면접 한 줄 평
+					<i class="fa-solid fa-quote-left pr-5"></i>면접 한 줄 평
 				</div>
 				<div class="pt-3 pb-4 text-sm">작성하실 면접 리뷰의 제목을 입력해 주세요. (20자	이내)</div>
 				<div>
@@ -76,7 +76,7 @@
 			</div>
 			<div class="px-10 py-4">
 			  <div class="font-bold text-lg text-orange-400">
-			    <i class="fa-solid regular fa-circle-info pr-5"></i>기관의 특징
+			    <i class="fa-regular fa-pen-to-square pr-5"></i>기관의 특징
 			  </div>
 			  <div class="pt-2 pb-2 text-sm">아래 버튼을 클릭하여 작성해주세요</div>
 			  <div>
@@ -191,7 +191,6 @@ textarea.input {
 
 <script>
 $(function () {
-  // 별점 클릭
   $(".review-form .star a").click(function (e) {
     e.preventDefault();
     const $star = $(this);
@@ -205,16 +204,14 @@ $(function () {
     checkTabErrors();
   });
 
-  // 탭 전환
   $(".tab-title").click(function () {
     if ($(this).text().trim() === "뒤로가기") return;
     $(".tab-content").hide();
     $($(this).data("target")).slideDown();
-    $(".tab-title").removeClass("border-orange-400 text-orange-400 bg-gray-100 bg-white");
-    $(this).addClass("border-orange-400 text-orange-400 bg-gray-100");
+    $(".tab-title").removeClass("border-orange-400 text-orange-400 bg-white");
+    $(this).addClass("border-orange-400 text-orange-400 ");
   });
 
-  // 실시간 입력 검증 (10~100자)
   $(document).on("input", "input[name^='interview'], textarea[name^='interview']", function () {
     const len = ($(this).val() || "").trim().length;
     const hasError = len < 10 || len > 100;
@@ -222,7 +219,6 @@ $(function () {
     checkTabErrors();
   });
 
-  // 경력사항 라디오 선택 시 에러 숨기기
   $("input[name='personalHistory']").on("change", function() {
     $(".error-message-personalHistory").addClass("hidden");
   });
@@ -242,27 +238,22 @@ $(function () {
     });
   }
 
-  // 폼 제출 시 검증
   $("#reviewForm").on("submit", function(e){
-    // 별점 체크
     if ($("#overall-star .star .on").length === 0) {
       $("#overall-star").parent().find(".error-message").removeClass("hidden");
     }
-    // 경력사항(라디오) 체크
     if ($("input[name='personalHistory']:checked").length === 0) {
       $(".error-message-personalHistory").removeClass("hidden");
     }
     if ($("input[name='interviewResults']:checked").length === 0) {
       $(".error-message-interviewResults").removeClass("hidden");
     }
-    // 입력 필드 체크
     $("input[name^='interview'], textarea[name^='interview']").each(function() {
       const len = ($(this).val() || "").trim().length;
       const hasError = len < 10 || len > 100;
       $(this).siblings(".error-message, .comment-error-message").toggleClass("hidden", !hasError);
     });
     checkTabErrors();
-    // 에러 있으면 스크롤 & 제출 막기
     var $firstError = $(".error-message:not(.hidden), .comment-error-message:not(.hidden), .error-message-personalHistory:not(.hidden), .error-message-interviewResults:not(.hidden)").first();
     if($firstError.length > 0){
       $('html, body').animate({ scrollTop: ($firstError.offset().top - 100) }, 300);
@@ -270,7 +261,6 @@ $(function () {
     }
   });
 
-  // 최초 에러 체크
   checkTabErrors();
 });
 </script>
