@@ -129,6 +129,7 @@ public interface ArticleDao {
 		            a.practiceAtmosphere,
 		            a.practiceExperience,
 					a.practiceReview,
+					a.views,
 				    m.loginId AS writerName
 				FROM article a
 				JOIN member m ON a.memberId = m.id
@@ -350,6 +351,30 @@ public interface ArticleDao {
 		public void increaseViews(int id);
 
 
+		@Select("""
+			    SELECT *
+			    FROM article
+			    WHERE boardId = #{boardId}
+			    ORDER BY views DESC
+			    LIMIT 2
+			""")
+			List<Article> getTopArticlesByViews(int boardId);
+
+
+
+
+		@Select("""
+			    SELECT *
+			    FROM article
+			    WHERE boardId = #{boardId}
+			    ORDER BY regDate DESC
+			    LIMIT #{limit}
+			""")
+			List<Article> getLatestArticlesByBoardId(@Param("boardId") int boardId, @Param("limit") int limit);
+
+
+
+		
 
 	
 

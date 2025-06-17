@@ -10,4 +10,7 @@ import lombok.NoArgsConstructor;
 public class LoginedMember {
 	private int id;
 	private int authLevel;
+	public String getNickname() {
+		return null;
+	}
 }

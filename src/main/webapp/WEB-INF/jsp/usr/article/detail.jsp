@@ -5,50 +5,14 @@
 <%@ include file="/WEB-INF/jsp/common/header.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/topbar.jsp"%>
 
+
 <section class="bg-gray-50 py-10 min-h-screen">
-
-
-
 	<c:if test="${board.boardName eq '근무 리뷰'}">
-		<div class="container mx-auto max-w-4xl">
-			<div class="bg-white rounded-t-lg shadow-sm p-6 mb-1">
-				<div class="flex justify-between items-center">
-					<div class="text-2xl font-bold text-orange-400">${board.boardName}
-						후기</div>
-				</div>
-			</div>
+	
+	
+			<jsp:include page="/WEB-INF/jsp/common/articleHeader.jsp" />
+			
 			<div class="bg-white rounded-2xl shadow-xl p-8 space-y-6">
-				<div class="flex justify-between text-sm text-gray-500">
-					<div class="truncate max-w-full sm:max-w-[45%]">번호:
-						${article.getId()}</div> 
-					<div class="truncate max-w-full pb-2 sm:max-w-[45%] text-right">
-					작성일 : ${article.getRegDate()}<br>
-					수정일 : ${article.getUpdateDate() }</div>
-				</div>
-				<div class="flex pb-3 items-center gap-4 text-gray-700 mb-4">
-				  <i class="fa-solid fa-location-dot text-orange-400"></i>
-				  <span>${article.city}</span>
-				  <i class="fa-solid fa-user text-orange-400"></i>
-				  <span>${article.institutionType}</span>
-				  <i class="fa-solid fa-briefcase text-orange-400"></i>
-				  <span>${article.workType}</span>
-				
-				  <div class="flex items-center gap-2 text-gray-500 ml-auto">
-				    <span>추천수</span>
-				    <span>
-				      <c:if test="${req.getLoginedMember().getId() == 0}">
-				        <span id="likePointCnt"></span>
-				      </c:if>
-				      <c:if test="${req.getLoginedMember().getId() != 0}">
-				        <button onclick="clickLikePoint();">
-				          <span id="likePointCnt"></span>
-				          <span id="likePointBtn"></span>
-				        </button>
-				      </c:if>
-				    </span>
-				    <span>조회수 ${article.getViews() }</span>
-				  </div>
-				 </div>
 				<div class="flex items-center gap-4 border-b pb-4">
 					<i class="fa-solid fa-school fa-2xl text-orange-400 pr-4"></i> <span
 						class="font-bold text-2xl text-gray-800">${article.institutionName}</span>
@@ -86,114 +50,72 @@
 							${article.environmentScore}</span>
 					</div>
 				</div>
-				<div class="space-y-6">
-					<div class="bg-yellow-50 rounded-lg p-4">
-						<h4 class="font-bold text-orange-500 mb-2 flex items-center">
-							<i class="fa-solid fa-sack-dollar pr-2"></i>급여
-						</h4>
-						<div class="mb-2">
-							<div class="mb-2">
-								<span class="font-semibold text-gray-700">코멘트</span>
-								<div class=" rounded p-2 mt-1 text-gray-600">${article.salaryComment}</div>
-							</div>
-							<div class="flex flex-wrap gap-2 mt-1">
-								<c:forEach var="opt" items="${article.salaryOptions}">
-									<span
-										class="bg-orange-100 text-orange-700 rounded px-2 py-1 text-sm">${opt}</span>
-								</c:forEach>
-							</div>
-						</div>
-					</div>
-					<div class="bg-green-50 rounded-lg p-4">
-						<h4 class="font-bold text-orange-500 mb-2 flex items-center">
-							<i class="fa-solid fa-hand-holding-heart pr-2"></i>복지
-						</h4>
-						<div class="mb-2">
-							<div class="mb-2">
-								<span class="font-semibold text-gray-700">코멘트</span>
-								<div class=" rounded p-2 mt-1 text-gray-600">${article.welfareComment}</div>
-							</div>
-							<c:forEach var="opt" items="${article.welfareOptions}">
-								<span class="bg-orange-100 text-orange-700 rounded px-2 py-1 text-sm">${opt}</span>
-							</c:forEach>
-						</div>
-					</div>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+				  <div class="bg-yellow-50 rounded-lg p-4 flex-1 overflow-y-auto max-h-150">
+				    <h4 class="font-bold text-orange-500 mb-2 flex items-center">
+				      <i class="fa-solid fa-sack-dollar pr-2"></i>급여
+				    </h4>
+				    <div class="mb-2">
+				      <div class="mb-2">
+				        <span class="font-semibold text-gray-700">코멘트</span>
+				        <div class="rounded p-2 mt-1 text-gray-600 break-all w-full overflow-hidden">
+				          ${article.salaryComment}
+				        </div>
+				      </div>
+				      <div class="flex flex-wrap gap-2 mt-1">
+				        <c:forEach var="opt" items="${article.salaryOptions}">
+				          <span class="bg-orange-100 text-orange-700 rounded px-2 py-1 text-sm break-all">${opt}</span>
+				        </c:forEach>
+				      </div>
+				    </div>
+				  </div>
+				  <div class="bg-green-50 rounded-lg p-4 flex-1 overflow-y-auto max-h-150">
+				    <h4 class="font-bold text-orange-500 mb-2 flex items-center">
+				      <i class="fa-solid fa-hand-holding-heart pr-2"></i>복지
+				    </h4>
+				    <div class="mb-2">
+				      <div class="mb-2">
+				        <span class="font-semibold text-gray-700">코멘트</span>
+				        <div class="rounded p-2 mt-1 text-gray-600 break-all w-full overflow-hidden">
+				          ${article.welfareComment}
+				        </div>
+				      </div>
+				      <div class="flex flex-wrap gap-2 mt-1">
+				        <c:forEach var="opt" items="${article.welfareOptions}">
+				          <span class="bg-orange-100 text-orange-700 rounded px-2 py-1 text-sm break-all">${opt}</span>
+				        </c:forEach>
+				      </div>
+				    </div>
+				  </div>
+				  <div class="bg-blue-50 rounded-lg p-4 flex-1 overflow-y-auto max-h-150">
+				    <h4 class="font-bold text-orange-500 mb-2 flex items-center">
+				      <i class="fa-solid fa-users pr-2"></i>근무환경
+				    </h4>
+				    <div class="mb-2">
+				      <div class="mb-2">
+				        <span class="font-semibold text-gray-700">코멘트</span>
+				        <div class="rounded p-2 mt-1 text-gray-600 break-all w-full overflow-hidden">
+				          ${article.environmentComment}
+				        </div>
+				      </div>
+				      <div class="mb-2">
+				        <span class="font-semibold text-gray-700">출퇴근시간</span>
+				        <div class="rounded p-2 mt-1 text-gray-600 break-all w-full overflow-hidden">
+				          ${article.commuteTimeComment}
+				        </div>
+				      </div>
+				    </div>
+				  </div>
 				</div>
-				<div class="bg-blue-50 rounded-lg p-4">
-					<h4 class="font-bold text-orange-500 mb-2 flex items-center">
-						<i class="fa-solid fa-users pr-2"></i>근무환경
-					</h4>
-					<div class="mb-2">
-						<div class="mb-2">
-							<span class="font-semibold text-gray-700">코멘트</span>
-							<div class="rounded p-2 mt-1 text-gray-600">${article.environmentComment}</div>
-						</div>
-						<span class="font-semibold text-gray-700">출퇴근시간</span>
-						<div class=" rounded p-2 mt-1 text-gray-600">${article.commuteTimeComment}</div>
-					</div>
-				</div>
-				<div class="flex justify-between mt-6">
-					<button
-						class="bg-orange-100 hover:bg-orange-300 text-orange-700 px-4 py-2 rounded-md transition"
-						onclick="history.back();">뒤로가기</button>
-					<c:if
-						test="${article.getMemberId() == req.getLoginedMember().getId()}">
-						<div class="flex gap-2">
-							<a
-								class="bg-orange-100 hover:bg-orange-300 text-orange-700 px-4 py-2 rounded-md transition"
-								href="modify?id=${article.getId()}">수정</a> <a
-								class="bg-orange-100 hover:bg-orange-300 text-orange-700 px-4 py-2 rounded-md transition"
-								href="delete?id=${article.getId()}&boardId=${article.getBoardId()}"
-								onclick="return confirm('정말로 삭제하시겠습니까?');">삭제</a>
-						</div>
-					</c:if>
-				</div>
-			</div>
-		</div>
-	</c:if>
-
-
+				<jsp:include page="/WEB-INF/jsp/common/replyBox.jsp">
+				    <jsp:param name="relTypeCode" value="${relTypeCode}" />
+				    <jsp:param name="relId" value="${relId}" />
+				</jsp:include>
+			</c:if>
 
 	<c:if test="${board.boardName eq '면접 리뷰'}">
-		<div class="container mx-auto max-w-4xl">
-			<div class="bg-white rounded-t-lg shadow-sm p-6 mb-1">
-				<div class="flex justify-between items-center">
-					<div class="text-2xl font-bold text-orange-400">${board.boardName}
-						후기</div>
-				</div>
-			</div>
-			<div class="bg-white rounded-2xl shadow-xl p-8 space-y-6">
-				<div class="flex justify-between text-sm text-gray-500">
-					<div class="truncate max-w-full sm:max-w-[45%]">번호:
-						${article.getId()}</div> 
-					<div class="truncate max-w-full pb-2 sm:max-w-[45%] text-right">
-					작성일 : ${article.getRegDate()}<br>
-					수정일 : ${article.getUpdateDate() }</div>
-				</div>
-				<div class="flex pb-3 items-center gap-4 text-gray-700 mb-4">
-				  <i class="fa-solid fa-location-dot text-orange-400"></i>
-				  <span>${article.city}</span>
-				  <i class="fa-solid fa-user text-orange-400"></i>
-				  <span>${article.institutionType}</span>
-				  <i class="fa-solid fa-briefcase text-orange-400"></i>
-				  <span>${article.workType}</span>
-				
-				  <div class="flex items-center gap-2 text-gray-500 ml-auto">
-				    <span>추천수</span>
-				    <span>
-				      <c:if test="${req.getLoginedMember().getId() == 0}">
-				        <span id="likePointCnt"></span>
-				      </c:if>
-				      <c:if test="${req.getLoginedMember().getId() != 0}">
-				        <button onclick="clickLikePoint();">
-				          <span id="likePointCnt"></span>
-				          <span id="likePointBtn"></span>
-				        </button>
-				      </c:if>
-				    </span>
-				    <span>조회수 ${article.getViews() }</span>
-				  </div>
-				 </div>
+		<jsp:include page="/WEB-INF/jsp/common/articleHeader.jsp" />
+		
 				<div class="flex items-center gap-4 border-b pb-4">
 					<i class="fa-solid fa-school fa-2xl text-orange-400 pr-4"></i> <span
 						class="font-bold text-2xl text-gray-800">${article.institutionName}</span>
@@ -226,103 +148,63 @@
 							class="text-yellow-500 font-bold text-xl">${article.interviewResults}</span>
 					</div>
 				</div>
-				<div class="space-y-6">
-					<div class="bg-yellow-50 rounded-lg p-4">
-						<h4 class="font-bold text-orange-500 mb-2 flex items-center">
-							<i class="fa-solid fa-circle-question pr-2"></i>면접정보
-						</h4>
-						<div class="mb-2">
-							<div class="mb-2">
-								<span class="font-semibold text-gray-700">면접 준비</span>
-								<div class=" rounded p-2 mt-1 text-gray-600">${article.interviewMaterial}</div>
-							</div>
-							<div class="mb-2">
-								<span class="font-semibold text-gray-700">면접 진행</span>
-								<div class=" rounded p-2 mt-1 text-gray-600">${article.interviewProgress}</div>
-							</div>
-							<div class="mb-2">
-								<span class="font-semibold text-gray-700">면접 마무리</span>
-								<div class="rounded p-2 mt-1 text-gray-600">${article.interviewCompleted}</div>
-							</div>
-						</div>
-					</div>
-					<div class="bg-green-50 rounded-lg p-4">
-						<h4 class="font-bold text-orange-500 mb-2 flex items-center">
-							<i class="fa-solid fa-circle-question pr-2"></i>질의응답
-						</h4>
-						<div class="mb-2">
-							<div class="mb-2">
-								<span class="font-semibold text-gray-700">질의응답</span>
-								<div class=" rounded p-2 mt-1 text-gray-600">${article.interviewQnA}</div>
-							</div>
-							<div class="mb-2">
-								<span class="font-semibold text-gray-700">조언</span>
-								<div class=" rounded p-2 mt-1 text-gray-600">${article.interviewTip}</div>
-							</div>
-						</div>
-					</div>
-					<div class="flex justify-between mt-6">
-						<button
-							class="bg-orange-100 hover:bg-orange-300 text-orange-700 px-4 py-2 rounded-md transition"
-							onclick="history.back();">뒤로가기</button>
-						<c:if
-							test="${article.getMemberId() == req.getLoginedMember().getId()}">
-							<div class="flex gap-2">
-								<a
-									class="bg-orange-100 hover:bg-orange-300 text-orange-700 px-4 py-2 rounded-md transition"
-									href="modify?id=${article.getId()}">수정</a> <a
-									class="bg-orange-100 hover:bg-orange-300 text-orange-700 px-4 py-2 rounded-md transition"
-									href="delete?id=${article.getId()}&boardId=${article.getBoardId()}"
-									onclick="return confirm('정말로 삭제하시겠습니까?');">삭제</a>
-							</div>
-						</c:if>
-					</div>
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+				  <div class="bg-yellow-50 rounded-lg p-4 flex-1 overflow-y-auto max-h-150">
+				    <h4 class="font-bold text-orange-500 mb-2 flex items-center">
+				      <i class="fa-solid fa-circle-question pr-2"></i>면접정보
+				    </h4>
+				    <div class="mb-2">
+				      <div class="mb-2">
+				        <span class="font-semibold text-gray-700">면접 준비</span>
+				        <div class="rounded p-2 mt-1 text-gray-600 break-all w-full overflow-hidden">
+				          ${article.interviewMaterial}
+				        </div>
+				      </div>
+				      <div class="mb-2">
+				        <span class="font-semibold text-gray-700">면접 진행</span>
+				        <div class="rounded p-2 mt-1 text-gray-600 break-all w-full overflow-hidden">
+				          ${article.interviewProgress}
+				        </div>
+				      </div>
+				      <div class="mb-2">
+				        <span class="font-semibold text-gray-700">면접 마무리</span>
+				        <div class="rounded p-2 mt-1 text-gray-600 break-all w-full overflow-hidden">
+				          ${article.interviewCompleted}
+				        </div>
+				      </div>
+				    </div>
+				  </div>
+				  <div class="bg-green-50 rounded-lg p-4 flex-1 overflow-y-auto max-h-150">
+				    <h4 class="font-bold text-orange-500 mb-2 flex items-center">
+				      <i class="fa-solid fa-circle-question pr-2"></i>질의응답
+				    </h4>
+				    <div class="mb-2">
+				      <div class="mb-2">
+				        <span class="font-semibold text-gray-700">질의응답</span>
+				        <div class="rounded p-2 mt-1 text-gray-600 break-all w-full overflow-hidden">
+				          ${article.interviewQnA}
+				        </div>
+				      </div>
+				      <div class="mb-2">
+				        <span class="font-semibold text-gray-700">조언</span>
+				        <div class="rounded p-2 mt-1 text-gray-600 break-all w-full overflow-hidden">
+				          ${article.interviewTip}
+				        </div>
+				      </div>
+				    </div>
+				  </div>
 				</div>
-			</div>
-		</div>
-	</c:if>
+
+				<jsp:include page="/WEB-INF/jsp/common/replyBox.jsp">
+				    <jsp:param name="relTypeCode" value="${relTypeCode}" />
+				    <jsp:param name="relId" value="${relId}" />
+				</jsp:include>
+			</c:if>
 
 
 	<c:if test="${board.boardName eq '실습 및 봉사 리뷰'}">
-		<div class="container mx-auto max-w-4xl">
-			<div class="bg-white rounded-t-lg shadow-sm p-6 mb-1">
-				<div class="flex justify-between items-center">
-					<div class="text-2xl font-bold text-orange-400">${board.boardName}
-						후기</div>
-				</div>
-			</div>
-			<div class="bg-white rounded-2xl shadow-xl p-8 space-y-6">
-				<div class="flex justify-between text-sm text-gray-500">
-					<div class="truncate max-w-full sm:max-w-[45%]">번호:
-						${article.getId()}</div> 
-					<div class="truncate max-w-full pb-2 sm:max-w-[45%] text-right">
-					작성일 : ${article.getRegDate()}<br>
-					수정일 : ${article.getUpdateDate() }</div>
-				</div>
-				<div class="flex pb-3 items-center gap-4 text-gray-700 mb-4">
-				  <i class="fa-solid fa-location-dot text-orange-400"></i>
-				  <span>${article.city}</span>
-				  <i class="fa-solid fa-user text-orange-400"></i>
-				  <span>${article.institutionType}</span>
-				  <i class="fa-solid fa-briefcase text-orange-400"></i>
-				  <span>${article.workType}</span>
-				
-				  <div class="flex items-center gap-2 text-gray-500 ml-auto">
-				    <span>추천수</span>
-				    <span>
-				      <c:if test="${req.getLoginedMember().getId() == 0}">
-				        <span id="likePointCnt"></span>
-				      </c:if>
-				      <c:if test="${req.getLoginedMember().getId() != 0}">
-				        <button onclick="clickLikePoint();">
-				          <span id="likePointCnt"></span>
-				          <span id="likePointBtn"></span>
-				        </button>
-				      </c:if>
-				    </span>
-				    <span>조회수 ${article.getViews() }</span>
-				  </div>
-				 </div>
+		<jsp:include page="/WEB-INF/jsp/common/articleHeader.jsp" />
+		
 				<div class="flex items-center gap-4 border-b pb-4">
 					<i class="fa-solid fa-school fa-2xl text-orange-400 pr-4"></i> <span
 						class="font-bold text-2xl text-gray-800">${article.institutionName}</span>
@@ -336,9 +218,8 @@
 				<div class="grid grid-cols-2  mb-6">
 					<div
 						class="bg-white rounded-lg shadow p-4 flex flex-col items-center">
-						<i
-							class="fa-solid fa-star-half-stroke text-2xl text-orange-400 mb-2"></i>
-						<span class="text-gray-500 text-sm">실습 · 봉사 총 평점</span> <span
+						<i class="fa-solid fa-star-half-stroke text-2xl text-orange-400 mb-2"></i>
+					 <span class="text-gray-500 text-sm">실습 · 봉사 총 평점</span> <span
 							class="text-yellow-500 font-bold text-xl">${article.practiceScore}</span>
 					</div>
 					<div
@@ -349,55 +230,52 @@
 							class="text-yellow-500 font-bold text-xl">${article.educationalBackground}</span>
 					</div>
 				</div>
-				<div class="space-y-6">
-					<div class="bg-yellow-50 rounded-lg p-4">
-						<h4 class="font-bold text-orange-500 mb-2 flex items-center">
-							<i class="pr-3 fa-solid fa-circle-question pr-2"></i>기관의 분위기
-						</h4>
-						<div class="mb-2">
-							<span class="font-semibold text-gray-700">코멘트</span>
-							<div class=" rounded p-2 mt-1 text-gray-600">${article.practiceAtmosphere}</div>
-						</div>
-					</div>
-					<div class="bg-green-50 rounded-lg p-4">
-						<h4 class="font-bold text-orange-500 mb-2 flex items-center">
-							<i class="pr-3 fa-solid fa-circle-question pr-2"></i>세부 경험
-						</h4>
-						<div class="mb-2">
-							<span class="font-semibold text-gray-700">코멘트</span>
-							<div class=" rounded p-2 mt-1 text-gray-600">${article.practiceExperience}</div>
-						</div>
-					</div>
-					<div class="bg-blue-50 rounded-lg p-4">
-						<h4 class="font-bold text-orange-500 mb-2 flex items-center">
-							<i class="pr-3 fa-solid fa-circle-question pr-2"></i>기관 지원 및 소감
-						</h4>
-						<div class="mb-2">
-							<span class="font-semibold text-gray-700">코멘트</span>
-							<div class=" rounded p-2 mt-1 text-gray-600">${article.practiceReview}</div>
-						</div>
-					</div>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+				  <div class="bg-yellow-50 rounded-lg p-4 flex-1 overflow-y-auto max-h-150 ">
+				    <h4 class="font-bold text-orange-500 mb-2 flex items-center">
+				      <i class="pr-3 fa-solid fa-circle-question pr-2"></i>기관의 분위기
+				    </h4>
+				    <div class="mb-2">
+				      <span class="font-semibold text-gray-700">코멘트</span>
+				      <div class="rounded p-2 mt-1 text-gray-600 break-all w-full">
+				        <c:out value="${article.practiceAtmosphere}" />
+				      </div>
+				    </div>
+				  </div>
+				  <div class="bg-green-50 rounded-lg p-4 flex-1 overflow-y-auto max-h-150 ">
+				    <h4 class="font-bold text-orange-500 mb-2 flex items-center">
+				      <i class="pr-3 fa-solid fa-circle-question pr-2"></i>세부 경험
+				    </h4>
+				    <div class="mb-2">
+				      <span class="font-semibold text-gray-700">코멘트</span>
+				      <div class="rounded p-2 mt-1 text-gray-600 break-all w-full">
+				        <c:out value="${article.practiceExperience}" />
+				      </div>
+				    </div>
+				  </div>
+				  <div class="bg-blue-50 rounded-lg p-4 flex-1 overflow-y-auto max-h-150 ">
+				    <h4 class="font-bold text-orange-500 mb-2 flex items-center">
+				      <i class="pr-3 fa-solid fa-circle-question pr-2"></i>기관 지원 및 소감
+				    </h4>
+				    <div class="mb-2">
+				      <span class="font-semibold text-gray-700">코멘트</span>
+				      <div class="rounded p-2 mt-1 text-gray-600 break-all w-full">
+				        <c:out value="${article.practiceReview}" />
+				      </div>
+				    </div>
+				  </div>
 				</div>
-				<div class="flex justify-between mt-6">
-					<button
-						class="bg-orange-100 hover:bg-orange-300 text-orange-700 px-4 py-2 rounded-md transition"
-						onclick="history.back();">뒤로가기</button>
-					<c:if
-						test="${article.getMemberId() == req.getLoginedMember().getId()}">
-						<div class="flex gap-2">
-							<a
-								class="bg-orange-100 hover:bg-orange-300 text-orange-700 px-4 py-2 rounded-md transition"
-								href="modify?id=${article.getId()}">수정</a> <a
-								class="bg-orange-100 hover:bg-orange-300 text-orange-700 px-4 py-2 rounded-md transition"
-								href="delete?id=${article.getId()}&boardId=${article.getBoardId()}"
-								onclick="return confirm('정말로 삭제하시겠습니까?');">삭제</a>
-						</div>
-					</c:if>
-				</div>
-			</div>
-		</div>
-	</c:if>
-</section>
+
+				<jsp:include page="/WEB-INF/jsp/common/replyBox.jsp">
+				    <jsp:param name="relTypeCode" value="${relTypeCode}" />
+				    <jsp:param name="relId" value="${relId}" />
+				</jsp:include>
+				</c:if>
+			</section>
+
+<style>
+.hidden { display: none; }
+</style>
 
 <script>
 		$(function(){
@@ -442,6 +320,10 @@
 				}
 			})
 		}
+
+		
+
+		
 	</script>
 
 

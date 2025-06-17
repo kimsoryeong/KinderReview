@@ -57,4 +57,16 @@ public class Req {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	public boolean isLogined() {
+	    return loginedMember != null && loginedMember.getId() != 0;
+	}
+
+
+	 public LoginedMember getLoginedMember() {
+		    return loginedMember;
+		}
+
+	
 }

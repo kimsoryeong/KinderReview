@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <c:set var="pageTitle" value="${board.boardName} 게시판" />
 
@@ -35,14 +36,14 @@
     </div>
     
     <div class="flex flex-col md:flex-row gap-4">
-      <c:if test="${board.id == 1 or board.id == 2 or board.id == 3}">
+      <c:if test="${board.id >= 1 and board.id <= 9}">
         <aside class="w-full md:w-48 min-w-40 bg-white rounded-lg shadow p-4 h-fit mb-4 md:mb-0">
           <div class="font-bold text-lg mb-4 text-gray-800 border-b-2 border-orange-400 pb-2">${board.boardName}</div>
-          <c:if test="${board.id == 1}">
+          <c:if test="${board.id == 1 }">
             <a href="/usr/article/list?boardId=7" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">유치원 정보</a>
             <a href="/usr/article/list?boardId=8" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">어린이집 정보</a>
           </c:if>
-          <c:if test="${board.id == 2}">
+          <c:if test="${board.id == 2 or board.id == 4 or board.id == 5 or board.id == 6}">
             <a href="/usr/article/list?boardId=4" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">근무 리뷰</a>
             <a href="/usr/article/list?boardId=5" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">면접 리뷰</a>
             <a href="/usr/article/list?boardId=6" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">실습 및 봉사 리뷰</a>
@@ -50,6 +51,7 @@
         </aside>
       </c:if>
       <div class="flex-1 min-w-0">
+      <c:if test="${board.id == 4 or board.id == 5 or board.id == 6}">
         <div class="bg-white rounded-lg shadow p-4 mb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <form method="get" action="/usr/article/list" class="flex items-center gap-2">
             <input type="hidden" name="boardId" value="${board.id}" />
@@ -89,89 +91,100 @@
             <button class="bg-orange-100 hover:bg-orange-300 text-orange-700 px-4 py-2 rounded-md transition" type="submit">검색</button>
           </form>
         </div>
-
+		</c:if>
         <div class="px-2 bg-white rounded-lg shadow-sm divide-y-2 divide-gray-200">
-
-		<c:if test="${board.id == 2}">     
-		<div class="bg-white rounded-lg shadow p-4 mb-4">
-		  <div class="font-bold text-lg mb-3 flex items-center">
-		    <i class="fa-solid fa-briefcase mr-2 text-orange-400"></i>
-		    <span>근무 리뷰 인기글</span>
-		    <a href="/usr/article/list?boardId=4" class="ml-auto text-sm text-orange-400 hover:underline">더보기</a>
-		  </div>
-		  <c:forEach items="${workingTopArticles}" var="article">
-		    <div class="p-3 hover:bg-orange-50 transition">
-		      <a href="detail?id=${article.id}" class="font-medium text-gray-800 hover:text-orange-500">
+	<c:if test="${not empty board and board.id == 2}">
+	  <div class="bg-white rounded-lg shadow p-4 mb-4">
+	    <div class="font-bold text-lg mb-3 p-2 border-b-2 border-orange-300 flex items-center">
+	      <i class="fa-solid fa-briefcase mr-2 text-orange-400"></i>
+	      <span>근무 리뷰 인기글</span>
+	      <a href="/usr/article/list?boardId=4" class="ml-auto text-sm text-orange-400 hover:underline">더보기</a>
+	    </div>
+	    <c:forEach items="${workingTopArticles}" var="article">
+		  <div class="p-3 hover:bg-orange-50 border-b border-gray-300 transition">
+		    <div class="flex items-center mb-1">
+		      <span class="text-sm pr-2 font-bold">[${article.city}]</span>
+		      <i class="fa-solid fa-school pr-2"></i>
+		      <a href="detail?id=${article.id}" class="font-bold text-gray-800 hover:text-orange-500 mr-2">
 		        ${article.institutionName}
 		      </a>
-		      <div class="text-sm text-gray-500 mt-1 truncate">
-		        "${article.institutionComment}"
-		      </div>
-		      <div class="flex justify-between items-center mt-2">
-		        <span class="text-xs text-gray-400">${article.regDate}</span>
-		        <span class="text-yellow-500 font-bold flex items-center">
-		          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-		            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951.-69l1.07-3.292z" />
-		          </svg> ${article.getStar()}
-		        </span>
-		      </div>
+		      <span class="text-yellow-500 font-bold flex items-center text-sm">
+		        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+		          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+		        </svg> ${article.star}
+		      </span>
 		    </div>
-		  </c:forEach>
-		</div>
-		
-		<div class="bg-white rounded-lg shadow p-4 mb-4">
-		  <div class="font-bold text-lg mb-3 flex items-center">
-		    <i class="fa-solid fa-handshake mr-2 text-orange-400"></i>
-		    <span>면접 리뷰 인기글</span>
-		    <a href="/usr/article/list?boardId=5" class="ml-auto text-sm text-orange-400 hover:underline">더보기</a>
+		    <div class="text-sm text-gray-700 mt-1 truncate">
+		      "${article.interviewComment}"
+		    </div>
+		    <div class="flex justify-between items-center mt-2">
+		      <span class="text-xs text-gray-400">${article.regDate}</span>
+		    </div>
 		  </div>
-		    <c:forEach items="${interviewTopArticles}" var="article">
-		    <div class="p-3 hover:bg-orange-50 transition">
-		      <a href="detail?id=${article.id}" class="font-medium text-gray-800 hover:text-orange-500">
+		</c:forEach>
+	  </div>
+	
+	  <div class="bg-white rounded-lg shadow p-4 mb-4">
+	    <div class="font-bold text-lg mb-3 p-2 border-b-2 border-orange-300 flex items-center">
+	      <i class="fa-solid fa-handshake mr-2 text-orange-400"></i>
+	      <span>면접 리뷰 인기글</span>
+	      <a href="/usr/article/list?boardId=5" class="ml-auto text-sm text-orange-400 hover:underline">더보기</a>
+	    </div>
+	    <c:forEach items="${interviewTopArticles}" var="article">
+		  <div class="p-3 hover:bg-orange-50 border-b border-gray-300 transition">
+		    <div class="flex items-center mb-1">
+		      <span class="text-sm pr-2 font-bold">[${article.city}]</span>
+		      <i class="fa-solid fa-school pr-2"></i>
+		      <a href="detail?id=${article.id}" class="font-bold text-gray-800 hover:text-orange-500 mr-2">
 		        ${article.institutionName}
 		      </a>
-		      <div class="text-sm text-gray-500 mt-1 truncate">
-		        "${article.institutionComment}"
-		      </div>
-		      <div class="flex justify-between items-center mt-2">
-		        <span class="text-xs text-gray-400">${article.regDate}</span>
-		        <span class="text-yellow-500 font-bold flex items-center">
-		          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-		            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951.-69l1.07-3.292z" />
-		          </svg> ${article.getStar()}
-		        </span>
-		      </div>
+		      <span class="text-yellow-500 font-bold flex items-center text-sm">
+		        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+		          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+		        </svg> ${article.interviewScore}
+		      </span>
 		    </div>
-		  </c:forEach>
-		</div>
-		
-		<div class="bg-white rounded-lg shadow p-4 mb-4">
-		  <div class="font-bold text-lg mb-3 flex items-center">
-		    <i class="fa-solid fa-seedling mr-2 text-orange-400"></i>
-		    <span>실습 및 봉사 리뷰 인기글</span>
-		    <a href="/usr/article/list?boardId=6" class="ml-auto text-sm text-orange-400 hover:underline">더보기</a>
+		    <div class="text-sm text-gray-700 mt-1 truncate">
+		      "${article.interviewComment}"
+		    </div>
+		    <div class="flex justify-between items-center mt-2">
+		      <span class="text-xs text-gray-400">${article.regDate}</span>
+		    </div>
 		  </div>
-		
-		  <c:forEach items="${practiceTopArticles}" var="article">
-		    <div class="p-3 hover:bg-orange-50 transition">
-		      <a href="detail?id=${article.id}" class="font-medium text-gray-800 hover:text-orange-500">
+		</c:forEach>
+	  </div>
+	
+	  <div class="bg-white rounded-lg shadow p-4 mb-4">
+	    <div class="font-bold text-lg mb-3 flex p-2 border-b-2 border-orange-300 items-center">
+	      <i class="fa-solid fa-seedling mr-2 text-orange-400"></i>
+	      <span>실습 및 봉사 리뷰 인기글</span>
+	      <a href="/usr/article/list?boardId=6" class="ml-auto text-sm text-orange-400 hover:underline">더보기</a>
+	    </div>
+	    <c:forEach items="${practiceTopArticles}" var="article">
+		  <div class="p-3 hover:bg-orange-50 border-b border-gray-300 transition">
+		    <div class="flex items-center mb-1">
+		    <span class="text-sm pr-2 font-bold">[${article.city}]</span>
+		      <i class="fa-solid fa-school pr-2"></i>
+		      <a href="detail?id=${article.id}" class="font-bold text-gray-800 hover:text-orange-500 mr-2">
 		        ${article.institutionName}
 		      </a>
-		      <div class="text-sm text-gray-500 mt-1 truncate">
-		        "${article.institutionComment}"
-		      </div>
-		      <div class="flex justify-between items-center mt-2">
-		        <span class="text-xs text-gray-400">${article.regDate}</span>
-		        <span class="text-yellow-500 font-bold flex items-center">
-		          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-		            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951.-69l1.07-3.292z" />
-		          </svg> ${article.getStar()}
-		        </span>
-		      </div>
+		      <span class="text-yellow-500 font-bold flex items-center text-sm">
+		        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+		          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+		        </svg> ${article.practiceScore}
+		      </span>
 		    </div>
-		  </c:forEach>
-		</div>
-		</c:if>  
+		    <div class="text-sm text-gray-700 mt-1 truncate">
+		      "${article.practiceComment}"
+		    </div>
+		    <div class="flex justify-between items-center mt-2">
+		      <span class="text-xs text-gray-400">${article.regDate}</span>
+		    </div>
+		  </div>
+		</c:forEach>
+	  </div>
+	</c:if>
+	
 		
 		<c:if test="${board.id == 4 or board.id == 5 or board.id == 6 or board.id == 7 or board.id == 8}">
           <c:forEach items="${articles}" var="article">

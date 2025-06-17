@@ -3,6 +3,7 @@ package com.example.demo.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.ArticleDao;
@@ -11,9 +12,10 @@ import com.example.demo.dto.Article;
 @Service
 public class ArticleService {
 
-	private ArticleDao articleDao;
+	 private final ArticleDao articleDao;
 	 private final BoardService boardService;
 	 
+	 @Autowired
 	 public ArticleService(BoardService boardService, ArticleDao articleDao) {
 		this.articleDao = articleDao;
 		this.boardService = boardService;
@@ -104,7 +106,15 @@ public class ArticleService {
 		this.articleDao.increaseViews(id);
 	}
 
-	
+    public List<Article> getTopArticlesByViews(int boardId) {
+        return articleDao.getTopArticlesByViews(boardId);
+    }
+
+    public List<Article> getLatestArticlesByBoardId(int boardId, int limit) {
+        return articleDao.getLatestArticlesByBoardId(boardId, limit);
+    }
+
+
 
 	
 	

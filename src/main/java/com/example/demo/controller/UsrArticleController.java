@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.dto.Article;
 import com.example.demo.dto.Board;
+import com.example.demo.dto.Reply;
 import com.example.demo.dto.Req;
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.BoardService;
+import com.example.demo.service.ReplyService;
 import com.example.demo.util.Util;
 
 import jakarta.servlet.http.Cookie;
@@ -28,9 +30,11 @@ public class UsrArticleController {
 	private ArticleService articleService;
 	private BoardService boardService;
 	private Req req;
+	private ReplyService replyService;
 	
-	public UsrArticleController(ArticleService articleService, BoardService boardService, Req req) {
+	public UsrArticleController(ArticleService articleService, BoardService boardService, Req req, ReplyService replyService) {
 		this.articleService = articleService;
+		this.replyService = replyService;
 		this.boardService = boardService;
 		this.req = req;
 	}
@@ -168,32 +172,27 @@ public class UsrArticleController {
 			this.articleService.increaseViews(id);
 			Cookie cookie = new Cookie("viewedArticle_" + id, "true");
 			cookie.setMaxAge(60 * 30);
+			cookie.setPath("/");
 			response.addCookie(cookie);
 		}
 		
 	    Article article = articleService.getArticleById(id);
 	    Board board = boardService.getBoard(article.getBoardId());
-	    
 	   
-	    System.out.println("salaryScore: " + article.getSalaryScore());
-	    System.out.println("welfareScore: " + article.getWelfareScore());
-	    System.out.println("environmentScore: " + article.getEnvironmentScore());
-	    System.out.println("interviewScore: " + article.getInterviewScore());
-	    System.out.println("practiceScore: " + article.getPracticeScore());
-	    
 	    List<String> salaryOptions = articleService.getOptions(id, "salary");
 	    List<String> welfareOptions = articleService.getOptions(id, "welfare");
+	    List<Reply> replies = this.replyService.getReplies("article", id);
 
-	    
 	    salaryOptions = new ArrayList<>(new LinkedHashSet<>(salaryOptions));
 	    welfareOptions = new ArrayList<>(new LinkedHashSet<>(welfareOptions));
 
-	   
-	    
 	    article.calculateStar();
 
 	    model.addAttribute("article", article);
 	    model.addAttribute("board", board);
+	    model.addAttribute("replies", replies);
+	    model.addAttribute("relId", id);
+	    model.addAttribute("relTypeCode", "article");
 	    
 	    return "usr/article/detail";
 	}
@@ -241,11 +240,12 @@ public class UsrArticleController {
 	    model.addAttribute("city", city);
 	    model.addAttribute("keyword", keyword);
 	    model.addAttribute("searchType", searchType);
-
+	    model.addAttribute("workingTopArticles", articleService.getTopArticlesByViews(4));
+	    model.addAttribute("interviewTopArticles", articleService.getTopArticlesByViews(5));
+	    model.addAttribute("practiceTopArticles", articleService.getTopArticlesByViews(6));
+	    
 	    return "usr/article/list";
 	}
-
-
 
 	@GetMapping("/usr/article/modify")
 	public String modify(Model model, int id) {
