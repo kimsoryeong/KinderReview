@@ -2,16 +2,30 @@ DROP DATABASE IF EXISTS KinderReview;
 CREATE DATABASE KinderReview;
 USE KinderReview;
 
-
-CREATE TABLE `member`(
-    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT
-    , regDate DATETIME NOT NULL
-    , updateDate DATETIME NOT NULL
-    , loginId VARCHAR(50) NOT NULL UNIQUE
-    , loginPw VARCHAR(100) NOT NULL
-    , nickname VARCHAR(50) NOT NULL
+CREATE TABLE `file` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `regDate` DATETIME NOT NULL,
+  `originName` VARCHAR(255) NOT NULL,
+  `savedName` VARCHAR(255) NOT NULL,
+  `savedPath` VARCHAR(500) NOT NULL,
+  `relTypeCode` VARCHAR(50) DEFAULT NULL,
+  `relId` INT DEFAULT NULL
 );
-ALTER TABLE `member` ADD COLUMN authLevel INT UNSIGNED NOT NULL DEFAULT 1 COMMENT '관리자 = 0, 사용자 = 1';
+
+
+CREATE TABLE `member` (
+    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    loginId VARCHAR(50) NOT NULL UNIQUE,
+    loginPw VARCHAR(100) NOT NULL,
+    nickname VARCHAR(50) DEFAULT NULL,
+    institutionName VARCHAR(255) DEFAULT NULL,
+    institutionNumber VARCHAR(100) DEFAULT NULL,
+    institutionAccepted TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0=대기, 1=승인, 2=반려'
+    authLevel INT UNSIGNED NOT NULL DEFAULT 1 COMMENT '0=관리자, 1=개인회원, 2=기업회원'
+);
+
 
 CREATE TABLE article(
     id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -52,6 +66,7 @@ CREATE TABLE article(
     views INT UNSIGNED NOT NULL DEFAULT 0
 );
 
+ALTER TABLE article ADD COLUMN reviewStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0=대기, 1=승인, 2=반려';
 
 
 
@@ -99,6 +114,11 @@ SELECT * FROM likePoint;
 SELECT * FROM reply;
 SELECT * FROM article_option;
 
+INSERT INTO `member`
+(regDate, updateDate, loginId, loginPw, nickname, authLevel)
+VALUES
+(NOW(), NOW(), 'admin', 'admin', '관리자', 0);
+
 
 INSERT INTO likePoint
     SET memberId = 1
@@ -117,7 +137,7 @@ INSERT INTO board
     SET boardName = '기관 리뷰';
     
 INSERT INTO board
-    SET boardName = '지역별 커뮤니티';
+    SET boardName = '커뮤니티';
 
 INSERT INTO board
     SET boardName = '근무 리뷰';
@@ -137,6 +157,12 @@ INSERT INTO board
 INSERT INTO board
     SET boardName = '채용 공고';
     
+INSERT INTO board
+    SET boardName = '공지사항';
+
+INSERT INTO board
+    SET boardName = '자유게시판';
+        
 INSERT INTO article
     SET regDate = NOW()
         , updateDate = NOW()

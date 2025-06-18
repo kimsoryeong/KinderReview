@@ -1,0 +1,77 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ include file="../common/header.jsp" %>
+<%@ include file="/WEB-INF/jsp/common/header.jsp" %>
+<%@ include file="/WEB-INF/jsp/common/topbar.jsp" %>
+
+<section class="bg-gray-100 min-h-screen py-8">
+  <div class="container mx-auto max-w-4xl">
+    <div class="bg-white rounded-t-lg shadow p-6 mb-8 border-b-4 border-orange-400 flex justify-between items-center">
+      <h1 class="text-2xl font-extrabold text-orange-500">관리자 페이지</h1>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-6 mb-8 border-b-4 border-orange-400 ">
+    <div class="flex gap-6 mb-10">
+      <a href="/admin/review/list" 
+         class="flex-1 bg-gray-100 shadow rounded-lg px-6 py-8 text-gray-700 font-semibold
+                flex flex-col items-center space-y-3
+                transition-colors duration-300 hover:bg-orange-100 hover:text-orange-600">
+        <i class="fas fa-pen-to-square text-orange-400 text-4xl"></i>
+        <span class="text-lg">근무 리뷰 관리</span>
+        <p class="text-sm text-gray-500 text-center">대기 중인 근무 리뷰를 승인하거나 반려할 수 있습니다.</p>
+      </a>
+
+      <a href="/admin/institution/list" 
+         class="flex-1 bg-gray-100 shadow rounded-lg px-6 py-8 text-gray-700 font-semibold
+                flex flex-col items-center space-y-3
+                transition-colors duration-300 hover:bg-orange-100 hover:text-orange-600">
+        <i class="fas fa-school text-orange-400 text-4xl"></i>
+        <span class="text-lg">기관 가입 관리</span>
+        <p class="text-sm text-gray-500 text-center">가입 신청 대기 기관을 승인하거나 반려할 수 있습니다.</p>
+      </a>
+
+      <a href="/usr/article/list?boardId=10" 
+         class="flex-1 bg-gray-100 shadow rounded-lg px-6 py-8 text-gray-700 font-semibold
+                flex flex-col items-center space-y-3
+                transition-colors duration-300 hover:bg-orange-100 hover:text-orange-600">
+        <i class="fas fa-bullhorn text-orange-400 text-4xl"></i>
+        <span class="text-lg">공지사항 관리</span>
+        <p class="text-sm text-gray-500 text-center">공지사항 글을 작성, 수정 및 삭제 할 수 있습니다.</p>
+      </a>
+    </div>
+
+    <!-- 최신 가입 기관 리스트 -->
+    <div class="bg-white rounded-lg shadow p-6 mb-8">
+      <h2 class="text-xl font-bold text-orange-400 mb-4">최신 가입 신청 기관</h2>
+      <c:if test="${empty latestInstitutions}">
+        <p class="text-gray-500">신청 기관이 없습니다.</p>
+      </c:if>
+      <ul class="list-disc list-inside space-y-2">
+        <c:forEach var="inst" items="${latestInstitutions}">
+          <li>
+            <strong>${inst.institutionName}</strong> - 신청일: ${inst.regDate}
+          </li>
+        </c:forEach>
+      </ul>
+    </div>
+
+    <!-- 최신 리뷰 리스트 -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-xl font-bold text-orange-400 mb-4">최신 근무 리뷰 대기</h2>
+      <c:if test="${empty latestReviews}">
+        <p class="text-gray-500">대기 중인 리뷰가 없습니다.</p>
+      </c:if>
+      <ul class="list-disc list-inside space-y-2">
+        <c:forEach var="review" items="${latestReviews}">
+          <li>
+            <strong>${review.title}</strong> - 작성자: ${review.authorName} - 신청일: ${review.regDate}
+          </li>
+        </c:forEach>
+      </ul>
+    </div>
+  </div>
+  </div>
+</section>
+
+
+<%@ include file="../common/footer.jsp" %>
+

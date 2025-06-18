@@ -10,7 +10,8 @@
       <a href="/"><i class="text-orange-300 hover:text-orange-400 fa-solid fa-house fa-2xl"></i></a>
     </div>
     <div>
-      <form action="doWrite" method="post" id="reviewForm" autocomplete="off">
+    
+      <form action="doWrite" method="post" id="reviewForm" enctype="multipart/form-data" autocomplete="off">
         <input type="hidden" name="workType" value="${param.workType}" />
         <input type="hidden" name="city" value="${param.city}" />
         <input type="hidden" name="institutionType" value="${param.institutionType}" />
@@ -19,12 +20,13 @@
           <span class="px-2 items-center text-orange-500 font-bold text-3xl"><a href="/">KinderReview</a></span>
           <c:set var="boardId" value="${param.boardName}" />
           <span class="px-2 items-center font-bold text-2xl">${param.boardName} 작성</span>
+   		  <p class="text-sm pt-6 text-center text-gray-500 mb-4">작성하신 리뷰는 관리자 승인 후 게시판에 공개됩니다.</p>
         </div>
 
         <div class="rounded-2xl p-5">
-          <div class="px-10 pt-8 py-5">
+          <div class="px-10 pt-2 pb-4">
             <span class="font-bold pr-4 text-lg text-orange-400"><i class="fa-solid fa-school pr-4"></i>기관명</span>
-            <span><input style="width:73%;" class="input border border-gray-800" name="institutionName" type="text" required /></span>
+            <span><input style="width:75%;" class="input border border-gray-800" name="institutionName" type="text" required /></span>
           </div>
 
           <div class="px-10 py-4 option">
@@ -37,6 +39,26 @@
               <div class="error-message text-red-500 text-sm mt-1 hidden">한 줄 평을 10~20자 이내로 입력해주세요.</div>
             </div>
           </div>
+          
+          <div class="px-10 py-4 option">
+		  <div class="font-bold text-lg text-orange-400">
+		    <i class="fa-solid fa-file-image pr-2"></i>재직 증빙 자료
+		  </div>
+		  <div class="pt-3 pb-2 text-sm text-gray-700">
+		    재직을 증명할 수 있는 자료를 첨부해 주세요. (경력증명서, 급여명세서 등)
+		  </div>
+		
+		  <label for="workCertFile" class="inline-block cursor-pointer bg-orange-100 text-orange-700 font-semibold py-2 px-4 rounded hover:bg-orange-200 text-sm">
+		    파일 선택
+		  </label>
+		  <span id="fileName" class="ml-2 text-sm text-gray-600">선택된 파일 없음</span>
+		
+		  <input type="file" name="workCertFile" id="workCertFile" accept=".pdf,.jpg,.jpeg,.png" class="hidden" />
+		
+		  <div class="text-xs text-gray-400 mt-1">PDF, JPG, PNG 파일만 업로드 가능합니다.</div>
+		  <div class="error-message text-red-500 text-sm hidden mt-2">근무증거자료를 첨부해 주세요.</div>
+		</div>
+
 
           <div class="px-10  py-4">
 		  <div class="font-bold text-lg text-orange-400"><i class="fa-regular fa-pen-to-square pr-5"></i>기관의 특징</div>
@@ -140,6 +162,10 @@
       </form>
     </div>
   </div>
+
+
+
+  
 </section>
 
 <style>
@@ -163,6 +189,7 @@
     padding-top: 0.2rem;
     padding-bottom: 0.2rem;
   }
+ 
 </style>
 
 <script>
@@ -233,7 +260,7 @@ $(function () {
   }
 
   $(document).ready(function () {
-    const $salaryTab = $(".tab-title:contains('급여')");
+    
     const targetSelector = $salaryTab.data("target");
     $(".tab-content").hide();
     $(targetSelector).slideDown(0);
@@ -258,13 +285,34 @@ $(function () {
 
     checkTabErrors();
 
+    // 근무증거자료 첨부 여부 확인
+    const fileInput = $("#workCertFile")[0];
+    const fileAttached = fileInput && fileInput.files && fileInput.files.length > 0;
+    const $fileError = $("#workCertFile").siblings(".error-message");
+
+    if (!fileAttached) {
+      $fileError.removeClass("hidden");
+    } else {
+      $fileError.addClass("hidden");
+    }
+
     var $firstError = $(".error-message:not(.hidden), .comment-error-message:not(.hidden)").first();
+    // 가장 첫 번째 에러요소 다시 가져오기 (파일 에러 포함해서)
+    $firstError = $(".error-message:not(.hidden), .comment-error-message:not(.hidden)").first();
+
     if($firstError.length > 0){
       $('html, body').animate({ scrollTop: ($firstError.offset().top - 100) }, 300);
       e.preventDefault();
     }
   });
 });
+
+//파일 선택 시 이름 보여주기
+$("#workCertFile").on("change", function () {
+  const fileName = this.files.length > 0 ? this.files[0].name : "선택된 파일 없음";
+  $("#fileName").text(fileName);
+});
+
 </script>
 
 

@@ -1,0 +1,54 @@
+package com.example.demo.service;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.example.demo.dao.FileDao;
+import com.example.demo.dto.FileDto;
+
+@Service
+public class FileService {
+
+	@Value("${custom.file.dir}")
+	private String fileDir;
+
+	private final FileDao fileDao;
+
+	public FileService(FileDao fileDao) {
+		this.fileDao = fileDao;
+	}
+
+	public void saveFile(MultipartFile file, String relTypeCode, int relId) throws IOException {
+		String orgName = file.getOriginalFilename();
+		String uuid = UUID.randomUUID().toString();
+		String extension = orgName.substring(orgName.lastIndexOf("."));
+		String savedName = uuid + extension;
+		String savedPath = fileDir + "/" + savedName;
+
+		// 파일 DB 기록
+		FileDto fileDto = new FileDto();
+		fileDto.setOriginName(orgName);
+		fileDto.setSavedName(savedName);
+		fileDto.setSavedPath(savedPath);
+		fileDto.setRelTypeCode(relTypeCode);
+		fileDto.setRelId(relId);
+		fileDao.insertFile(fileDto);
+
+		// 실제 파일 저장
+		file.transferTo(new File(savedPath));
+	}
+
+	public List<FileDto> getFilesByRel(String relTypeCode, int relId) {
+		return fileDao.getFilesByRel(relTypeCode, relId);
+	}
+
+	public FileDto getFileById(int id) {
+		return fileDao.getFileById(id);
+	}
+}

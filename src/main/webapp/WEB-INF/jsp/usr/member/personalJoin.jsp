@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<c:set var="pageTitle" value="회원가입" />
+<c:set var="pageTitle" value="개인회원가입" />
 <%@ include file="/WEB-INF/jsp/common/header.jsp" %> 
 
 <section class="h-screen flex items-center pt-10 justify-center bg-gray-100">
@@ -15,7 +15,7 @@
 			<p class="text-sm text-gray-500 mt-1">회원가입 후 이용하세요</p>
 		</div>
 
-		<form action="doJoin" method="post" onsubmit="return joinFormChk(this);">
+		<form action="/usr/member/doPersonalJoin" method="post" onsubmit="return joinFormChk(this);">
 			<div class="mb-4">
 				<label class="block text-sm font-medium text-gray-700 mb-1">아이디</label>
 				<div class="joininput flex items-center border border-gray-300 rounded-md px-3 py-2">

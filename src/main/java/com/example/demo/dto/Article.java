@@ -54,6 +54,7 @@ public class Article {
     private String practiceReview;
     private int likePoint;
 	private int views;
+	private int reviewStatus;
 
     public void setWelfareOptionsStr(String welfareOptionsStr) {
         this.welfareOptionsStr = welfareOptionsStr;

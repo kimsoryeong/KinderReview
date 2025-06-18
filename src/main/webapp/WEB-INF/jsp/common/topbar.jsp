@@ -23,7 +23,19 @@
       </ul>
     </li>
     <li class="hover:underline underline-offset-8"><a class="flex h-full px-3 items-center" href="/usr/article/list?boardId=9">채용공고</a></li>
-    <li class="hover:underline underline-offset-8"><a class="flex h-full px-3 items-center" href="/usr/article/list?boardId=3">지역별 커뮤니티</a></li>
+    <li class="relative group">
+      <a class="flex h-full px-3 items-center hover:underline underline-offset-8" href="/usr/article/list?boardId=3">커뮤니티</a>
+      <ul class="absolute left-0 top-full z-20 hidden group-hover:block bg-white rounded-box w-56 shadow-lg">
+        <li><a class="block px-4 py-2 hover:bg-orange-100 rounded-box" href="/usr/article/list?boardId=11">자유게시판</a></li>
+        <li><a class="block px-4 py-2 hover:bg-orange-100 rounded-box" href="/usr/article/list?boardId=10">공지사항</a></li>
+      </ul>
+    </li>
+    <c:if test="${req.getLoginedMember() != null and req.getLoginedMember().getId() != 0 and req.getLoginedMember().getAuthLevel() == 0}">
+    <li class="hover:underline underline-offset-8">
+        <a class="flex h-full px-3 items-center" href="/admin/dashboard">관리자</a>
+    </li>
+</c:if>
+
   </ul>
   <div class="grow"></div>
   <ul class="flex">

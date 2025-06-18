@@ -10,33 +10,35 @@
 <section class="bg-gray-100 min-h-screen py-8">
   <div class="container mx-auto max-w-4xl">
     <div class="bg-white rounded-t-lg shadow p-6 mb-4 border-b-4 border-orange-300 flex justify-between items-center">
-      <div>
-        <h1 class="text-2xl font-bold text-orange-400">${board.boardName}</h1>
-        <p class="text-sm text-gray-500 mt-1">총 <span class="font-semibold text-orange-400">${articlesCnt}</span>개의 게시글</p>
-      </div>
-      <c:set var="isLogined" value="${req.getLoginedMember().getId() != 0}" />
-      <button
-        class="bg-orange-400 hover:bg-orange-500 text-white px-5 py-2 rounded-lg font-semibold shadow transition"
-        onclick="
-          if (!${isLogined}) {
-            alert('로그인 후 이용해주세요.');
-          } else {
-            var authLevel = ${req.getLoginedMember().getAuthLevel()};
-            var boardId = ${board.getId()};
-            if (authLevel == 0 || boardId != 1) {
-              location.href = '/usr/article/mainWrite?boardId=${board.getId()}';
-            } else {
-              alert('권한이 없습니다.');
-            }
-          }
-        "
-      >
-        글쓰기
-      </button>
-    </div>
+	  <div>
+	    <h1 class="text-2xl font-bold text-orange-400">${board.boardName}</h1>
+	    <p class="text-sm text-gray-500 mt-1">총 <span class="font-semibold text-orange-400">${articlesCnt}</span>개의 게시글</p>
+	  </div>
+	
+	  <c:set var="isLogined" value="${req.getLoginedMember().getId() != 0}" />
+	  <c:set var="authLevel" value="${req.getLoginedMember().getAuthLevel()}" />
+	  <c:set var="boardId" value="${board.getId()}" />
+	
+	  <c:if test="${isLogined && (authLevel == 0 || boardId != 10)}">
+	    <button
+	      class="bg-orange-400 hover:bg-orange-500 text-white px-5 py-2 rounded-lg font-semibold shadow transition"
+	      onclick="location.href='/usr/article/mainWrite?boardId=${boardId}'">
+	      글쓰기
+	    </button>
+	  </c:if>
+	
+	  <c:if test="${isLogined && boardId == 10 && authLevel != 0}">
+	    <button
+	      class="bg-gray-300 text-white px-5 py-2 rounded-lg font-semibold shadow cursor-not-allowed"
+	      disabled>
+	      관리자만 작성 가능
+	    </button>
+	  </c:if>
+	</div>
+
     
     <div class="flex flex-col md:flex-row gap-4">
-      <c:if test="${board.id >= 1 and board.id <= 9}">
+      <c:if test="${board.id >= 1 and board.id <= 11}">
         <aside class="w-full md:w-48 min-w-40 bg-white rounded-lg shadow p-4 h-fit mb-4 md:mb-0">
           <div class="font-bold text-lg mb-4 text-gray-800 border-b-2 border-orange-400 pb-2">${board.boardName}</div>
           <c:if test="${board.id == 1 }">
@@ -47,6 +49,10 @@
             <a href="/usr/article/list?boardId=4" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">근무 리뷰</a>
             <a href="/usr/article/list?boardId=5" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">면접 리뷰</a>
             <a href="/usr/article/list?boardId=6" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">실습 및 봉사 리뷰</a>
+          </c:if>
+          <c:if test="${board.id == 3  or board.id == 10 or board.id == 11}">
+            <a href="/usr/article/list?boardId=10" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">공지사항</a>
+            <a href="/usr/article/list?boardId=11" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">자유게시판</a>
           </c:if>
         </aside>
       </c:if>
@@ -186,7 +192,7 @@
 	</c:if>
 	
 		
-		<c:if test="${board.id == 4 or board.id == 5 or board.id == 6 or board.id == 7 or board.id == 8}">
+		<c:if test="${board.id == 4 or board.id == 5 or board.id == 6 or board.id == 7 or board.id == 8 or board.id == 9 or board.id == 10 or board.id == 11}">
           <c:forEach items="${articles}" var="article">
             <div class="p-5 hover:bg-orange-50 transition">
               <div class="flex items-center">

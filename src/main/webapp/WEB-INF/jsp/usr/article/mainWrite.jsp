@@ -5,12 +5,29 @@
 <c:set var="pageTitle" value="기관리뷰 작성" />
 <%@ include file="/WEB-INF/jsp/common/header.jsp" %> 
 
-	<section class="flex items-center justify-center bg-gray-100 h-screen">
-		<div class="bg-white mx-auto  max-w-2xl shadow-xl rounded-xl mb-20 h-fit">
+	<section class="flex items-center pt-2 justify-center bg-gray-100 min-h-screen">
+		<div class="bg-white mx-auto  max-w-2xl shadow-xl rounded-xl mb-20 ">
 		<div class="flex justify-end pr-5 pt-2 text-orange-300 hover:text-orange-400 items-center h-15">
 			<a href="/usr/article/list?boardId=2"><i class="fa-solid fa-arrow-right-from-bracket fa-2xl"></i></a>
 		</div>
+	    <aside id="noticeBox" class="bg-gray-50 border-l-4 shadow border-orange-400 text-orange-800 p-4 rounded-md mx-6 mt-2 mb-4 relative">
+	      <button onclick="document.getElementById('noticeBox').style.display='none'"
+	        class="absolute top-2 right-2 text-orange-600 hover:text-orange-800">
+	        <i class="fa-solid fa-xmark"></i>
+	      </button>
+	      <h2 class="font-bold text-lg mb-2 text-orange-700">후기 작성 전 유의사항</h2>
+	      <ul class="list-disc list-inside text-sm space-y-1">
+	        <li>본 게시판은 유아교육기관에 대한 <strong>개인의 근무 경험 공유</strong> 공간입니다.</li>
+	        <li><strong>익명으로 운영되며, 작성자의 개인정보는 공개되지 않습니다.</strong></li>
+	        <li>후기는 <strong>사실에 기반하여 신중하게 작성</strong>해 주세요.</li>
+	        <li><strong>허위사실 작성, 명예훼손</strong> 시 민형사상 책임이 따를 수 있습니다.</li>
+	        <li>작성자는 본 고지에 동의한 것으로 간주됩니다.</li>
+	      </ul>
+	    </aside>
 			<form id="reviewForm" onsubmit="return false;">
+			
+			
+			
 			<div class=" rounded-2xl mx-auto text-center w-full max-w-2xl px-4">
 				<div class="">
 				<span class="px-2 items-center text-orange-500 font-bold text-3xl">KinderReview</span>

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -10,13 +11,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dto.Article;
 import com.example.demo.dto.Board;
+import com.example.demo.dto.Member;
 import com.example.demo.dto.Reply;
 import com.example.demo.dto.Req;
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.BoardService;
+import com.example.demo.service.FileService;
 import com.example.demo.service.ReplyService;
 import com.example.demo.util.Util;
 
@@ -31,12 +35,14 @@ public class UsrArticleController {
 	private BoardService boardService;
 	private Req req;
 	private ReplyService replyService;
+	private final FileService fileService;
 	
-	public UsrArticleController(ArticleService articleService, BoardService boardService, Req req, ReplyService replyService) {
+	public UsrArticleController(ArticleService articleService, BoardService boardService, Req req, ReplyService replyService, FileService fileService) {
 		this.articleService = articleService;
 		this.replyService = replyService;
 		this.boardService = boardService;
 		this.req = req;
+		this.fileService = fileService;
 	}
 	
 	@GetMapping("/usr/article/mainWrite")
@@ -78,8 +84,9 @@ public class UsrArticleController {
 	    @RequestParam(required = false) String educationalBackground,
 	    @RequestParam(required = false) String practiceAtmosphere,
 	    @RequestParam(required = false) String practiceExperience,
-	    @RequestParam(required = false) String practiceReview
-	) {
+	    @RequestParam(required = false) String practiceReview,
+	    @RequestParam(required = false) MultipartFile workCertFile
+	) throws IOException {
 	    int memberId = this.req.getLoginedMember().getId();
 
 	    Article article = new Article();
@@ -128,9 +135,19 @@ public class UsrArticleController {
 	        article.setPracticeReview(practiceReview);
 	    }
 
+	    // ★ 1회만 호출!
 	    int articleId = this.articleService.writeArticle(article);
+
+	    // 근무 리뷰일 경우 첨부파일 저장
+	    if ("근무 리뷰".equals(boardName) && workCertFile != null && !workCertFile.isEmpty()) {
+	        fileService.saveFile(workCertFile, "article", articleId);
+	    }
+	    article.setReviewStatus(0); // 승인 대기 상태로 저장
+
+
 	    return Util.jsReplace("게시글 작성!", String.format("detail?id=%d", articleId));
 	}
+
 
 
 
@@ -145,10 +162,8 @@ public class UsrArticleController {
 	}
 	
 	@GetMapping("/usr/article/workingWrite")
-	public String workingWrite(Model model) {
-	    Article article = new Article();  
-	    model.addAttribute("article", article);  
-
+	public String workingWrite(HttpServletRequest req, Model model) {
+	    model.addAttribute("article", new Article());
 	    return "usr/article/workingWrite";
 	}
 

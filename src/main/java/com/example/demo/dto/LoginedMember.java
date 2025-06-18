@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginedMember {
-	private int id;
-	private int authLevel;
-	public String getNickname() {
-		return null;
-	}
+    private int id;
+    private int authLevel;
+    private String nickname;  // 닉네임 필드 추가
+
+    // 기존 getNickname() 제거해도 됨, Lombok이 자동 생성해줌
 }
