@@ -18,7 +18,7 @@ public interface MemberDao {
 			, loginId = #{loginId}
 			, loginPw = #{loginPw}
 			, nickname = #{nickname}
-			, authLevel = 1  -- 개인회원 권한
+			, authLevel = 1  
 	""")
 	void joinPersonalMember(@Param("loginId") String loginId, @Param("loginPw") String loginPw, @Param("nickname") String nickname);
 	
@@ -32,7 +32,7 @@ public interface MemberDao {
 	            , institutionNumber = #{institutionNumber}
 	            , authLevel = 2
 	    """)
-	    @Options(useGeneratedKeys = true, keyProperty = "id")  // 자동 PK 채우기
+	    @Options(useGeneratedKeys = true, keyProperty = "id") 
 	    void joinInstitutionMember(Member member);
 	
 	@Select("""
@@ -46,5 +46,13 @@ public interface MemberDao {
 		WHERE nickname = #{nickname}
 	""")
 	Member getMemberBynickname(String nickname);
+	
+	@Select("""
+		    SELECT *
+		    FROM member
+		    WHERE id = #{id}
+		""")
+		Member getMemberById(@Param("id") int id);
+
 
 }

@@ -14,7 +14,6 @@ public class MemberService {
 		this.memberDao = memberDao;
 	}
 
-	// 개인회원 가입
 	public void joinPersonalMember(String loginId, String loginPw, String nickname) {
 		memberDao.joinPersonalMember(loginId, loginPw, nickname);
 	}
@@ -40,6 +39,10 @@ public class MemberService {
 
 	public Member getMemberBynickname(String nickname) {
 		return this.memberDao.getMemberBynickname(nickname);
+	}
+
+	public Member getMemberById(int id) {
+		return this.memberDao.getMemberById(id);
 	}
 
 }

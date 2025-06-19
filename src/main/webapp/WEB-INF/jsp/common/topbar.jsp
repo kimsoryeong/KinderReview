@@ -32,9 +32,14 @@
     </li>
     <c:if test="${req.getLoginedMember() != null and req.getLoginedMember().getId() != 0 and req.getLoginedMember().getAuthLevel() == 0}">
     <li class="hover:underline underline-offset-8">
-        <a class="flex h-full px-3 items-center" href="/admin/dashboard">관리자</a>
+        <a class="flex h-full px-3 items-center" href="/admin/dashboard">관리자 Page</a>
     </li>
-</c:if>
+	</c:if>
+    <c:if test="${req.getLoginedMember() != null and req.getLoginedMember().getAuthLevel() == 1 or req.getLoginedMember().getAuthLevel() == 2}">
+    <li class="hover:underline underline-offset-8">
+        <a class="flex h-full px-3 items-center" href="/usr/member/myPage">My Page</a>
+    </li>
+	</c:if>
 
   </ul>
   <div class="grow"></div>

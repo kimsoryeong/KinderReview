@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.ReplyDao;
+import com.example.demo.dto.Article;
 import com.example.demo.dto.Reply;
 
 @Service
@@ -23,4 +24,11 @@ public class ReplyService {
     public List<Reply> getReplies(String relTypeCode, int relId) {
         return replyDao.getReplies(relTypeCode, relId);
     }
+    
+    public List<Reply> getReplyByMemberId(int memberId) {
+    	return replyDao.getReplyByMemberId(memberId, "article");
+    }
+
+
+	
 }

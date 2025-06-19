@@ -56,7 +56,7 @@
 		  <input type="file" name="workCertFile" id="workCertFile" accept=".pdf,.jpg,.jpeg,.png" class="hidden" />
 		
 		  <div class="text-xs text-gray-400 mt-1">PDF, JPG, PNG 파일만 업로드 가능합니다.</div>
-		  <div class="error-message text-red-500 text-sm hidden mt-2">근무증거자료를 첨부해 주세요.</div>
+		  <div class="error-message text-red-500 text-sm hidden mt-2">재직 증빙 자료를 첨부해 주세요.</div>
 		</div>
 
 
@@ -194,7 +194,7 @@
 
 <script>
 $(function () {
-  var isStarClicked = { overall: false, salary: false, welfare: false, env: false };
+  const isStarClicked = { overall: false, salary: false, welfare: false, env: false };
 
   $(".review-form .star a").click(function (e) {
     e.preventDefault();
@@ -234,7 +234,7 @@ $(function () {
     const max = isInstitution ? 20 : 50;
     const hasError = len < min || len > max;
 
-    $(this).siblings(".comment-error-message, .error-message")
+    $(this).closest("div").find(".comment-error-message, .error-message")
            .toggleClass("hidden", !hasError);
 
     checkTabErrors();
@@ -259,17 +259,19 @@ $(function () {
     });
   }
 
-  $(document).ready(function () {
-    
-    const targetSelector = $salaryTab.data("target");
-    $(".tab-content").hide();
-    $(targetSelector).slideDown(0);
-    $(".tab-title").removeClass("border-orange-400 text-orange-400  bg-white");
-    $salaryTab.addClass("border-orange-400 text-orange-400 ");
-  });
+ 
 
+  const checkComment = (selector, min, max) => {
+    const val = $(selector).val().trim();
+    const $error = $(selector).closest("div").find(".comment-error-message");
+    if (val.length < min || val.length > max) {
+      $error.removeClass("hidden");
+    } else {
+      $error.addClass("hidden");
+    }
+  };
 
-  $("#reviewForm").on("submit", function(e){
+  $("#reviewForm").on("submit", function(e) {
     if ($("#overall-star .star .on").length === 0) {
       $("#overall-star").parent().find(".error-message").removeClass("hidden");
     }
@@ -283,9 +285,13 @@ $(function () {
       $("#work-section .error-message").first().removeClass("hidden");
     }
 
+    checkComment("input[name='salaryComment']", 5, 50);
+    checkComment("input[name='welfareComment']", 5, 50);
+    checkComment("input[name='commuteTimeComment']", 5, 50);
+    checkComment("input[name='environmentComment']", 5, 50);
+
     checkTabErrors();
 
-    // 근무증거자료 첨부 여부 확인
     const fileInput = $("#workCertFile")[0];
     const fileAttached = fileInput && fileInput.files && fileInput.files.length > 0;
     const $fileError = $("#workCertFile").siblings(".error-message");
@@ -296,24 +302,20 @@ $(function () {
       $fileError.addClass("hidden");
     }
 
-    var $firstError = $(".error-message:not(.hidden), .comment-error-message:not(.hidden)").first();
-    // 가장 첫 번째 에러요소 다시 가져오기 (파일 에러 포함해서)
-    $firstError = $(".error-message:not(.hidden), .comment-error-message:not(.hidden)").first();
-
-    if($firstError.length > 0){
-      $('html, body').animate({ scrollTop: ($firstError.offset().top - 100) }, 300);
+    const $firstError = $(".error-message:not(.hidden), .comment-error-message:not(.hidden)").first();
+    if ($firstError.length > 0) {
+      $("html, body").animate({ scrollTop: ($firstError.offset().top - 100) }, 300);
       e.preventDefault();
     }
   });
-});
 
-//파일 선택 시 이름 보여주기
-$("#workCertFile").on("change", function () {
-  const fileName = this.files.length > 0 ? this.files[0].name : "선택된 파일 없음";
-  $("#fileName").text(fileName);
+  $("#workCertFile").on("change", function () {
+    const fileName = this.files.length > 0 ? this.files[0].name : "선택된 파일 없음";
+    $("#fileName").text(fileName);
+  });
 });
-
 </script>
+
 
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp" %>

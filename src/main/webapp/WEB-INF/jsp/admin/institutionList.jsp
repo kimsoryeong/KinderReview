@@ -17,18 +17,28 @@
           <p><strong>사업자등록번호:</strong> ${member.institutionNumber}</p>
 
           <c:if test="${not empty member.workChkFile}">
-            <p><strong>파일:</strong> <a class="text-blue-500 underline" href="${member.workChkFile}" target="_blank">확인하기</a></p>
+            <p><strong>사업자등록증:</strong> 
+              <a class="text-blue-500 underline" href="${member.workChkFile}" target="_blank">바로보기</a>
+            </p>
           </c:if>
 
-          <form action="/admin/institution/approve" method="post" class="inline-block mr-2">
-            <input type="hidden" name="memberId" value="${member.id}" />
-            <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">승인</button>
-          </form>
+          <div class="flex items-center space-x-2 mt-4">
+            <form action="/admin/institution/approve" method="post">
+              <input type="hidden" name="memberId" value="${member.id}" />
+              <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                승인
+              </button>
+            </form>
 
-          <form action="/admin/institution/reject" method="post" class="inline-block">
-            <input type="hidden" name="memberId" value="${member.id}" />
-            <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">반려</button>
-          </form>
+            <form action="/admin/institution/reject" method="post" class="flex items-center space-x-2">
+              <input type="hidden" name="memberId" value="${member.id}" />
+              <input type="text" name="rejectReason" placeholder="반려 사유" required
+                     class="border rounded px-2 py-1" />
+              <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                반려
+              </button>
+            </form>
+          </div>
         </div>
       </c:forEach>
     </div>

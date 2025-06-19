@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import com.example.demo.dto.FileDto;
@@ -32,12 +33,6 @@ public interface FileDao {
 	@Select("SELECT LAST_INSERT_ID()")
 		int getLastInsertId();
 
-	@Select("""
-			SELECT *
-			FROM `file`
-			WHERE relTypeCode = #{relTypeCode} AND relId = #{relId}
-			""")
-	List<FileDto> getFilesByRel(String relTypeCode, int relId);
 
 	@Select("""
 			SELECT *
@@ -45,5 +40,13 @@ public interface FileDao {
 			WHERE id = #{id}
 			""")
 	FileDto getFileById(int id);
+	
+	@Select("""
+		    SELECT * FROM file
+		    WHERE relTypeCode = #{relTypeCode}
+		    AND relId = #{relId}
+		""")
+		List<FileDto> getFilesByRel(@Param("relTypeCode") String relTypeCode, @Param("relId") int relId);
+
 }
 

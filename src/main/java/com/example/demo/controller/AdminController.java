@@ -9,10 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.dto.Article;
+import com.example.demo.dto.FileDto;
 import com.example.demo.dto.Member;
 import com.example.demo.service.AdminService;
+import com.example.demo.service.FileService;
 import com.example.demo.util.Util;
 
 
@@ -22,6 +25,7 @@ public class AdminController {
 
 	@Autowired
     private AdminService adminService;
+	private FileService fileService;
 
     @GetMapping("/dashboard")
     public String adminDashboard() {
@@ -38,13 +42,13 @@ public class AdminController {
     @PostMapping("/institution/approve")
     public String approveInstitution(@RequestParam int memberId) {
         adminService.approveInstitution(memberId);
-        return Util.jsReplace("기관 가입 승인!", "/admin/institution/list");
+        return Util.jsReplace("기관 가입이 승인 처리 되었습니다", "/admin/institution/list");
     }
 
     @PostMapping("/institution/reject")
     public String rejectInstitution(@RequestParam int memberId) {
         adminService.rejectInstitution(memberId);
-        return Util.jsReplace("기관 가입 반려!", "/admin/institution/list");
+        return Util.jsReplace("기관 가입이 반려 처리 되었습니다", "/admin/institution/list");
     }
 
     @GetMapping("/review/list")
@@ -55,14 +59,34 @@ public class AdminController {
     }
 
     @PostMapping("/review/approve")
+    @ResponseBody
     public String approveReview(@RequestParam int articleId) {
         adminService.approveReview(articleId);
-        return Util.jsReplace("리뷰 승인 완료!", "/admin/review/list");
+        return Util.jsReplace("리뷰가 승인 처리 되었습니다", "/admin/review/list");
     }
 
     @PostMapping("/review/reject")
-    public String rejectReview(@RequestParam int articleId) {
-        adminService.rejectReview(articleId);
-        return Util.jsReplace("리뷰 반려 완료!", "/admin/review/list");
+    @ResponseBody
+    public String rejectReview(@RequestParam int articleId, @RequestParam String rejectReason) {
+        adminService.rejectReview(articleId, rejectReason);
+        return Util.jsReplace("리뷰가 반려 처리 되었습니다", "/admin/review/list");
     }
+    
+    @GetMapping("/admin/review/detail")
+    public String adminReviewDetail(@RequestParam int id, Model model) {
+        Article article = adminService.getArticleById(id);
+        if (article == null) {
+            return "redirect:/admin/review/list";
+        }
+
+        List<FileDto> files = fileService.getFilesByRel("article", id);
+
+        model.addAttribute("article", article);
+        model.addAttribute("files", files);
+
+        return "article/detail";
+    }
+
+
+
 }

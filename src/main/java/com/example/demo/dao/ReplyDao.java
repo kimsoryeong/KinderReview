@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import com.example.demo.dto.Article;
 import com.example.demo.dto.Reply;
 
 @Mapper
@@ -34,4 +36,16 @@ public interface ReplyDao {
         ORDER BY regDate ASC
         """)
     List<Reply> getReplies(String relTypeCode, int relId);
+
+    
+    @Select("""
+		    SELECT *
+		    FROM reply
+		    WHERE memberId = #{memberId}
+		    AND relTypeCode = #{relTypeCode}
+		    ORDER BY regDate DESC
+		""")
+	List<Reply> getReplyByMemberId(@Param("memberId") int memberId, @Param("relTypeCode") String relTypeCode) ;
+
+
 }

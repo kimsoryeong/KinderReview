@@ -33,6 +33,7 @@ public interface AdminDao {
         SELECT *
         FROM article
         WHERE reviewStatus = 0
+        AND boardName = '근무 리뷰'
         ORDER BY regDate DESC
     """)
     List<Article> findPendingReviews();
@@ -41,8 +42,17 @@ public interface AdminDao {
     @Update("""
         UPDATE article
         SET reviewStatus = #{status},
+    		rejectReason = #{rejectReason},
             updateDate = NOW()
         WHERE id = #{articleId}
     """)
-    void updateReviewStatus(@Param("articleId") int articleId, @Param("status") int status);
+    void updateReviewStatus(@Param("articleId") int articleId, @Param("status") int status,@Param("rejectReason") String rejectReason);
+
+    @Select("""
+    	    SELECT *
+    	    FROM article
+    	    WHERE id = #{id}
+    	""")
+    	Article findArticleById(@Param("id") int id);
+
 }

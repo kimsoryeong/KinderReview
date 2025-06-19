@@ -13,14 +13,12 @@
         </div>
 
         <div class="flex justify-around mb-8 space-x-4">
-            <!-- 개인회원 버튼 -->
             <button id="btnPersonal" class="w-1/2 pb-10 bg-orange-400 hover:bg-orange-500 text-white font-semibold py-4 rounded-md transition">
                 <i class="fa-solid fa-user text-4xl pt-10"></i>
                 <br><br>
                 개인회원 가입
             </button>
-            <!-- 기업회원 버튼 -->
-            <button id="btnCompany" class="w-1/2 pb-10 bg-orange-400 hover:bg-orange-500 text-white font-semibold py-4 rounded-md transition">
+            <button id="btnInstitution" class="w-1/2 pb-10 bg-orange-400 hover:bg-orange-500 text-white font-semibold py-4 rounded-md transition">
                 <i class="fa-solid fa-school text-4xl pt-10"></i>
                 <br><br>
                 기업회원 가입
@@ -31,11 +29,11 @@
 
 <script>
     document.getElementById('btnPersonal').addEventListener('click', function() {
-        location.href = '/usr/member/personalJoin';  // 개인회원 가입 페이지 주소
+        location.href = '/usr/member/personalJoin';  
     });
 
-    document.getElementById('btnCompany').addEventListener('click', function() {
-        location.href = '/usr/member/companyJoin';   // 기업회원 가입 페이지 주소
+    document.getElementById('btnInstitution').addEventListener('click', function() {
+        location.href = '/usr/member/institutionJoin';  
     });
 </script>
 

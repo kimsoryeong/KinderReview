@@ -38,12 +38,18 @@ public class AdminService {
 
     // 리뷰 승인 처리
     public void approveReview(int articleId) {
-        adminDao.updateReviewStatus(articleId, 1);
+        adminDao.updateReviewStatus(articleId, 1, null);
     }
 
     // 리뷰 반려 처리
-    public void rejectReview(int articleId) {
-        adminDao.updateReviewStatus(articleId, 2);
+    public void rejectReview(int articleId, String rejectReason) {
+        adminDao.updateReviewStatus(articleId, 2, rejectReason );
     }
+
+	
+
+	public Article getArticleById(int id) {
+		return adminDao.findArticleById(id);
+	}
 
 }

@@ -1,53 +1,60 @@
 package com.example.demo.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.dto.Article;
 import com.example.demo.dto.LoginedMember;
 import com.example.demo.dto.Member;
+import com.example.demo.dto.Reply;
 import com.example.demo.dto.Req;
 import com.example.demo.dto.ResultData;
+import com.example.demo.service.ArticleService;
 import com.example.demo.service.FileService;
 import com.example.demo.service.MemberService;
+import com.example.demo.service.ReplyService;
 import com.example.demo.util.Util;
+
 
 @Controller
 public class UsrMemberController {
 	
+	private ArticleService articleService;
 	private MemberService memberService;
-	private Req req;
+	private final ReplyService replyService;
+	private final Req req;
 	private final FileService fileService;
 	
-	public UsrMemberController(MemberService memberService, Req req, FileService fileService) {
+	public UsrMemberController(ArticleService articleService, MemberService memberService,ReplyService replyService, Req req, FileService fileService) {
+		this.articleService = articleService;
 		this.memberService = memberService;
+		this.replyService = replyService;
 		this.fileService = fileService;
 		this.req = req;
 	}
 	
-	// 메인 회원가입 선택 페이지
 	@GetMapping("/usr/member/join")
 	public String mainJoin() {
-		return "usr/member/mainJoin";  // 메인 회원가입 선택 페이지
+		return "usr/member/mainJoin"; 
 	}
 	
-	// 개인회원 가입 페이지
 	@GetMapping("/usr/member/personalJoin")
 	public String personalJoin() {
-		return "usr/member/personalJoin"; // 개인회원 가입 폼
+		return "usr/member/personalJoin"; 
 	}
 	
-	// 기업회원 가입 페이지
 	@GetMapping("/usr/member/institutionJoin")
-	public String companyJoin() {
-		return "usr/member/institutionJoin";  // 기업회원 가입 폼
+	public String institutionJoin() {
+		return "usr/member/institutionJoin";  
 	}
 	
-	// 개인회원 가입 처리
 	@PostMapping("/usr/member/doPersonalJoin")
 	@ResponseBody
 	public String doPersonalJoin(String loginId, String loginPw, String nickname) {
@@ -70,12 +77,13 @@ public class UsrMemberController {
 	        fileService.saveFile(bizFile, "member", memberId);
 	    }
 
-	    return Util.jsReplace(String.format("[ %s ] 님의 기업회원 가입이 완료되었습니다", institutionName), "/");
+	    String msg = String.format("[ %s ] 님, 가입 신청이 완료되었습니다. 관리자의 승인을 기다려주세요.", institutionName);
+	    return Util.jsReplace(msg, "/myPage");
 	}
 
 
+
 	
-	// 중복 검사 API (닉네임/아이디) - 개인/기업 공통으로 사용 가능
 	@GetMapping("/usr/member/nicknameDupChk")
 	@ResponseBody
 	public ResultData nicknameDupChk(String nickname) {
@@ -130,4 +138,31 @@ public class UsrMemberController {
 		
 		return Util.jsReplace("정상적으로 로그아웃 되었습니다", "/");
 	}
+	
+	@GetMapping("/usr/member/myPage")
+	public String showMyPage(Model model) {
+	    LoginedMember loginedMember = req.getLoginedMember();
+
+	    if (loginedMember == null || loginedMember.getId() == 0) {
+	        return "redirect:/usr/member/login";
+	    }
+
+	    Member member = memberService.getMemberById(loginedMember.getId());
+
+	    List<Article> myArticles = articleService.getArticlesByMemberId(member.getId());
+	    List<Article> likedArticleList = articleService.getLikedArticlesByMemberId(member.getId());
+	    List<Reply> myReplies = replyService.getReplyByMemberId(member.getId());
+	    List<Article> pendingArticleList = articleService.getPendingArticlesByMemberId(member.getId());
+
+	    model.addAttribute("myArticles", myArticles);
+	    model.addAttribute("member", member);
+	    model.addAttribute("likedArticles", likedArticleList);
+	    model.addAttribute("pendingArticles", pendingArticleList);
+	    model.addAttribute("myReplies", myReplies);
+
+	    return "usr/member/myPage";
 }
+
+}
+
+

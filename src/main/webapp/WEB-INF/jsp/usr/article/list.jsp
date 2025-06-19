@@ -12,7 +12,9 @@
     <div class="bg-white rounded-t-lg shadow p-6 mb-4 border-b-4 border-orange-300 flex justify-between items-center">
 	  <div>
 	    <h1 class="text-2xl font-bold text-orange-400">${board.boardName}</h1>
+	    <c:if test="${board.id == 4 or board.id == 5 or board.id == 6}">
 	    <p class="text-sm text-gray-500 mt-1">총 <span class="font-semibold text-orange-400">${articlesCnt}</span>개의 게시글</p>
+	  	</c:if>
 	  </div>
 	
 	  <c:set var="isLogined" value="${req.getLoginedMember().getId() != 0}" />
@@ -27,13 +29,7 @@
 	    </button>
 	  </c:if>
 	
-	  <c:if test="${isLogined && boardId == 10 && authLevel != 0}">
-	    <button
-	      class="bg-gray-300 text-white px-5 py-2 rounded-lg font-semibold shadow cursor-not-allowed"
-	      disabled>
-	      관리자만 작성 가능
-	    </button>
-	  </c:if>
+	  
 	</div>
 
     

@@ -67,6 +67,7 @@ CREATE TABLE article(
 );
 
 ALTER TABLE article ADD COLUMN reviewStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0=대기, 1=승인, 2=반려';
+ALTER TABLE article ADD COLUMN rejectReason TEXT;
 
 
 
@@ -161,7 +162,7 @@ INSERT INTO board
     SET boardName = '공지사항';
 
 INSERT INTO board
-    SET boardName = '자유게시판';
+    SET boardName = '자유게시판';    
         
 INSERT INTO article
     SET regDate = NOW()

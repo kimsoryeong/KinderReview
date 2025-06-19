@@ -24,7 +24,6 @@ public class Req {
     private final HttpServletResponse resp;
     private final HttpSession session;
 
-    // 생성자 주입
     @Autowired
     public Req(HttpServletRequest request, HttpServletResponse resp) {
         this.resp = resp;
@@ -36,12 +35,10 @@ public class Req {
             this.loginedMember = new LoginedMember();
         }
 
-        // 현재 Req 객체를 request attribute에 저장
         request.setAttribute("req", this);
     }
 
     public void init() {
-        // 필요시 초기화 로직 추가 가능
     }
 
     public void login(LoginedMember loginedMember) {
@@ -68,6 +65,5 @@ public class Req {
         return loginedMember != null && loginedMember.getId() != 0;
     }
 
-    // getter는 @Getter 어노테이션으로 자동 생성됨
 
 }

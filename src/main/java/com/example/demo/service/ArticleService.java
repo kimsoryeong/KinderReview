@@ -113,9 +113,26 @@ public class ArticleService {
     public List<Article> getLatestArticlesByBoardId(int boardId, int limit) {
         return articleDao.getLatestArticlesByBoardId(boardId, limit);
     }
+    
+    public List<Article> getArticlesByMemberId(int memberId) {
+        return articleDao.getArticlesByMemberId(memberId);
+    }
 
 
+    public List<Article> getLikedArticlesByMemberId(int memberId) {
+        return articleDao.getLikedArticlesByMemberId(memberId, "article");
+    }
+    
+   
 
+    public List<Article> getPendingArticlesByMemberId(int memberId) {
+        return articleDao.getPendingArticlesByMemberId(memberId);
+    }
+
+	
+
+
+ 
 	
 	
 

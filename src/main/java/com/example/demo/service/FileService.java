@@ -31,7 +31,6 @@ public class FileService {
 		String savedName = uuid + extension;
 		String savedPath = fileDir + "/" + savedName;
 
-		// 파일 DB 기록
 		FileDto fileDto = new FileDto();
 		fileDto.setOriginName(orgName);
 		fileDto.setSavedName(savedName);
@@ -40,7 +39,6 @@ public class FileService {
 		fileDto.setRelId(relId);
 		fileDao.insertFile(fileDto);
 
-		// 실제 파일 저장
 		file.transferTo(new File(savedPath));
 	}
 
@@ -51,4 +49,11 @@ public class FileService {
 	public FileDto getFileById(int id) {
 		return fileDao.getFileById(id);
 	}
+	
+
+	public String getFullPath(String fileName) {
+	    return fileDir + "/" + fileName;
+	}
+
+
 }

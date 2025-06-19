@@ -373,10 +373,34 @@ public interface ArticleDao {
 			List<Article> getLatestArticlesByBoardId(@Param("boardId") int boardId, @Param("limit") int limit);
 
 
+		@Select("""
+			    SELECT *
+			    FROM article
+			    WHERE memberId = #{memberId}
+			    ORDER BY regDate DESC
+			""")
+			List<Article> getArticlesByMemberId(@Param("memberId") int memberId);
 
+		@Select("""
+			    SELECT a.*
+				FROM article a
+			    INNER JOIN likePoint lp ON a.id = lp.relId
+			    WHERE lp.memberId = #{memberId}
+			    AND lp.relTypeCode = #{relTypeCode}
+			    ORDER BY a.regDate DESC
+			""")
+			List<Article> getLikedArticlesByMemberId(int memberId, String relTypeCode) ;
 		
-
-	
+		
+		
+		@Select("""
+			    SELECT * 
+				FROM article 
+				WHERE memberId = #{memberId} 
+				AND reviewStatus = 0 
+				ORDER BY regDate DESC
+			""")
+			List<Article> getPendingArticlesByMemberId(int memberId);
 
 	
 
