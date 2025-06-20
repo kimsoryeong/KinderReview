@@ -25,6 +25,7 @@ public class AdminController {
 
 	@Autowired
     private AdminService adminService;
+	@Autowired
 	private FileService fileService;
 
     @GetMapping("/dashboard")
@@ -40,14 +41,16 @@ public class AdminController {
     }
 
     @PostMapping("/institution/approve")
+    @ResponseBody
     public String approveInstitution(@RequestParam int memberId) {
         adminService.approveInstitution(memberId);
         return Util.jsReplace("기관 가입이 승인 처리 되었습니다", "/admin/institution/list");
     }
 
     @PostMapping("/institution/reject")
-    public String rejectInstitution(@RequestParam int memberId) {
-        adminService.rejectInstitution(memberId);
+    @ResponseBody
+    public String rejectInstitution(@RequestParam int memberId, @RequestParam String rejectReason) {
+        adminService.rejectInstitution(memberId, rejectReason);
         return Util.jsReplace("기관 가입이 반려 처리 되었습니다", "/admin/institution/list");
     }
 
@@ -60,33 +63,18 @@ public class AdminController {
 
     @PostMapping("/review/approve")
     @ResponseBody
-    public String approveReview(@RequestParam int articleId) {
-        adminService.approveReview(articleId);
+    public String approveReview(@RequestParam int id) {
+        adminService.approveReview(id);
         return Util.jsReplace("리뷰가 승인 처리 되었습니다", "/admin/review/list");
     }
 
     @PostMapping("/review/reject")
     @ResponseBody
-    public String rejectReview(@RequestParam int articleId, @RequestParam String rejectReason) {
-        adminService.rejectReview(articleId, rejectReason);
+    public String rejectReview(@RequestParam int id, @RequestParam String rejectReason) {
+        adminService.rejectReview(id, rejectReason);
         return Util.jsReplace("리뷰가 반려 처리 되었습니다", "/admin/review/list");
     }
     
-    @GetMapping("/admin/review/detail")
-    public String adminReviewDetail(@RequestParam int id, Model model) {
-        Article article = adminService.getArticleById(id);
-        if (article == null) {
-            return "redirect:/admin/review/list";
-        }
-
-        List<FileDto> files = fileService.getFilesByRel("article", id);
-
-        model.addAttribute("article", article);
-        model.addAttribute("files", files);
-
-        return "article/detail";
-    }
-
-
+  
 
 }

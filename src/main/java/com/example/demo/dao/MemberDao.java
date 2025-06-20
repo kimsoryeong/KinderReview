@@ -18,6 +18,7 @@ public interface MemberDao {
 			, loginId = #{loginId}
 			, loginPw = #{loginPw}
 			, nickname = #{nickname}
+			, approveStatus = 1
 			, authLevel = 1  
 	""")
 	void joinPersonalMember(@Param("loginId") String loginId, @Param("loginPw") String loginPw, @Param("nickname") String nickname);
@@ -28,8 +29,10 @@ public interface MemberDao {
 	            , updateDate = NOW()
 	            , loginId = #{loginId}
 	            , loginPw = #{loginPw}
+	            , nickname = #{nickname}
 	            , institutionName = #{institutionName}
 	            , institutionNumber = #{institutionNumber}
+	            , approveStatus = 0
 	            , authLevel = 2
 	    """)
 	    @Options(useGeneratedKeys = true, keyProperty = "id") 
@@ -53,6 +56,8 @@ public interface MemberDao {
 		    WHERE id = #{id}
 		""")
 		Member getMemberById(@Param("id") int id);
+
+	String findWorkChkFileByMemberId(int memberId);
 
 
 }

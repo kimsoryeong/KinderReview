@@ -52,7 +52,6 @@
                         ${reply.content}
                     
                     </span>
-                    <!-- 대댓글 입력 폼 (초기에는 숨김) -->
                     <form action="/usr/reply/doWrite" method="post"
                           class="reply-form mt-2 ml-4 w-full hidden flex flex-col gap-2"
                           id="reply-form-${reply.id}">
@@ -70,7 +69,6 @@
                             </button>
                         </div>
                     </form>
-                    <!-- 대댓글 목록 -->
                     <c:forEach var="child" items="${replies}">
                         <c:if test="${child.parentId == reply.id}">
                             <div class="ml-6 mt-2 pb-2 pl-4">
@@ -103,20 +101,17 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    // 답글쓰기/답글접기 토글
     document.querySelectorAll('.reply-toggle-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
             var replyId = btn.getAttribute('data-reply-id');
             var form = document.getElementById('reply-form-' + replyId);
 
-            // 이미 열려있으면 닫기(접기)
             if (form && !form.classList.contains('hidden')) {
                 form.classList.add('hidden');
                 btn.textContent = "답글쓰기";
                 return;
             }
 
-            // 모든 폼 닫고, 버튼 텍스트 원래대로
             document.querySelectorAll('.reply-form').forEach(function(f) {
                 f.classList.add('hidden');
             });
@@ -124,7 +119,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 b.textContent = "답글쓰기";
             });
 
-            // 현재 폼 열고, 버튼 텍스트 변경
             if (form) {
                 form.classList.remove('hidden');
                 form.querySelector('textarea').focus();
@@ -133,17 +127,15 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // 모든 댓글/대댓글 폼의 비밀댓글 토글
     document.querySelectorAll('form').forEach(function(form) {
         var secretBtn = form.querySelector('.secretToggleBtn');
         var secretIcon = secretBtn && secretBtn.querySelector('i');
         var isSecretInput = form.querySelector('.isSecretInput');
-        if (!secretBtn || !secretIcon || !isSecretInput) return; // 해당 요소 없으면 패스
+        if (!secretBtn || !secretIcon || !isSecretInput) return; 
 
-        // 폼마다 독립적으로 isSecret 상태 관리
         let isSecret = false;
         secretBtn.addEventListener('click', function(e) {
-            e.preventDefault(); // 폼 submit 방지
+            e.preventDefault();
             isSecret = !isSecret;
             if (isSecret) {
                 secretIcon.classList.remove('fa-unlock', 'text-gray-500');
@@ -158,4 +150,3 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 </script>
-

@@ -15,6 +15,13 @@ public class MemberService {
 	}
 
 	public void joinPersonalMember(String loginId, String loginPw, String nickname) {
+		Member member = new Member();
+		member.setLoginId(loginId);
+		member.setLoginPw(loginPw);
+		member.setNickname(nickname);
+		member.setAuthLevel(1);
+		member.setApproveStatus(1);
+		
 		memberDao.joinPersonalMember(loginId, loginPw, nickname);
 	}
 
@@ -25,10 +32,11 @@ public class MemberService {
 	        member.setInstitutionName(institutionName);
 	        member.setInstitutionNumber(institutionNumber);
 	        member.setAuthLevel(2);
-
+	        member.setApproveStatus(0);
+	        
 	        memberDao.joinInstitutionMember(member);
 
-	        return member.getId();  // insert 후 자동으로 id가 채워짐
+	        return member.getId();  
 	    }
 
 
@@ -44,5 +52,10 @@ public class MemberService {
 	public Member getMemberById(int id) {
 		return this.memberDao.getMemberById(id);
 	}
+	
+	public String getWorkChkFileByMemberId(int memberId) {
+	    return memberDao.findWorkChkFileByMemberId(memberId);
+	} //사업자등록증 확인용
+
 
 }

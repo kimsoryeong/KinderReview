@@ -22,8 +22,10 @@ CREATE TABLE `member` (
     nickname VARCHAR(50) DEFAULT NULL,
     institutionName VARCHAR(255) DEFAULT NULL,
     institutionNumber VARCHAR(100) DEFAULT NULL,
-    institutionAccepted TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0=대기, 1=승인, 2=반려'
-    authLevel INT UNSIGNED NOT NULL DEFAULT 1 COMMENT '0=관리자, 1=개인회원, 2=기업회원'
+    authLevel INT UNSIGNED NOT NULL DEFAULT 1 COMMENT '0=관리자, 1=개인회원, 2=기업회원',
+    approveStatus TINYINT NOT NULL DEFAULT 1 COMMENT '0: 대기, 1: 승인, 2: 반려',
+    workChkFile VARCHAR(255) DEFAULT NULL COMMENT '사업자등록증 파일체크',
+    rejectReason VARCHAR(255) DEFAULT NULL COMMENT '반려 사유'
 );
 
 
@@ -63,11 +65,11 @@ CREATE TABLE article(
     practiceAtmosphere TEXT,
     practiceExperience TEXT,
     practiceReview TEXT,
-    views INT UNSIGNED NOT NULL DEFAULT 0
+    views INT UNSIGNED NOT NULL DEFAULT 0,
+    rejectReason VARCHAR(255) DEFAULT NULL COMMENT '반려 사유',
+    reviewStatus TINYINT NOT NULL DEFAULT 1 COMMENT '0:대기, 1:승인, 2:반려';
 );
 
-ALTER TABLE article ADD COLUMN reviewStatus TINYINT(1) NOT NULL DEFAULT 0 COMMENT '0=대기, 1=승인, 2=반려';
-ALTER TABLE article ADD COLUMN rejectReason TEXT;
 
 
 
@@ -115,11 +117,6 @@ SELECT * FROM likePoint;
 SELECT * FROM reply;
 SELECT * FROM article_option;
 
-INSERT INTO `member`
-(regDate, updateDate, loginId, loginPw, nickname, authLevel)
-VALUES
-(NOW(), NOW(), 'admin', 'admin', '관리자', 0);
-
 
 INSERT INTO likePoint
     SET memberId = 1
@@ -158,12 +155,12 @@ INSERT INTO board
 INSERT INTO board
     SET boardName = '채용 공고';
     
-INSERT INTO board
+    INSERT INTO board
     SET boardName = '공지사항';
-
-INSERT INTO board
-    SET boardName = '자유게시판';    
-        
+    
+    INSERT INTO board
+    SET boardName = '자유게시판';
+    
 INSERT INTO article
     SET regDate = NOW()
         , updateDate = NOW()
@@ -228,6 +225,16 @@ INSERT INTO `member`
         , loginPw = 'test1'
         , nickname = '유저1';
 
+
+        
+INSERT INTO `member`
+    SET regDate = NOW()
+        , updateDate = NOW()
+        , loginId = 'admin'
+        , loginPw = 'admin'
+        , nickname = '관리자'
+        , authLevel = 0 ;
+        
 INSERT INTO `member`
     SET regDate = NOW()
         , updateDate = NOW()

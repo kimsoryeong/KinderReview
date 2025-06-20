@@ -16,18 +16,15 @@
       <c:set var="isLogined" value="${req.getLoginedMember().getId() != 0}" />
       <c:set var="authLevel" value="${req.getLoginedMember().getAuthLevel()}" />
       <c:set var="boardId" value="${board.getId()}" />
-      <c:if test="${isLogined && (authLevel == 0 || boardId != 10)}">
-        <button
-          class="bg-orange-400 hover:bg-orange-500 text-white px-5 py-2 rounded-lg font-semibold shadow transition"
-          onclick="location.href='/usr/article/mainWrite?boardId=${boardId}'">
-          글쓰기
-        </button>
-      </c:if>
+    
     </div>
 
     <div class="flex flex-col md:flex-row gap-4">
       <aside class="w-full md:w-48 min-w-40 bg-white rounded-lg shadow p-4 h-fit mb-4 md:mb-0">
         <div class="font-bold text-lg mb-4 text-gray-800 border-b-2 border-orange-400 pb-2">마이페이지</div>
+        <a href="#" onclick="showSection('sectionMyInformation'); return false;" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">
+          회원 정보
+        </a>
         <a href="#" onclick="showSection('sectionMyArticles'); return false;" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">
           내가 작성한 글
         </a>
@@ -41,50 +38,84 @@
 
       <div class="flex-1 min-w-0">
        
-<div id="sectionMyArticles" class="bg-white rounded-lg shadow p-4 mb-5">
-  <h2 class="text-xl font-semibold mb-4"><i class="fas fa-pencil-alt text-orange-400 mr-2"></i>내가 작성한 글</h2>
-  <c:forEach var="article" items="${myArticles}">
-    <div class="border border-gray-200 rounded-lg p-4 mb-4 hover:shadow-md transition-shadow duration-300">
-      <div class="flex justify-between items-center mb-2">
-  <div>
-    <strong class="text-lg text-gray-800">${article.boardName}</strong> - 
-    <span class="text-gray-600">${article.institutionName}</span>
-  </div>
-  <div>
-      <c:if test="${article.boardName == '근무 리뷰'}">
-        <c:choose>
-          <c:when test="${article.reviewStatus == 0}">
+		<div id="sectionMyInformation" class="bg-white rounded-lg shadow px-4 py-6 mb-5">
+		  <div></div>
+		  <h2 class="text-xl font-semibold mb-4">
+		    <i class="fas fa-check text-orange-400 pr-2"></i>회원 정보
+		  </h2>
+		  <c:if test="${authLevel == 1}">
+		  <div class="text-gray-500">아이디 : ${member.loginId}</div>
+		  <div class="text-gray-500">닉네임 : ${member.nickname}</div>
+		  </c:if>
+		  <c:if test="${authLevel == 2}">
+		  <div class="text-gray-500">아이디 : ${member.loginId}</div>
+		  <div class="text-gray-500">기관명 : ${member.institutionName}</div>
+		  <div class="text-gray-500">기관번호 : ${member.institutionNumber}</div>
+		  <div class="text-gray-500">가입 승인 상태 :
+		  <c:if test="${member.approveStatus == 0}">
             <span class="px-2 py-1 bg-yellow-200 text-yellow-800 rounded-full text-sm">승인 대기 중</span>
-          </c:when>
-          <c:when test="${article.reviewStatus == 1}">
+            <span class="px-2 py-1  rounded-full text-sm">관리자의 승인 후 게시글 및 댓글 작성이 가능합니다.</span>
+          </c:if>
+		  <c:if test="${member.approveStatus == 1}">
             <span class="px-2 py-1 bg-green-200 text-green-800 rounded-full text-sm">승인 완료</span>
-          </c:when>
-          <c:when test="${article.reviewStatus == 2}">
-            <span class="px-2 py-1 bg-red-200 text-red-800 rounded-full text-sm">반려됨</span>
-          </c:when>
-          <c:otherwise>
-            <span class="px-2 py-1 bg-gray-200 text-gray-700 rounded-full text-sm">상태 없음</span>
-          </c:otherwise>
-        </c:choose>
-      </c:if>
-  </div>
-</div>
+          </c:if>
+		  <c:if test="${member.approveStatus == 2}">
+            <span class="px-2 py-1 bg-red-200 text-red-800 rounded-full text-sm">반려</span>
+            <span class="px-2 py-1  text-red-500 rounded-full text-sm">반려사유 : ${member.rejectReason}</span>
+          </c:if>
+            <div>사업자등록증 ${member.workChkFile} 
+<a href="<c:url value='/usr/member/file/view/${member.workChkFile}' />" target="_blank">[ 보기 ]</a>
 
-      <c:if test="${article.boardName eq '근무 리뷰' and  article.reviewStatus eq 2}">
-        <div class="mb-2 text-red-600 text-sm">반려 사유: ${article.rejectReason}</div>
-      </c:if>
-      <c:if test="${article.boardName != '근무 리뷰' or (article.reviewStatus eq 1)}">
-      <a href="/usr/article/detail?id=${article.id}" 
-         class="inline-block text-orange-500 hover:text-orange-600 font-semibold">
-         [상세보기]
-      </a>
-      </c:if>
-    </div>
-  </c:forEach>
-  <c:if test="${empty myArticles}">
-    <div class="text-center text-gray-500 py-10">작성한 글이 없습니다.</div>
-  </c:if>
-</div>
+            </div>
+		  </div>
+		  </c:if>
+		</div>
+
+		
+		<div id="sectionMyArticles" class="bg-white rounded-lg shadow p-4 mb-5">
+		  <h2 class="text-xl font-semibold mb-4"><i class="fas fa-pencil-alt text-orange-400 mr-2"></i>내가 작성한 글</h2>
+		  <c:forEach var="article" items="${myArticles}">
+		    <div class="border border-gray-200 rounded-lg p-4 mb-4 hover:shadow-md transition-shadow duration-300">
+		      <div class="flex justify-between items-center mb-2">
+		  <div>
+		    <strong class="text-lg text-gray-800">${article.boardName}</strong> - 
+		    <span class="text-gray-600">${article.institutionName}</span>
+		  </div>
+		  <div>
+		      <c:if test="${article.boardName == '근무 리뷰'}">
+		        <c:choose>
+		          <c:when test="${article.reviewStatus == 0}">
+		            <span class="px-2 py-1 bg-yellow-200 text-yellow-800 rounded-full text-sm">승인 대기 중</span>
+		          </c:when>
+		          <c:when test="${article.reviewStatus == 1}">
+		            <span class="px-2 py-1 bg-green-200 text-green-800 rounded-full text-sm">승인 완료</span>
+		          </c:when>
+		          <c:when test="${article.reviewStatus == 2}">
+		            <span class="px-2 py-1 bg-red-200 text-red-800 rounded-full text-sm">반려됨</span>
+		          </c:when>
+		          <c:otherwise>
+		            <span class="px-2 py-1 bg-gray-200 text-gray-700 rounded-full text-sm">상태 없음</span>
+		          </c:otherwise>
+		        </c:choose>
+		      </c:if>
+		  </div>
+		</div>
+		
+		      <c:if test="${article.boardName eq '근무 리뷰' and  article.reviewStatus eq 2}">
+		        <div class="mb-2 text-red-600 text-sm">반려 사유: ${article.rejectReason}</div>
+		      </c:if>
+		      <c:if test="${article.boardName != '근무 리뷰' or (article.reviewStatus eq 1)}">
+		      <a href="/usr/article/detail?id=${article.id}" 
+		         class="inline-block text-orange-500 hover:text-orange-600 font-semibold">
+		         [상세보기]
+		      </a>
+		      </c:if>
+		    </div>
+		  </c:forEach>
+		  <c:if test="${empty myArticles}">
+		    <div class="text-center text-gray-500 py-10">작성한 글이 없습니다.</div>
+		  </c:if>
+		</div>
 
         <div id="sectionLikedArticles" class="bg-white rounded-lg shadow p-4 mb-5 hidden">
           <h2 class="text-xl font-semibold mb-4"><i class="fas fa-heart text-orange-400 mr-2"></i>
@@ -165,7 +196,7 @@
 
 <script>
   function showSection(sectionId) {
-    const sections = ['sectionMyArticles', 'sectionLikedArticles', 'sectionPendingArticles', 'sectionMyReplies'];
+    const sections = ['sectionMyInformation', 'sectionMyArticles', 'sectionLikedArticles', 'sectionPendingArticles', 'sectionMyReplies'];
 
     sections.forEach(id => {
       const el = document.getElementById(id);
@@ -180,7 +211,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    showSection('sectionMyArticles');
+    showSection('sectionMyInformation');
   });
 </script>
 

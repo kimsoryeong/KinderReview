@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -19,13 +21,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import java.io.File;
-import java.io.IOException;
-
 
 import com.example.demo.dto.Article;
 import com.example.demo.dto.Board;
 import com.example.demo.dto.FileDto;
+import com.example.demo.dto.LoginedMember;
+import com.example.demo.dto.Member;
 import com.example.demo.dto.Reply;
 import com.example.demo.dto.Req;
 import com.example.demo.service.ArticleService;
@@ -37,6 +38,7 @@ import com.example.demo.util.Util;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class UsrArticleController {
@@ -65,7 +67,7 @@ public class UsrArticleController {
 	@PostMapping("/usr/article/doWrite")
 	@ResponseBody
 	public String doWrite(
-	    @RequestParam String institutionName,
+		@RequestParam(required = false) String institutionName,
 	    @RequestParam(required = false) String institutionComment,
 	    @RequestParam String boardName,
 	    @RequestParam(required = false) Integer salaryScore,
@@ -95,6 +97,11 @@ public class UsrArticleController {
 	    @RequestParam(required = false) String practiceAtmosphere,
 	    @RequestParam(required = false) String practiceExperience,
 	    @RequestParam(required = false) String practiceReview,
+	    @RequestParam(required = false) String title,
+	    @RequestParam(required = false) String content,
+	    @RequestParam(required = false) String phoneNumber,
+	    @RequestParam(required = false) String hireSalary,
+	    @RequestParam(required = false) String communityBoard,
 	    @RequestParam(required = false) MultipartFile workCertFile
 	) throws IOException {
 	    int memberId = this.req.getLoginedMember().getId();
@@ -152,6 +159,9 @@ public class UsrArticleController {
 	    }
 	    article.setReviewStatus(0);  
 
+	    if(boardName == null || boardName.trim().isEmpty()) {
+	        return Util.jsReplace("게시판을 선택해 주세요.", "back");
+	    }
 
 	    if ("근무 리뷰".equals(boardName)) {
 	        return Util.jsReplace("관리자의 승인 후 게시글이 등록됩니다.", "/usr/member/myPage");
@@ -161,40 +171,34 @@ public class UsrArticleController {
 	}
 
 
-	@GetMapping("/usr/article/file/view/{fileName:.+}")
-	@ResponseBody
-	public ResponseEntity<Resource> viewFile(@PathVariable String fileName) throws IOException {
-	    String filePath = fileService.getFullPath(fileName);
-	    File file = new File(filePath);
-
-	    System.out.println("파일경로 :" + filePath);
-
-	    if (!file.exists()) {
-	        return ResponseEntity.notFound().build();
-	    }
-
-	    UrlResource resource;
-	    try {
-	        resource = new UrlResource(file.toURI().toURL());
-	    } catch (MalformedURLException e) {
-	        throw new RuntimeException("URL 생성 실패: " + file.getAbsolutePath(), e);
-	    }
-
-	    String contentType = Files.probeContentType(file.toPath());
-	    if (contentType == null) {
-	        contentType = "application/octet-stream"; // 기본값
-	    }
-
-	    return ResponseEntity.ok()
-	            .contentType(MediaType.parseMediaType(contentType))
-	            .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + file.getName() + "\"")
-	            .body(resource);
-	}
 
 	@GetMapping("/usr/article/interviewWrite")
 	public String interviewWrite() {
 		return "usr/article/interviewWrite";
 	}
+
+	@GetMapping("/usr/article/hireWrite")
+	public String hireWrite(HttpSession session) {
+		LoginedMember loginedMember = (LoginedMember) session.getAttribute("loginedMember");
+
+		    if (loginedMember == null || loginedMember.getAuthLevel() != 2) {
+		    	 return Util.jsReplace("글 작성 권한이 없습니다", "/");
+		    }
+		return "usr/article/hireWrite";
+	}
+	
+	@GetMapping("/usr/article/communityWrite")
+	public String communityWrite(HttpSession session) {
+	    LoginedMember loginedMember = (LoginedMember) session.getAttribute("loginedMember");
+
+	    if (loginedMember == null || loginedMember.getAuthLevel() != 1) {
+	        return Util.jsReplace("글 작성 권한이 없습니다", "/");
+	    }
+
+	    return "usr/article/communityWrite"; 
+	}
+
+
 	
 	@GetMapping("/usr/article/practiceWrite")
 	public String practiceWrite() {
@@ -284,6 +288,8 @@ public class UsrArticleController {
 	    }
 
 	    Board board = boardService.getBoard(boardId);
+	    boolean onlyApproved = "근무 리뷰".equals(board.getBoardName());
+
 	    int articlesInPage = 10;
 	    int limitFrom = (cPage - 1) * articlesInPage;
 
@@ -322,13 +328,19 @@ public class UsrArticleController {
 
 	@GetMapping("/usr/article/modify")
 	public String modify(Model model, int id) {
-		
-		Article article = this.articleService.getArticleById(id);
-		
-		model.addAttribute("article", article);
-		
-		return "usr/article/modify";
+	    Article article = this.articleService.getArticleById(id);
+
+	    LoginedMember loginedMember = req.getLoginedMember();
+	    int loginedMemberId = loginedMember.getId();
+
+	    if (article == null || article.getMemberId() != loginedMemberId) {
+	        return "common/notAuthorized";
+	    }
+
+	    model.addAttribute("article", article);
+	    return "usr/article/modify";
 	}
+
 	
 	@PostMapping("/usr/article/doModify")
 	@ResponseBody

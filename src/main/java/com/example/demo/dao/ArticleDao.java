@@ -50,7 +50,12 @@ public interface ArticleDao {
 		            practiceExperience = #{practiceExperience},
 		            practiceReview = #{practiceReview},
 		            salaryOptionsStr = #{salaryOptionsStr},
-		            welfareOptionsStr = #{welfareOptionsStr}
+		            welfareOptionsStr = #{welfareOptionsStr},
+		            title = #{title},
+		            content = #{content},
+		            phoneNumber = #{phoneNumber},
+		            hireSalary = #{hireSalary},
+		            communityBoard = #{communityBoard}
 		""")
 		@Options(useGeneratedKeys = true, keyProperty = "id")
 		int writeArticle(Article article);

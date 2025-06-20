@@ -19,21 +19,22 @@
 
     <div class="flex items-center space-x-2">
       <form action="/admin/review/approve" method="post">
-        <input type="hidden" name="articleId" value="${review.id}" />
+        <input type="hidden" name="id" value="${review.id}" />
         <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">승인</button>
       </form>
 
       <form action="/admin/review/reject" method="post" class="flex items-center">
-        <input type="hidden" name="articleId" value="${review.id}" />
+        <input type="hidden" name="id" value="${review.id}" />
         <input type="text" name="rejectReason" placeholder="반려 사유" required
                class="border rounded px-2 py-1 mr-2" />
         <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">반려</button>
       </form>
 
       <a href="/usr/article/detail?id=${review.id}" 
-         class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 ml-4">
-        자세히 보기
-      </a>
+		   class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 ml-4">
+		  자세히 보기
+		</a>
+
     </div>
   </div>
 </c:forEach>

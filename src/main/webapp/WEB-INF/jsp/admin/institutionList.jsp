@@ -16,11 +16,10 @@
           <p><strong>기관명:</strong> ${member.institutionName}</p>
           <p><strong>사업자등록번호:</strong> ${member.institutionNumber}</p>
 
-          <c:if test="${not empty member.workChkFile}">
             <p><strong>사업자등록증:</strong> 
-              <a class="text-blue-500 underline" href="${member.workChkFile}" target="_blank">바로보기</a>
+<a href="/usr/member/file/view/${member.workChkFile}" target="_blank">바로보기</a>
+
             </p>
-          </c:if>
 
           <div class="flex items-center space-x-2 mt-4">
             <form action="/admin/institution/approve" method="post">

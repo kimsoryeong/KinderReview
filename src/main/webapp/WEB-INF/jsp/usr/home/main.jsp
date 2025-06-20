@@ -5,7 +5,6 @@
 
 <%@ include file="/WEB-INF/jsp/common/header.jsp" %>
 <%@ include file="/WEB-INF/jsp/common/topbar.jsp" %>
-<!-- OpenLayers CDN -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v9.2.4/ol.css">
 <script src="https://cdn.jsdelivr.net/npm/ol@v9.2.4/dist/ol.js"></script>
 
@@ -77,36 +76,7 @@
 </section>
 
 <script>
-// 지도 초기화
-var map = new ol.Map({
-  target: 'map',
-  layers: [
-    // 기본 지도 (OpenStreetMap)
-    new ol.layer.Tile({
-      source: new ol.source.OSM()
-    }),
-    // WMS 레이어 (유아시설)
-    new ol.layer.Tile({
-      source: new ol.source.TileWMS({
-        url: 'https://www.safemap.go.kr/openApiService/wms/getLayerData.do',
-        params: {
-          'apikey': 'SM69Y0vg2XMMU%2FgdP86ol%2BV%2BA4TF%2FOlorBAuweSvglYR4xIFFajCJFjME%2FXud2UymFZDOe4oxcqXqOFhOJ7HKw%3D%3D', // 본인 인증키로 변경!
-          'layers': 'A2SM_SAFETY_INFO_CHILD',
-          'styles': 'A2SM_SAFETY_INFO_CHILD',
-          'format': 'image/png',
-          'transparent': true
-        },
-        serverType: 'geoserver',
-        crossOrigin: 'anonymous'
-      }),
-      opacity: 0.7 // 필요시 투명도 조절
-    })
-  ],
-  view: new ol.View({
-    center: ol.proj.fromLonLat([127.7669, 35.9078]), // 대한민국 중심 좌표
-    zoom: 7
-  })
-});
+
 
 	$(function() {
 	    $('.search-input')

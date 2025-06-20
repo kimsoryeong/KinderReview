@@ -56,6 +56,11 @@ public class Article {
 	private int views;
 	private int reviewStatus;
 	private String rejectReason;
+	private String title;
+	private String content;
+	private String phoneNumber;
+	private String hireSalary;
+	private String communityBoard;
 
 
     public void setWelfareOptionsStr(String welfareOptionsStr) {

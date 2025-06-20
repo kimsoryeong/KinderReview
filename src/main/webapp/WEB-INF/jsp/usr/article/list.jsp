@@ -10,9 +10,9 @@
 <section class="bg-gray-100 min-h-screen py-8">
   <div class="container mx-auto max-w-4xl">
     <div class="bg-white rounded-t-lg shadow p-6 mb-4 border-b-4 border-orange-300 flex justify-between items-center">
-	  <div>
-	    <h1 class="text-2xl font-bold text-orange-400">${board.boardName}</h1>
-	    <c:if test="${board.id == 4 or board.id == 5 or board.id == 6}">
+	  <div class="flex items-end gap-2">
+	    <span class="text-2xl pr-5 font-bold text-orange-400">${board.boardName}</span>
+	    <c:if test="${board.id == 4 or board.id == 5 or board.id == 6 or board.id == 9 or board.id == 10 or board.id == 11}">
 	    <p class="text-sm text-gray-500 mt-1">총 <span class="font-semibold text-orange-400">${articlesCnt}</span>개의 게시글</p>
 	  	</c:if>
 	  </div>
@@ -21,13 +21,36 @@
 	  <c:set var="authLevel" value="${req.getLoginedMember().getAuthLevel()}" />
 	  <c:set var="boardId" value="${board.getId()}" />
 	
-	  <c:if test="${isLogined && (authLevel == 0 || boardId != 10)}">
-	    <button
-	      class="bg-orange-400 hover:bg-orange-500 text-white px-5 py-2 rounded-lg font-semibold shadow transition"
-	      onclick="location.href='/usr/article/mainWrite?boardId=${boardId}'">
-	      글쓰기
-	    </button>
-	  </c:if>
+	  <c:if test="${isLogined && authLevel == 1 &&  boardId ==2 || boardId ==4 || boardId ==5 || boardId ==6}">
+		  <button
+		    class="bg-orange-400 hover:bg-orange-500 text-white px-4 py-1 rounded-lg font-semibold shadow transition"
+		    onclick="location.href='/usr/article/mainWrite?boardId=${boardId}'">
+		    기관 리뷰 글쓰기
+		  </button>
+		</c:if>
+	  <c:if test="${isLogined && authLevel == 1  && boardId == 3}"> 
+		  <button
+		    class="bg-orange-400 hover:bg-orange-500 text-white px-4 py-1 rounded-lg font-semibold shadow transition"
+		    onclick="location.href='/usr/article/communityWrite'">
+		    커뮤니티 글쓰기
+		  </button>
+		</c:if>
+	  <c:if test="${isLogined && authLevel == 0}">
+		  <button
+		    class="bg-orange-400 hover:bg-orange-500 text-white px-4 py-1 rounded-lg font-semibold shadow transition"
+		    onclick="location.href='/usr/article/mainWrite?boardId=${boardId}'">
+		    공지사항 글쓰기
+		  </button>
+		</c:if>
+
+	  <c:if test="${isLogined && authLevel == 2  && boardId == 9 && approveStatus == 1}">
+		  <button
+		    class="bg-orange-400 hover:bg-orange-500 text-white px-5 py-2 rounded-lg font-semibold shadow transition"
+		    onclick="location.href='/usr/article/hireWrite'">
+		    채용공고 글쓰기
+		  </button>
+		</c:if>
+
 	
 	  
 	</div>
@@ -48,7 +71,6 @@
           </c:if>
           <c:if test="${board.id == 3  or board.id == 10 or board.id == 11}">
             <a href="/usr/article/list?boardId=10" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">공지사항</a>
-            <a href="/usr/article/list?boardId=11" class="block py-2 pl-2 my-1 rounded-md hover:bg-orange-100 transition">자유게시판</a>
           </c:if>
         </aside>
       </c:if>
@@ -188,7 +210,7 @@
 	</c:if>
 	
 		
-		<c:if test="${board.id == 4 or board.id == 5 or board.id == 6 or board.id == 7 or board.id == 8 or board.id == 9 or board.id == 10 or board.id == 11}">
+		<c:if test="${board.id == 3 or board.id == 4 or board.id == 5 or board.id == 6 or board.id == 7 or board.id == 8 or board.id == 9 or board.id == 10}">
           <c:forEach items="${articles}" var="article">
             <div class="p-5 hover:bg-orange-50 transition">
               <div class="flex items-center">
@@ -250,7 +272,8 @@
               등록된 게시글이 없습니다.
             </div>
           </c:if>
-		</c:if>          
+		</c:if>
+		               
         </div>
 
         <div class="flex justify-center mt-6">

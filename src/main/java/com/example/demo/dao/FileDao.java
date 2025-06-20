@@ -49,4 +49,3 @@ public interface FileDao {
 		List<FileDto> getFilesByRel(@Param("relTypeCode") String relTypeCode, @Param("relId") int relId);
 
 }
-

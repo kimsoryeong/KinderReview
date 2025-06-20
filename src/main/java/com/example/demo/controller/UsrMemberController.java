@@ -1,11 +1,17 @@
 package com.example.demo.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +27,8 @@ import com.example.demo.service.FileService;
 import com.example.demo.service.MemberService;
 import com.example.demo.service.ReplyService;
 import com.example.demo.util.Util;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 
 @Controller
@@ -72,13 +80,13 @@ public class UsrMemberController {
 	    MultipartFile bizFile
 	) throws IOException {
 	    int memberId = memberService.joinInstitutionMember(loginId, loginPw, institutionName, institutionNumber);
-
+	    
 	    if (!bizFile.isEmpty()) {
 	        fileService.saveFile(bizFile, "member", memberId);
 	    }
 
-	    String msg = String.format("[ %s ] 님, 가입 신청이 완료되었습니다. 관리자의 승인을 기다려주세요.", institutionName);
-	    return Util.jsReplace(msg, "/myPage");
+	    String msg = String.format("[ %s ] 님, 가입 신청이 완료되었습니다. 관리자의 승인은 로그인 후 마이페이지에서 확인할 수 있습니다.", institutionName);
+	    return Util.jsReplace(msg, "/usr/member/myPage");
 	}
 
 
@@ -161,8 +169,38 @@ public class UsrMemberController {
 	    model.addAttribute("myReplies", myReplies);
 
 	    return "usr/member/myPage";
-}
+	}
+	
+	@Value("${custom.file.dir}")
+    private String fileDir;
+
+	@GetMapping("/usr/member/file/view/{fileName:.+}")
+	@ResponseBody
+	public void viewWorkChkFile(@PathVariable String fileName, HttpServletResponse response) throws IOException {
+		System.out.println("viewWorkChkFile 호출됨, fileName: " + fileName);
+
+	    String filePath = fileDir + File.separator + fileName;
+	    System.out.println("File path = " + filePath); // 경로 출력
+
+	    File file = new File(filePath);
+
+	    if (!file.exists()) {
+	        System.out.println("File not found!");
+	        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+	        return;
+	    }
+
+	    String contentType = Files.probeContentType(file.toPath());
+	    if (contentType == null) contentType = "application/octet-stream";
+
+	    response.setContentType(contentType);
+
+	    try (FileInputStream fis = new FileInputStream(file)) {
+	        FileCopyUtils.copy(fis, response.getOutputStream());
+	    }
+	}
+
+
+
 
 }
-
-

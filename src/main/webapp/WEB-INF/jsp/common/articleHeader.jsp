@@ -61,4 +61,3 @@
 				    <span>조회수 ${article.views}</span>
 				  </div>
 				 </div>
-

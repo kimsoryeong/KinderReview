@@ -19,6 +19,7 @@
 		 
 		</c:if>
 		<div class="bg-white rounded-2xl shadow-xl p-8 space-y-6">
+		
 			<div class="flex items-center gap-4 border-b pb-4">
 				<i class="fa-solid fa-school fa-2xl text-orange-400 pr-4"></i> <span
 					class="font-bold text-2xl text-gray-800">${article.institutionName}</span>
@@ -117,6 +118,7 @@
 				    <jsp:param name="relTypeCode" value="${relTypeCode}" />
 				    <jsp:param name="relId" value="${relId}" />
 				</jsp:include>
+				</div>
 			</c:if>
 
 	<c:if test="${board.boardName eq '면접 리뷰'}">

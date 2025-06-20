@@ -26,7 +26,6 @@
     <li class="relative group">
       <a class="flex h-full px-3 items-center hover:underline underline-offset-8" href="/usr/article/list?boardId=3">커뮤니티</a>
       <ul class="absolute left-0 top-full z-20 hidden group-hover:block bg-white rounded-box w-56 shadow-lg">
-        <li><a class="block px-4 py-2 hover:bg-orange-100 rounded-box" href="/usr/article/list?boardId=11">자유게시판</a></li>
         <li><a class="block px-4 py-2 hover:bg-orange-100 rounded-box" href="/usr/article/list?boardId=10">공지사항</a></li>
       </ul>
     </li>
