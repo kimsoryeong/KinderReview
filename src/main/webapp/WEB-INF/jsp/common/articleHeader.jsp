@@ -8,8 +8,8 @@
 <div class="container mx-auto max-w-4xl">
       <div class="flex flex-col md:flex-row gap-6">
         <div class="flex-1">
-			<div class="bg-white rounded-t-lg shadow-sm p-6 mb-1">
-				<div class="flex justify-between items-center">
+			<div class="bg-white rounded-t-lg border-orange-300 border-b-4 shadow-sm p-6 mb-1">
+				<div class="flex justify-between  items-center">
 					<div class="text-2xl font-bold text-orange-400">${board.boardName}</div>
 				</div>
 			</div>
@@ -30,13 +30,14 @@
 						</div>
 					</c:if>
 				</div>
-				<div class="flex justify-between text-sm text-gray-500">
+				<div class="flex justify-between text-xs text-gray-500">
 					<div class="truncate max-w-full sm:max-w-[45%]">번호:
 						${article.getId()}</div> 
 					<div class="truncate max-w-full pb-2 sm:max-w-[45%] text-right">
 					작성일 : ${article.getRegDate()}<br>
 					수정일 : ${article.getUpdateDate() }</div>
 				</div>
+				<c:if test="${board.id == 3 or board.id == 4 or board.id == 5}">
 				<div class="flex pb-3 items-center gap-4 text-gray-700 mb-4">
 				  <i class="fa-solid fa-location-dot text-orange-400"></i>
 				  <span>${article.city}</span>
@@ -61,3 +62,4 @@
 				    <span>조회수 ${article.views}</span>
 				  </div>
 				 </div>
+				 </c:if>

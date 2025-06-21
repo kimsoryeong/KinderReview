@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set var="pageTitle" value="채용공고 글쓰기" />
+<c:set var="pageTitle" value="글쓰기" />
 <%@ include file="/WEB-INF/jsp/common/header.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/topbar.jsp"%>
 
@@ -11,18 +11,21 @@
 	<div class="container mx-auto max-w-4xl">
 		<div class="bg-white rounded-t-lg shadow p-6 mb-4 border-b-4 border-orange-300 flex justify-between items-center">
 			<div>
-				<h1 class="text-2xl font-bold text-orange-400">커뮤니티 글쓰기</h1>
+				<h1 class="text-2xl font-bold text-orange-400">글쓰기</h1>
 			</div>
 		</div>
 		<div class="bg-white border-b-2  rounded-t-lg p-8 shadow">
-			<div class="flex flex-wrap gap-3 border-b-2 justify-around items-center">
+			<div class="flex flex-wrap gap-3 justify-around items-center">
 				<div class="font-bold pb-3 text-orange-400 ">
 					<i class="fa-solid fa-pencil pr-5 "></i>게시판
 				</div>
-				<select style="width: 250px;" id="communityBoard" 
+				<select style="width: 250px;" id="boardName" 
 					class="rounded-md select border" name="boardName" required>
 					<option class="text-center h-40" value="" disabled selected>게시판을
 						선택해 주세요</option>
+				 <c:if test="${loginedMember != null && loginedMember.authLevel == 0}">
+			        <option value="공지사항">공지사항</option>
+			    </c:if>
 					<option value="자유게시판">자유게시판</option>
 					<option value="질문게시판">질문게시판</option>
 				</select>
@@ -30,7 +33,7 @@
 					<i class="fa-solid fa-location-dot pr-5 "></i>지역
 				</div>
 				<select style="width: 250px;" id="city" onchange="updateDistricts()"
-					class="rounded-md select border" name="city-select">
+					class="rounded-md select border" name="city">
 					<option class="text-center h-40" value="" disabled selected>지역을
 						선택해 주세요</option>
 					<option value="전체">전체</option>
@@ -52,16 +55,18 @@
 					<option value="충남">충남</option>
 					<option value="충북">충북</option>
 				</select>
-			<div class=" p-5">
+				</div>
+			<div class=" p-5 border-b-2">
 				<span class="font-bold pr-3 text-orange-400"> <i
 					class="fa-solid fa-file-image pr-5"></i>첨부 파일
-				</span> <label for="workCertFile"
+				</span> 
+				<label for="workCertFile"
 					class="inline-block cursor-pointer  bg-orange-100 text-orange-700 font-semibold py-1 px-4 rounded hover:bg-orange-200 text-sm">
-					파일 선택 </label> <span id="fileName" class="ml-2 text-sm text-gray-600">선택된
-					파일 없음</span> <input type="file" name="workCertFile" id="workCertFile"
-					accept=".pdf,.jpg,.jpeg,.png" class="hidden" />
+					파일 선택 
+				</label> 
+				<span id="fileName" class="ml-2 text-sm text-gray-600">선택된 파일 없음</span> 
+				<input type="file" name="workCertFile" id="workCertFile" accept=".pdf,.jpg,.jpeg,.png" class="hidden" />
 				<div class="text-xs text-gray-400 ">PDF, JPG, PNG 파일만 업로드 가능합니다.</div>
-			</div>
 			</div>
 			<div class="bg-white  rounded-lg pt-4 pl-2 ">
 				<div class="">
@@ -98,8 +103,18 @@
 </style>
 
 <script>
-		
-	</script>
+  const fileInput = document.getElementById('workCertFile');
+  const fileNameSpan = document.getElementById('fileName');
+
+  fileInput.addEventListener('change', function () {
+    if (fileInput.files.length > 0) {
+      fileNameSpan.textContent = fileInput.files[0].name;
+    } else {
+      fileNameSpan.textContent = '선택된 파일 없음';
+    }
+  });
+</script>
+
 
 
 

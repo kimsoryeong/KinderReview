@@ -3,15 +3,18 @@ package com.example.demo.service;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.MemberDao;
+import com.example.demo.dto.FileDto;
 import com.example.demo.dto.Member;
 
 @Service
 public class MemberService {
 
-	private MemberDao memberDao;
+	private final MemberDao memberDao;
+	private final FileService fileService;
 	
-	public MemberService(MemberDao memberDao) {
+	public MemberService(MemberDao memberDao, FileService fileService) {
 		this.memberDao = memberDao;
+		this.fileService = fileService;
 	}
 
 	public void joinPersonalMember(String loginId, String loginPw, String nickname) {
@@ -25,19 +28,19 @@ public class MemberService {
 		memberDao.joinPersonalMember(loginId, loginPw, nickname);
 	}
 
-	 public int joinInstitutionMember(String loginId, String loginPw, String institutionName, String institutionNumber) {
-	        Member member = new Member();
-	        member.setLoginId(loginId);
-	        member.setLoginPw(loginPw);
-	        member.setInstitutionName(institutionName);
-	        member.setInstitutionNumber(institutionNumber);
-	        member.setAuthLevel(2);
-	        member.setApproveStatus(0);
-	        
-	        memberDao.joinInstitutionMember(member);
+	public int joinInstitutionMember(String loginId, String loginPw, String nickname, String institutionNumber) {
+        Member member = new Member();
+        member.setLoginId(loginId);
+        member.setLoginPw(loginPw);
+        member.setNickname(nickname);
+        member.setInstitutionNumber(institutionNumber);
+        member.setAuthLevel(2);
+        member.setApproveStatus(0);
+        
+        memberDao.joinInstitutionMember(member);
 
-	        return member.getId();  
-	    }
+        return member.getId();  
+    }
 
 
 	public Member getMemberByLoginId(String loginId) {
@@ -50,12 +53,27 @@ public class MemberService {
 	}
 
 	public Member getMemberById(int id) {
-		return this.memberDao.getMemberById(id);
+		Member member = memberDao.getMemberById(id);
+
+		Integer workChkFileId = memberDao.findWorkChkFileByMemberId(id);
+		member.setWorkChkFileId(workChkFileId);
+
+		if (workChkFileId != null) {
+			FileDto fileDto = fileService.getFileById(workChkFileId);
+			if (fileDto != null) {
+				member.setWorkChkFileName(fileDto.getSavedName()); 
+			}
+		}
+
+		return member;
 	}
 	
-	public String getWorkChkFileByMemberId(int memberId) {
+	public Integer getWorkChkFileByMemberId(int memberId) {
 	    return memberDao.findWorkChkFileByMemberId(memberId);
-	} //사업자등록증 확인용
+	}
 
+	public void updateWorkChkFile(int memberId, String savedName) {
+	    memberDao.updateWorkChkFile(memberId, savedName);
+	}
 
 }

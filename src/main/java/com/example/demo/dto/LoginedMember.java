@@ -11,4 +11,6 @@ public class LoginedMember {
     private int id;
     private int authLevel;
     private String nickname;
+    private int approveStatus;
+	
 }

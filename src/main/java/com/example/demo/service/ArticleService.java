@@ -8,23 +8,32 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.ArticleDao;
 import com.example.demo.dto.Article;
+import com.example.demo.dto.FileDto;
 
 @Service
 public class ArticleService {
 
 	 private final ArticleDao articleDao;
 	 private final BoardService boardService;
+	 private final FileService fileService;
 	 
 	 @Autowired
-	 public ArticleService(BoardService boardService, ArticleDao articleDao) {
+	 public ArticleService(BoardService boardService, ArticleDao articleDao, FileService fileService) {
 		this.articleDao = articleDao;
 		this.boardService = boardService;
+		this.fileService = fileService;
 	}
 	
 	public int writeArticle(Article article) {
 			int boardId = boardService.getBoardIdByName(article.getBoardName());
 			article.setBoardId(boardId);
 
+			if (boardId == 4) {
+		        article.setReviewStatus(0); 
+		    } else {
+		        article.setReviewStatus(1); 
+		    }
+			
 			if (article.getSalaryOptions() != null && !article.getSalaryOptions().isEmpty()) {
 		        article.setSalaryOptionsStr(String.join(",", article.getSalaryOptions()));
 		    } else {
@@ -59,10 +68,10 @@ public class ArticleService {
         return articleDao.getArticlesWithRegion(boardId, city, articlesInPage, limitFrom);
     }
 
-public Article getArticleById(int id) {
-		
-	    return articleDao.getArticleById(id);
-	}
+	public Article getArticleById(int id) {
+			
+		    return articleDao.getArticleById(id);
+		}
 
 
 	 public List<Article> SearchKeyword(Integer boardId, String searchType, String keyword) {
@@ -103,7 +112,6 @@ public Article getArticleById(int id) {
     }
     
     public void increaseViews(int id) {
-    	 System.out.println("increaseViews called for id: " + id);
 		this.articleDao.increaseViews(id);
 	}
 
@@ -124,12 +132,26 @@ public Article getArticleById(int id) {
         return articleDao.getLikedArticlesByMemberId(memberId, "article");
     } 
     
-   
 
     public List<Article> getPendingArticlesByMemberId(int memberId) {
         return articleDao.getPendingArticlesByMemberId(memberId);
     }
 
+    
+    public Article getArticleByIdWithFiles(int id) {
+        Article article = articleDao.getArticleById(id);
+        if (article == null) {
+            return null;
+        }
+        List<FileDto> files = fileService.getFilesByArticleId(id);
+        article.setFiles(files);
+        return article;
+    }
 
+   
+
+  
+
+    
 
 }

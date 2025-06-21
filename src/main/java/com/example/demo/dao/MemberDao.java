@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.example.demo.dto.Member;
 
@@ -30,7 +31,6 @@ public interface MemberDao {
 	            , loginId = #{loginId}
 	            , loginPw = #{loginPw}
 	            , nickname = #{nickname}
-	            , institutionName = #{institutionName}
 	            , institutionNumber = #{institutionNumber}
 	            , approveStatus = 0
 	            , authLevel = 2
@@ -39,25 +39,45 @@ public interface MemberDao {
 	    void joinInstitutionMember(Member member);
 	
 	@Select("""
-		SELECT * FROM `member`
-		WHERE loginId = #{loginId}
-	""")
-	Member getMemberByLoginId(String loginId);
+		    SELECT m.*, 
+		           (SELECT id FROM file WHERE relTypeCode = 'member' AND relId = m.id LIMIT 1) AS workChkFileId
+		    FROM member m
+		    WHERE loginId = #{loginId}
+		""")
+		Member getMemberByLoginId(String loginId);
 
 	@Select("""
-		SELECT * FROM `member`
-		WHERE nickname = #{nickname}
-	""")
-	Member getMemberBynickname(String nickname);
-	
-	@Select("""
-		    SELECT *
-		    FROM member
+		    SELECT m.*, 
+		           (SELECT id FROM file WHERE relTypeCode = 'member' AND relId = m.id LIMIT 1) AS workChkFileId
+		    FROM member m
 		    WHERE id = #{id}
 		""")
 		Member getMemberById(@Param("id") int id);
 
-	String findWorkChkFileByMemberId(int memberId);
+
+
+	@Select("""
+			SELECT * FROM `member`
+			WHERE nickname = #{nickname}
+		""")
+		Member getMemberBynickname(String nickname);
+	
+	@Select("""
+		    SELECT id
+		    FROM file
+		    WHERE relTypeCode = 'member' AND relId = #{memberId}
+		    LIMIT 1
+		""")
+		Integer findWorkChkFileByMemberId(@Param("memberId") int memberId);
+	
+	@Update("""
+		    UPDATE member
+		    SET workChkFile = #{savedName},
+		        updateDate = NOW()
+		    WHERE id = #{memberId}
+		""")
+		void updateWorkChkFile(@Param("memberId") int memberId, @Param("savedName") String savedName);
+
 
 
 }

@@ -15,4 +15,5 @@ public class FileDto {
 	private String savedPath;
 	private String relTypeCode;
 	private int relId;
+	private Integer workChkFileId;
 }

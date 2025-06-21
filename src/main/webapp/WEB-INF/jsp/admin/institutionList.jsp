@@ -13,14 +13,18 @@
 
       <c:forEach var="member" items="${institutionList}">
         <div class="border rounded-lg p-4 mb-4 bg-white shadow">
-          <p><strong>기관명:</strong> ${member.institutionName}</p>
+          <p><strong>기관명:</strong> ${member.nickname}</p>
           <p><strong>사업자등록번호:</strong> ${member.institutionNumber}</p>
-
             <p><strong>사업자등록증:</strong> 
-<a href="/usr/member/file/view/${member.workChkFile}" target="_blank">바로보기</a>
-
+				<c:choose>
+			  <c:when test="${not empty member.workChkFile}">
+			    <a href="/usr/member/file/view/${member.workChkFile}" target="_blank">[ 보기 ]</a>
+			  </c:when>
+			  <c:otherwise>
+			    <span class="text-gray-400 text-sm">첨부된 파일이 없습니다</span>
+			  </c:otherwise>
+			</c:choose>
             </p>
-
           <div class="flex items-center space-x-2 mt-4">
             <form action="/admin/institution/approve" method="post">
               <input type="hidden" name="memberId" value="${member.id}" />
@@ -28,7 +32,6 @@
                 승인
               </button>
             </form>
-
             <form action="/admin/institution/reject" method="post" class="flex items-center space-x-2">
               <input type="hidden" name="memberId" value="${member.id}" />
               <input type="text" name="rejectReason" placeholder="반려 사유" required

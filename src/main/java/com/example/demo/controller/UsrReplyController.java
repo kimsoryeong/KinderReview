@@ -58,12 +58,16 @@ public class UsrReplyController {
         }
         int boardId = article.getBoardId();
 
-        if (boardId == 9) {
-            isAnonymous = false;
-            nickname = req.getLoginedMember().getNickname();
-        } else if (boardId == 4 || boardId == 5 || boardId == 6) {
-            isAnonymous = true;
+        if (boardId == 4 || boardId == 5 || boardId == 6) {
+        	if (req.getLoginedMember().getAuthLevel() == 2) {
+                String script = Util.jsBack("해당 게시판에서는 기관회원은 댓글을 작성할 수 없습니다.");
+                response.setContentType("text/html;charset=UTF-8");
+                response.getWriter().write(script);
+                return null;
+            }
+        	isAnonymous = true;
             nickname = "익명";
+            
         } else {
             isAnonymous = false;
             nickname = req.getLoginedMember().getNickname();

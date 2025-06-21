@@ -64,16 +64,16 @@
           <label class="block text-sm font-medium text-gray-700 mb-1">기업명</label>
           <div class="joininput flex items-center border border-gray-300 rounded-md px-3 py-2">
             <svg class="w-5 h-5 text-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c1.104 0 2-.672 2-1.5S13.104 8 12 8s-2 .672-2 1.5.896 1.5 2 1.5zM6 10V8a6 6 0 1112 0v2a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2v-6a2 2 0 012-2z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A4 4 0 018 16h8a4 4 0 012.879 1.804M15 11a3 3 0 10-6 0 3 3 0 006 0z" />
             </svg>
-            <input type="text" id="institutionName" name="institutionName" class="w-full outline-none border-none" placeholder="기업명 입력" />
+            <input required type="text" id="nickname" name="nickname" class="w-full outline-none border-none" placeholder="기업명 입력" />
           </div>
           <div id="institutionNameChkMsg" class="mt-2 text-sm h-5 text-center"></div>
         </div>
 
         <div class="mb-4">
           <label class="block text-sm font-medium text-gray-700 mb-1">사업자등록증 첨부</label>
-          <input type="file" name="bizFile" accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-sm text-gray-500
+          <input required type="file" name="bizFile" accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-sm text-gray-500
               file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold
               file:bg-orange-100 file:text-orange-700 hover:file:bg-orange-200
             " />
@@ -86,7 +86,7 @@
             <svg class="w-5 h-5 text-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6a3 3 0 116 0v6m-6 4h6" />
             </svg>
-            <input type="text" id="businessNumber" name="businessNumber" class="w-full outline-none border-none" placeholder="사업자등록번호 입력 (숫자만)" />
+            <input type="text" id="institutionNumber" name="institutionNumber" required class="w-full outline-none border-none" placeholder="사업자등록번호 입력 (숫자만)" />
           </div>
           <div id="businessNumberChkMsg" class="mt-2 text-sm h-5 text-center"></div>
         </div>
@@ -97,7 +97,7 @@
             <svg class="w-5 h-5 text-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A4 4 0 018 16h8a4 4 0 012.879 1.804M15 11a3 3 0 10-6 0 3 3 0 006 0z" />
             </svg>
-            <input type="text" id="ceoName" name="ceoName" class="w-full outline-none border-none" placeholder="대표자명 입력" />
+            <input required type="text" id="ceoName" name="ceoName" class="w-full outline-none border-none" placeholder="대표자명 입력" />
           </div>
           <div id="ceoNameChkMsg" class="mt-2 text-sm h-5 text-center"></div>
         </div>

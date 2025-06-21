@@ -17,7 +17,7 @@
                 transition-colors duration-300 hover:bg-orange-100 hover:text-orange-600">
         <i class="fas fa-pen-to-square text-orange-400 text-4xl"></i>
         <span class="text-lg">근무 리뷰 관리</span>
-        <div class="text-sm text-gray-500 text-center">대기 중인 근무 리뷰를 승인하거나 반려할 수 있습니다.</div>
+        <span class="text-sm text-gray-500 text-center">대기 중인 근무 리뷰를 승인하거나 반려할 수 있습니다.</span>
       </a>
 
       <a href="/admin/institution/list" 
@@ -26,7 +26,7 @@
                 transition-colors duration-300 hover:bg-orange-100 hover:text-orange-600">
         <i class="fas fa-school text-orange-400 text-4xl"></i>
         <span class="text-lg">기관 가입 관리</span>
-        <div class="text-sm text-gray-500 text-center">가입 신청 대기 기관을 승인하거나 반려할 수 있습니다.</div>
+        <span class="text-sm text-gray-500 text-center">가입 신청 대기 기관을 승인하거나 반려할 수 있습니다.</span>
       </a>
 
       <a href="/usr/article/list?boardId=10" 
@@ -35,12 +35,9 @@
                 transition-colors duration-300 hover:bg-orange-100 hover:text-orange-600">
         <i class="fas fa-bullhorn text-orange-400 text-4xl"></i>
         <span class="text-lg">공지사항 관리</span>
-        <div class="text-sm text-gray-500 text-center">공지사항 글을 작성, 수정 및 삭제 할 수 있습니다.</div>
+        <span class="text-sm text-gray-500 text-center">공지사항 글을 작성, 수정 및 삭제 할 수 있습니다.</span>
       </a>
-    </div>
-
-    
-
+   	 </div>
     </div>
   </div>
 </section>

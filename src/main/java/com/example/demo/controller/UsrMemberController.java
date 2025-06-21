@@ -75,17 +75,18 @@ public class UsrMemberController {
 	public String doInstitutionJoin(
 	    String loginId, 
 	    String loginPw, 
-	    String institutionName, 
+	    String nickname, 
 	    String institutionNumber, 
 	    MultipartFile bizFile
 	) throws IOException {
-	    int memberId = memberService.joinInstitutionMember(loginId, loginPw, institutionName, institutionNumber);
+	    int memberId = memberService.joinInstitutionMember(loginId, loginPw, nickname, institutionNumber);
 	    
 	    if (!bizFile.isEmpty()) {
-	        fileService.saveFile(bizFile, "member", memberId);
+	        String savedName = fileService.saveFile(bizFile, "member", memberId);
+	        memberService.updateWorkChkFile(memberId, savedName); 
 	    }
 
-	    String msg = String.format("[ %s ] 님, 가입 신청이 완료되었습니다. 관리자의 승인은 로그인 후 마이페이지에서 확인할 수 있습니다.", institutionName);
+	    String msg = String.format("[ %s ] 님, 가입 신청이 완료되었습니다. 관리자의 승인은 로그인 후 마이페이지에서 확인할 수 있습니다.", nickname);
 	    return Util.jsReplace(msg, "/usr/member/myPage");
 	}
 
@@ -132,7 +133,7 @@ public class UsrMemberController {
 			return Util.jsReplace("비밀번호가 일치하지 않습니다", "login");
 		}
 		
-		this.req.login(new LoginedMember(member.getId(), member.getAuthLevel(), member.getNickname()));
+		this.req.login(new LoginedMember(member.getId(), member.getAuthLevel(), member.getNickname(), member.getApproveStatus()));
 
 		
 		return Util.jsReplace(String.format("[ %s ] 님 환영합니다", member.getLoginId()), "/");
@@ -171,34 +172,7 @@ public class UsrMemberController {
 	    return "usr/member/myPage";
 	}
 	
-	@Value("${custom.file.dir}")
-    private String fileDir;
-
-	@GetMapping("/usr/member/file/view/{fileName:.+}")
-	@ResponseBody
-	public void viewWorkChkFile(@PathVariable String fileName, HttpServletResponse response) throws IOException {
-		System.out.println("viewWorkChkFile 호출됨, fileName: " + fileName);
-
-	    String filePath = fileDir + File.separator + fileName;
-	    System.out.println("File path = " + filePath); // 경로 출력
-
-	    File file = new File(filePath);
-
-	    if (!file.exists()) {
-	        System.out.println("File not found!");
-	        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-	        return;
-	    }
-
-	    String contentType = Files.probeContentType(file.toPath());
-	    if (contentType == null) contentType = "application/octet-stream";
-
-	    response.setContentType(contentType);
-
-	    try (FileInputStream fis = new FileInputStream(file)) {
-	        FileCopyUtils.copy(fis, response.getOutputStream());
-	    }
-	}
+	
 
 
 

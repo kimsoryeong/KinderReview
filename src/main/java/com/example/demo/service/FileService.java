@@ -24,7 +24,7 @@ public class FileService {
 		this.fileDao = fileDao;
 	}
 
-	public void saveFile(MultipartFile file, String relTypeCode, int relId) throws IOException {
+	public String saveFile(MultipartFile file, String relTypeCode, int relId) throws IOException {
 		String orgName = file.getOriginalFilename();
 		String uuid = UUID.randomUUID().toString();
 		String extension = orgName.substring(orgName.lastIndexOf("."));
@@ -37,9 +37,11 @@ public class FileService {
 		fileDto.setSavedPath(savedPath);
 		fileDto.setRelTypeCode(relTypeCode);
 		fileDto.setRelId(relId);
-		fileDao.insertFile(fileDto);
 
 		file.transferTo(new File(savedPath));
+		fileDao.insertFile(fileDto);
+		
+		return savedName;
 	}
 
 	public List<FileDto> getFilesByRel(String relTypeCode, int relId) {
@@ -51,9 +53,22 @@ public class FileService {
 	}
 	
 
+	public void saveFile(MultipartFile file) throws IOException {
+	    saveFile(file, null, 0); 
+	}
+	
+	public List<FileDto> getFiles() {
+	    return fileDao.getAllFiles();
+	}
+
+	
 	public String getFullPath(String fileName) {
 	    return fileDir + "/" + fileName;
 	}
 
+	 public List<FileDto> getFilesByArticleId(int articleId) {
+	        return fileDao.getFilesByArticleId(articleId);
+	    }
 
+	
 }

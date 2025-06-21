@@ -48,4 +48,13 @@ public interface FileDao {
 		""")
 		List<FileDto> getFilesByRel(@Param("relTypeCode") String relTypeCode, @Param("relId") int relId);
 
+	@Select("SELECT * FROM file ORDER BY id DESC")
+	List<FileDto> getAllFiles();
+
+	@Select("""
+		    SELECT * FROM file
+		    WHERE relTypeCode = 'article' AND relId = #{articleId}
+		""")
+		List<FileDto> getFilesByArticleId(int articleId);
+
 }

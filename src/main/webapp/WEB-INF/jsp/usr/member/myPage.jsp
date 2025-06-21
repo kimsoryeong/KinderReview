@@ -49,7 +49,7 @@
 		  </c:if>
 		  <c:if test="${authLevel == 2}">
 		  <div class="text-gray-500">아이디 : ${member.loginId}</div>
-		  <div class="text-gray-500">기관명 : ${member.institutionName}</div>
+		  <div class="text-gray-500">기관명 : ${member.nickname}</div>
 		  <div class="text-gray-500">기관번호 : ${member.institutionNumber}</div>
 		  <div class="text-gray-500">가입 승인 상태 :
 		  <c:if test="${member.approveStatus == 0}">
@@ -63,15 +63,19 @@
             <span class="px-2 py-1 bg-red-200 text-red-800 rounded-full text-sm">반려</span>
             <span class="px-2 py-1  text-red-500 rounded-full text-sm">반려사유 : ${member.rejectReason}</span>
           </c:if>
-            <div>사업자등록증 ${member.workChkFile} 
-<a href="<c:url value='/usr/member/file/view/${member.workChkFile}' />" target="_blank">[ 보기 ]</a>
-
+            <div>사업자등록증
+			<c:choose>
+			  <c:when test="${not empty member.workChkFile}">
+			    <a href="/usr/member/file/view/${member.workChkFile}" target="_blank">[ 보기 ]</a>
+			  </c:when>
+			  <c:otherwise>
+			    <span class="text-gray-400 text-sm">첨부된 파일이 없습니다</span>
+			  </c:otherwise>
+			</c:choose>
             </div>
 		  </div>
 		  </c:if>
 		</div>
-
-		
 		<div id="sectionMyArticles" class="bg-white rounded-lg shadow p-4 mb-5">
 		  <h2 class="text-xl font-semibold mb-4"><i class="fas fa-pencil-alt text-orange-400 mr-2"></i>내가 작성한 글</h2>
 		  <c:forEach var="article" items="${myArticles}">
