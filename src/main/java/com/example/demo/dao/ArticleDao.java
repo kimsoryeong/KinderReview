@@ -421,5 +421,13 @@ public interface ArticleDao {
 	List<Article> getPendingArticlesByMemberId(int memberId);
 
 	
+	 @Select("""
+		        SELECT COUNT(*) 
+				FROM reply 
+				WHERE relTypeCode = 'article' AND relId = #{articleId};
+		    """)
+	int getReplyCountByArticleId(int articleId);
+
+	
 
 }

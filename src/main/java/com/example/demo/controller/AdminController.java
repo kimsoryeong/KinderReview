@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dto.Article;
 import com.example.demo.dto.FileDto;
@@ -75,6 +77,8 @@ public class AdminController {
         return Util.jsReplace("리뷰가 반려 처리 되었습니다", "/admin/review/list");
     }
     
+    
+
   
 
 }

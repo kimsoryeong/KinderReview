@@ -281,7 +281,11 @@ public class UsrArticleController {
 
 	    List<String> salaryOptions = articleService.getOptions(id, "salary");
 	    List<String> welfareOptions = articleService.getOptions(id, "welfare");
-	    List<Reply> replies = this.replyService.getReplies("article", id);
+
+	    int memberId = ((Req) request.getAttribute("req")).getLoginedMember().getId(); 
+	    List<Reply> replies = replyService.getReplies("article", id, memberId);
+	    
+	    replies = replyService.getReplies("article", id, memberId);
 
 	    salaryOptions = new ArrayList<>(new LinkedHashSet<>(salaryOptions));
 	    welfareOptions = new ArrayList<>(new LinkedHashSet<>(welfareOptions));
@@ -289,7 +293,7 @@ public class UsrArticleController {
 	    article.calculateStar();
 	    model.addAttribute("article", article);
 	    model.addAttribute("board", board);
-	    model.addAttribute("replies", replies);
+	    model.addAttribute("replies", replies);  
 	    model.addAttribute("relId", id);
 	    model.addAttribute("relTypeCode", "article");
 	    model.addAttribute("salaryOptions", salaryOptions);
@@ -304,7 +308,6 @@ public class UsrArticleController {
 
 	    List<FileDto> files = fileService.getFilesByRel("article", id);
 	    model.addAttribute("files", files);
-	    
 
 	    return "usr/article/detail";
 	}
@@ -340,6 +343,11 @@ public class UsrArticleController {
 	        articlesCnt = articleService.getArticlesCnt(boardId, city);
 	    }
 
+	    for (Article article : articles) {
+	        int replyCount = articleService.getReplyCountByArticleId(article.getId());
+	        article.setReplyCount(replyCount);
+	    }
+	    
 	    int totalPagesCnt = (int) Math.ceil(articlesCnt / (double) articlesInPage);
 	    int begin = ((cPage - 1) / 10) * 10 + 1;
 	    int end = (((cPage - 1) / 10) + 1) * 10;
@@ -398,9 +406,6 @@ public class UsrArticleController {
 	}
 
 
-
-
-	
 	@GetMapping("/usr/article/delete")
 	@ResponseBody
 	public String delete(int id, int boardId) {

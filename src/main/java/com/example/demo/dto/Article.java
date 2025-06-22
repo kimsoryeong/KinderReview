@@ -63,6 +63,7 @@ public class Article {
 	private String hireSalary;
 	private LocalDate deadline;
 	private List<FileDto> files;
+	private int replyCount;
 
 
     public void setWelfareOptionsStr(String welfareOptionsStr) {

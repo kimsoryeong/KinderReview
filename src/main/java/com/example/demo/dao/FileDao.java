@@ -86,7 +86,8 @@ public interface FileDao {
             WHERE id = #{fileId}
         """)
         void deleteFileById(int fileId);
-    
+
+	
  
 
 }

@@ -133,12 +133,16 @@
 		        </svg> ${article.star}
 		      </span>
 		    </div>
-		    <div class="text-sm text-gray-700 mt-1 truncate">
-		      "${article.interviewComment}"
-		    </div>
-		    <div class="flex justify-between items-center mt-2">
-		      <span class="text-xs text-gray-400">${article.regDate}</span>
-		    </div>
+		    <div class="flex justify-between items-center text-sm text-gray-700 py-1 mt-1">
+			    <div class="truncate w-2/4">
+			       " ${article.institutionComment} "
+			    </div>
+			    <div class="flex justify-end items-center gap-4 text-xs text-gray-500 ml-2">
+			        <span>${article.nickname}</span>  
+			        <span>작성일 : ${article.regDate}</span>
+			        <span>조회수 : ${article.views}</span>
+			    </div>
+			</div>
 		  </div>
 		</c:forEach>
 	  </div>
@@ -163,12 +167,16 @@
 		        </svg> ${article.interviewScore}
 		      </span>
 		    </div>
-		    <div class="text-sm text-gray-700 mt-1 truncate">
-		      "${article.interviewComment}"
-		    </div>
-		    <div class="flex justify-between items-center mt-2">
-		      <span class="text-xs text-gray-400">${article.regDate}</span>
-		    </div>
+		     <div class="flex justify-between items-center text-sm text-gray-700 py-1 mt-1">
+			    <div class="truncate w-2/4">
+			       " ${article.interviewComment} "
+			    </div>
+			    <div class="flex justify-end items-center gap-4 text-xs text-gray-500 ml-2">
+			        <span>${article.nickname}</span>  
+			        <span>작성일 : ${article.regDate}</span>
+			        <span>조회수 : ${article.views}</span>
+			    </div>
+			</div>
 		  </div>
 		</c:forEach>
 	  </div>
@@ -193,12 +201,16 @@
 		        </svg> ${article.practiceScore}
 		      </span>
 		    </div>
-		    <div class="text-sm text-gray-700 mt-1 truncate">
-		      "${article.practiceComment}"
-		    </div>
-		    <div class="flex justify-between items-center mt-2">
-		      <span class="text-xs text-gray-400">${article.regDate}</span>
-		    </div>
+		    <div class="flex justify-between items-center text-sm text-gray-700 py-1 mt-1">
+			    <div class="truncate w-2/4">
+			       " ${article.practiceComment} "
+			    </div>
+			    <div class="flex justify-end items-center gap-4 text-xs text-gray-500 ml-2">
+			        <span>${article.nickname}</span>  
+			        <span>작성일 : ${article.regDate}</span>
+			        <span>조회수 : ${article.views}</span>
+			    </div>
+			</div>
 		  </div>
 		</c:forEach>
 	  </div>
@@ -220,9 +232,8 @@
 		          ${article.title}
 		        </a>
 		      </div>
-		
-		      <div class="flex items-center gap-4 text-sm text-gray-500">
-		        <span>${article.regDate}</span>
+		      <div class="flex items-center gap-4 text-xs text-gray-500">
+		        <span>작성일 : ${article.regDate}</span>
 		        <span>조회수 ${article.views}</span>
 		      </div>
 		    </div>
@@ -246,8 +257,8 @@
 		        </a>
 		      </div>
 		
-		      <div class="flex items-center gap-4 text-sm text-gray-500">
-		        <span>${article.regDate}</span>
+		      <div class="flex items-center gap-4 text-xs text-gray-500">
+		        <span>작성일 : ${article.regDate}</span>
 		        <span>조회수 ${article.views}</span>
 		      </div>
 		    </div>
@@ -287,29 +298,42 @@
                 </c:if>
               </div>
 			<c:if test="${board.id == 4}">
-              <div class="flex pt-3">
-                <div class="text-sm text-gray-600 italic truncate max-w-xl">
-                  "${article.institutionComment}"
-                </div>
-              </div>
-            </c:if>
+               <div class="flex justify-between items-center text-sm text-gray-600 pt-3">
+			        <div class="italic truncate max-w-xl">
+			            "${article.institutionComment}"
+			        </div>
+			
+			        <div class="flex gap-4 text-xs text-gray-500">
+			            <span>작성일 : ${article.regDate}</span>
+			            <span>조회수 : ${article.views}</span>
+			        </div>
+			    </div>
+			</c:if>
 			<c:if test="${board.id == 5}">
-              <div class="flex pt-3">
-                <div class="text-sm text-gray-600 italic truncate max-w-xl">
-                  "${article.interviewComment}"
-                </div>
-              </div>
-            </c:if>
+               <div class="flex justify-between items-center text-sm text-gray-600 pt-3">
+			        <div class="italic truncate max-w-xl">
+			            "${article.interviewComment}"
+			        </div>
+			
+			        <div class="flex gap-4 text-xs text-gray-500">
+			            <span>작성일 : ${article.regDate}</span>
+			            <span>조회수 : ${article.views}</span>
+			        </div>
+			    </div>
+			</c:if>
 			<c:if test="${board.id == 6}">
-              <div class="flex pt-3">
-                <div class="text-sm text-gray-600 italic truncate max-w-xl">
-                  "${article.practiceComment}"
-                </div>
-              </div>
-            </c:if>
-              <div class="flex gap-4 pt-2 text-xs text-gray-400">
-                <span>작성일: ${article.regDate}</span>
-              </div>
+			    <div class="flex justify-between items-center text-sm text-gray-600 pt-3">
+			        <div class="italic truncate max-w-xl">
+			            "${article.practiceComment}"
+			        </div>
+			
+			        <div class="flex gap-4 text-xs text-gray-500">
+			            <span>작성일 : ${article.regDate}</span>
+			            <span>조회수 : ${article.views}</span>
+			        </div>
+			    </div>
+			</c:if>
+
             </div>
           </c:forEach>
           <c:if test="${empty articles}">
@@ -358,36 +382,42 @@
             <button class="bg-orange-100 hover:bg-orange-300 text-orange-700 px-4 py-2 rounded-md transition" type="submit">검색</button>
           </form>
         </div>
-         <div class="overflow-x-auto rounded-lg  ">
-		  <table class="min-w-full">
-		    <thead class="bg-orange-50">
-		      <tr>
-		        <th class="px-6 py-2 text-left text-xs  text-orange-600">지역</th>
-		        <th class="px-6 py-2 text-left text-xs  text-orange-600">기관명</th>
-		        <th class="px-6 py-2 text-left text-xs  text-orange-600">제목</th>
-		        <th class="px-6 py-2 text-left text-xs  text-orange-600">구인 직종</th>
-		        <th class="px-6 py-2 text-left text-xs  text-orange-600">작성일</th>
-		        <th class="px-6 py-2 text-left text-xs  text-orange-600">마감일</th>
-		        <th class="px-6 py-2 text-left text-xs  text-orange-600">조회수</th>
-		      </tr>
-		    </thead>
-		    <tbody class="bg-white">
-		      <c:forEach items="${articles}" var="article">
-		        <tr class="hover:bg-orange-50 transition">
-		          <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-700">${article.city}</td>
-		          <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-700">${article.institutionName}</td>
-		          <td class="px-6 py-4 whitespace-nowrap text-xs font-semibold text-orange-500 hover:underline">
-		            <a href="detail?id=${article.id}">${article.title}</a>
-		          </td>
-		          <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-700">${article.workType}</td>
-		          <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-500">${article.regDate}</td>
-		          <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-700">${article.deadline}</td>
-		          <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-500">${article.views}</td>
-		        </tr>
-		      </c:forEach>
-		    </tbody>
-		  </table>
-		</div>
+         <c:forEach items="${articles}" var="article">
+            <div class="p-5 hover:bg-orange-50 transition">
+              <div class="flex items-center">
+                <a href="detail?id=${article.id}" class="text-lg font-bold text-gray-800  flex items-center gap-2">
+                  <span class="text-sm hover:text-black">[${article.city}]</span>
+                  <span class="hover:text-orange-500 transition">${article.title}</span>
+                </a>
+              </div>
+             <c:if test="${board.id != 9}">
+             <div class="flex justify-between text-xs text-gray-400 pt-2">
+			    <div class="flex justify-start space-x-2">
+			        <span>${article.nickname}</span>
+			    </div>
+			    <div class="flex justify-end space-x-2">
+			        <span>작성일 ${article.regDate}</span>
+			        <span>조회수 ${article.views}</span>
+			        <span>댓글수 ${article.replyCount}</span>
+			    </div>
+			</div>
+			</c:if>
+             <c:if test="${board.id == 9}">
+             <div class="flex justify-between text-xs text-gray-400 pt-2">
+			    <div class="flex justify-start space-x-2">
+			        <span>${article.institutionName}</span>
+			        <span>${article.workType} 구인</span>
+			        <span>경력 ${article.personalHistory}</span>
+			    </div>
+			    <div class="flex justify-end space-x-2">
+			        <span>작성일  ${article.regDate}</span>
+			        <span>마감일  ${article.deadline}</span>
+			        <span>조회수  ${article.views}</span>
+			    </div>
+			</div>
+			</c:if>
+            </div>
+          </c:forEach>
           <c:if test="${empty articles}">
             <div class="p-8 text-center text-gray-500">
               등록된 게시글이 없습니다.

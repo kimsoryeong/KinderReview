@@ -344,7 +344,7 @@
 				<div class="flex justify-between items-center gap-4 border-b pb-4">
 				  <div class="flex flex-col">
 				    <span class="font-bold text-xl text-gray-800">${article.title}</span>
-				    <div class="text-sm text-gray-500">작성자 : ${article.nickname}</div>
+				    <div class="text-sm text-gray-500">${article.nickname}</div>
 				  </div>
 				  <div class="flex flex-col items-end text-sm text-gray-500">
 				    <span>조회수 ${article.views}</span>
@@ -373,7 +373,7 @@
 				<div><i class="fa-solid fa-briefcase pr-2 text-orange-500"></i>경력사항 : ${article.personalHistory}</div>
 				<div><i class="fa-solid fa-sack-dollar pr-2 text-orange-500"></i> 급여 : ${article.hireSalary}</div>
 				</div>
-				<div class="text-gray-800 pb-4">${article.content}</div>
+				<div class="text-gray-800 pb-50 border-b-2 ">${article.content}</div>
 				<c:forEach var="file" items="${files}">
 				  <c:choose>
 				    <c:when test="${file.originName.endsWith('.jpg') 
@@ -390,20 +390,13 @@
 				    </c:otherwise>
 				  </c:choose>
 				</c:forEach>
+				<div>
+				
+				</div>
+			</c:if>
+		</section>
 
-
-			<jsp:include page="/WEB-INF/jsp/common/replyBox.jsp">
-		    	<jsp:param name="relTypeCode" value="${relTypeCode}" />
-		    	<jsp:param name="relId" value="${relId}" />
-		    </jsp:include>
-	</c:if>
-</section>
-
-<style>
-.hidden { display: none; }
-</style>
-
-<script>
+		<script>
 		$(function(){
 			getLikePoint();
 		})
@@ -446,10 +439,7 @@
 				}
 			})
 		}
-
-		
-
-		
+	
 	</script>
 
 

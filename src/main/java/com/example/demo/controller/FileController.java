@@ -106,12 +106,11 @@ public class FileController {
 	    }
 	 
 	 @GetMapping("/usr/member/file/delete/{fileId}")
-	 public String deleteFile(@PathVariable int fileId, @RequestParam int articleId) {
+	 public String deleteFile(@PathVariable("fileId") int fileId, @RequestParam("articleId") int articleId) {
 	     fileService.deleteFileById(fileId);  
+
 	     return "redirect:/usr/article/modify?id=" + articleId;  
 	 }
-
-
 
 
 

@@ -78,6 +78,7 @@ public interface MemberDao {
 		""")
 		void updateWorkChkFile(@Param("memberId") int memberId, @Param("savedName") String savedName);
 
+	
 
 
 }

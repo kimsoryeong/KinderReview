@@ -71,7 +71,6 @@ public class ArticleService {
     }
 
 	public Article getArticleById(int id) {
-			
 		    return articleDao.getArticleById(id);
 		}
 
@@ -140,6 +139,10 @@ public class ArticleService {
         
         articleDao.modifyArticle(modifyDTO);
     }
+
+	public int getReplyCountByArticleId(int articleId) {
+		return articleDao.getReplyCountByArticleId(articleId);
+	}
 
 
 
