@@ -1,13 +1,16 @@
 package com.example.demo.service;
 
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dao.ArticleDao;
 import com.example.demo.dto.Article;
+import com.example.demo.dto.ArticleModifyDTO;
 import com.example.demo.dto.FileDto;
 
 @Service
@@ -17,7 +20,6 @@ public class ArticleService {
 	 private final BoardService boardService;
 	 private final FileService fileService;
 	 
-	 @Autowired
 	 public ArticleService(BoardService boardService, ArticleDao articleDao, FileService fileService) {
 		this.articleDao = articleDao;
 		this.boardService = boardService;
@@ -78,27 +80,6 @@ public class ArticleService {
 	        return articleDao.searchKeyword(boardId, searchType, keyword);
 	    }
 
-
-
-
-	public void modifyArticle(
-		    String institutionName, int id, String workType, String city, String institutionType, String institutionComment,
-		    String salaryOptions, String welfareOptions, String salaryComment, String welfareComment, String environmentComment, String commuteTimeComment,
-		    Integer salaryScore, Integer welfareScore, Integer environmentScore, Integer interviewScore, String interviewComment, String interviewResults, String personalHistory,
-		    String interviewMaterial, String interviewProgress, String interviewCompleted, String interviewQnA, String interviewTip,
-		    Integer practiceScore, String practiceComment, String educationalBackground, String practiceExperience, String practiceReview, String practiceAtmosphere
-		) {
-		    articleDao.modifyArticle(
-		        institutionName, id, workType, city, institutionType, institutionComment,
-		        salaryOptions, welfareOptions, salaryComment, welfareComment, environmentComment, commuteTimeComment,
-		        salaryScore, welfareScore, environmentScore, interviewScore, interviewComment, interviewResults, personalHistory,
-		        interviewMaterial, interviewProgress, interviewCompleted, interviewQnA, interviewTip,
-		        practiceScore, practiceComment, educationalBackground, practiceExperience, practiceReview, practiceAtmosphere
-		    );
-		}
-
-
-
     public void deleteArticle(int id) {
         this.articleDao.deleteArticle(id);
     }
@@ -147,6 +128,20 @@ public class ArticleService {
         article.setFiles(files);
         return article;
     }
+
+    public void modifyArticle(ArticleModifyDTO modifyDTO) {
+        String salaryOptionsStr = (modifyDTO.getSalaryOptions() != null && !modifyDTO.getSalaryOptions().isEmpty()) 
+            ? String.join(",", modifyDTO.getSalaryOptions()) : null;
+        String welfareOptionsStr = (modifyDTO.getWelfareOptions() != null && !modifyDTO.getWelfareOptions().isEmpty()) 
+            ? String.join(",", modifyDTO.getWelfareOptions()) : null;
+        
+        modifyDTO.setSalaryOptionsStr(salaryOptionsStr);
+        modifyDTO.setWelfareOptionsStr(welfareOptionsStr);
+        
+        articleDao.modifyArticle(modifyDTO);
+    }
+
+
 
    
 

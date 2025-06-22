@@ -3,17 +3,20 @@
 <%@ include file="/WEB-INF/jsp/common/topbar.jsp" %>
 
 <section class="bg-gray-100 min-h-screen py-8">
-  <div class="container mx-auto max-w-4xl">
+<div class="container mx-auto max-w-4xl">
+  <div class="bg-white rounded-t-lg shadow p-6 mb-4 border-b-4 border-orange-300 flex justify-between items-center">
+	  <div class="flex items-end gap-2">
+	    <span class="text-2xl pr-5 font-bold text-orange-400">기관 가입 신청 목록</span>
+	  </div>
+	</div>
     <div class="bg-white rounded-lg shadow p-6 mb-6">
-      <h2 class="text-2xl font-bold text-orange-400 mb-4">기관 가입 신청 목록</h2>
-
       <c:if test="${empty institutionList}">
         <p class="text-gray-500">대기 중인 기관 가입 신청이 없습니다.</p>
       </c:if>
 
       <c:forEach var="member" items="${institutionList}">
         <div class="border rounded-lg p-4 mb-4 bg-white shadow">
-          <p><strong>기관명:</strong> ${member.nickname}</p>
+          <p><strong>기관명:</strong> ${member.institutionName}</p>
           <p><strong>사업자등록번호:</strong> ${member.institutionNumber}</p>
             <p><strong>사업자등록증:</strong> 
 				<c:choose>

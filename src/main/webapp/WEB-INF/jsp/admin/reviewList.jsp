@@ -3,10 +3,13 @@
 <%@ include file="/WEB-INF/jsp/common/topbar.jsp" %>
 
 <section class="bg-gray-100 min-h-screen py-8">
-  <div class="container mx-auto max-w-4xl">
+<div class="container mx-auto max-w-4xl">
+  <div class="bg-white rounded-t-lg shadow p-6 mb-4 border-b-4 border-orange-300 flex justify-between items-center">
+	  <div class="flex items-end gap-2">
+	    <span class="text-2xl pr-5 font-bold text-orange-400">근무 리뷰 관리</span>
+	  </div>
+	</div>
     <div class="bg-white rounded-lg shadow p-6 mb-6">
-      <h2 class="text-2xl font-bold text-orange-400 mb-4">근무 리뷰 관리</h2>
-
       <c:if test="${empty reviews}">
         <p class="text-gray-500">대기 중인 근무 리뷰가 없습니다.</p>
       </c:if>

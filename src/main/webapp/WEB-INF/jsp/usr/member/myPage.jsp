@@ -62,6 +62,7 @@
 		  <c:if test="${member.approveStatus == 2}">
             <span class="px-2 py-1 bg-red-200 text-red-800 rounded-full text-sm">반려</span>
             <span class="px-2 py-1  text-red-500 rounded-full text-sm">반려사유 : ${member.rejectReason}</span>
+            
           </c:if>
             <div>사업자등록증
 			<c:choose>
@@ -95,7 +96,7 @@
 		            <span class="px-2 py-1 bg-green-200 text-green-800 rounded-full text-sm">승인 완료</span>
 		          </c:when>
 		          <c:when test="${article.reviewStatus == 2}">
-		            <span class="px-2 py-1 bg-red-200 text-red-800 rounded-full text-sm">반려됨</span>
+		            <span class="px-2 py-1 bg-red-200 text-red-800 rounded-full text-sm">반려</span>
 		          </c:when>
 		          <c:otherwise>
 		            <span class="px-2 py-1 bg-gray-200 text-gray-700 rounded-full text-sm">상태 없음</span>

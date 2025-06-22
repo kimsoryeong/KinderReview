@@ -1,3 +1,6 @@
+
+
+
 package com.example.demo.controller;
 
 import java.io.IOException;
@@ -13,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -84,6 +88,32 @@ public class FileController {
 	            .header(HttpHeaders.CONTENT_TYPE, contentType)
 	            .body(resource);
 	}
+	
+	 @PostMapping("/usr/file/modify/{articleId}")
+	    public String modifyFile(@PathVariable("articleId") int articleId, @RequestParam("workCertFile") MultipartFile file) {
+	        if (file.isEmpty()) {
+	            return "redirect:/usr/article/detail?id=" + articleId + "&error=새 파일을 선택해 주세요.";
+	        }
+
+	        try {
+	            fileService.modifyFile(articleId, file);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return "redirect:/usr/article/detail?id=" + articleId + "&error=파일 수정에 실패했습니다.";
+	        }
+
+	        return "redirect:/usr/article/detail?id=" + articleId + "&success=파일이 수정되었습니다.";
+	    }
+	 
+	 @GetMapping("/usr/member/file/delete/{fileId}")
+	 public String deleteFile(@PathVariable int fileId, @RequestParam int articleId) {
+	     fileService.deleteFileById(fileId);  
+	     return "redirect:/usr/article/modify?id=" + articleId;  
+	 }
+
+
+
+
 
 
 }

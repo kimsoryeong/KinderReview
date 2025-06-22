@@ -9,8 +9,8 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-
 import com.example.demo.dto.Article;
+import com.example.demo.dto.ArticleModifyDTO;
 
 @Mapper
 public interface ArticleDao {
@@ -233,16 +233,25 @@ public interface ArticleDao {
 		        <if test="practiceAtmosphere != null and practiceAtmosphere != ''">
 		            , practiceAtmosphere = #{practiceAtmosphere}
 		        </if>
+		        <if test="title != null and title != ''">
+		            , title = #{title}
+		        </if>
+		        <if test="content != null and content != ''">
+		            , content = #{content}
+		        </if>
+		        <if test="phoneNumber != null and phoneNumber != ''">
+		            , phoneNumber = #{phoneNumber}
+		        </if>
+		        <if test="hireSalary != null and hireSalary != ''">
+		            , hireSalary = #{hireSalary}
+		        </if>
+		        <if test="nickname != null and nickname != ''">
+		            , nickname = #{nickname}
+		        </if>
 		    WHERE id = #{id}
 		    </script>
 		""")
-	void modifyArticle(
-	    String institutionName, int id, String workType, String city, String institutionType, String institutionComment,
-	    String salaryOptionsStr, String welfareOptionsStr, String salaryComment, String welfareComment, String environmentComment, String commuteTimeComment,
-	    Integer salaryScore, Integer welfareScore, Integer environmentScore, Integer interviewScore, String interviewComment, String interviewResults, String personalHistory,
-	    String interviewMaterial, String interviewProgress, String interviewCompleted, String interviewQnA, String interviewTip,
-	    Integer practiceScore, String practiceComment, String educationalBackground, String practiceExperience, String practiceReview, String practiceAtmosphere
-	);
+		void modifyArticle(ArticleModifyDTO modifyDTO);
 
 	@Delete("""
 			DELETE FROM article
@@ -410,5 +419,7 @@ public interface ArticleDao {
 			ORDER BY regDate DESC
 		""")
 	List<Article> getPendingArticlesByMemberId(int memberId);
+
+	
 
 }

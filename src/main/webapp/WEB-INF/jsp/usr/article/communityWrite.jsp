@@ -98,9 +98,6 @@
 	</form>
 </section>
 
-<style>
-.hidden { display: none; }
-</style>
 
 <script>
   const fileInput = document.getElementById('workCertFile');

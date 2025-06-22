@@ -10,12 +10,14 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dto.Article;
+import com.example.demo.dto.ArticleModifyDTO;
 import com.example.demo.dto.Board;
 import com.example.demo.dto.FileDto;
 import com.example.demo.dto.LoginedMember;
@@ -365,66 +367,37 @@ public class UsrArticleController {
 	@GetMapping("/usr/article/modify")
 	public String modify(Model model, int id) {
 	    Article article = this.articleService.getArticleById(id);
+	    List<FileDto> files = fileService.getFilesByRelId(id);  
 
 	    LoginedMember loginedMember = req.getLoginedMember();
-	    int loginedMemberId = loginedMember.getId();
-
-	    if (article == null || article.getMemberId() != loginedMemberId) {
-	        return "common/notAuthorized";
+	    if (article.getMemberId() != loginedMember.getId()) {
+	        model.addAttribute("error", "권한이 없는 페이지입니다.");
+	        return "redirect:/usr/article/list";
 	    }
 
 	    model.addAttribute("article", article);
-	    return "usr/article/modify";
+	    model.addAttribute("files", files); 
+	    return "usr/article/modify"; 
 	}
 
-	
 	@PostMapping("/usr/article/doModify")
 	@ResponseBody
-	public String doModify(
-	    String institutionName,
-	    int id,
-	    @RequestParam(required = false) String workType,
-	    @RequestParam(required = false) String city,
-	    @RequestParam(required = false) String institutionType,
-	    @RequestParam(required = false) String institutionComment,
-	    @RequestParam(required = false) List<String> salaryOptions,
-	    @RequestParam(required = false) List<String> welfareOptions,
-	    @RequestParam(required = false) String salaryComment,
-	    @RequestParam(required = false) String welfareComment,
-	    @RequestParam(required = false) String environmentComment,
-	    @RequestParam(required = false) String commuteTimeComment,
-	    @RequestParam(required = false) Integer salaryScore,
-	    @RequestParam(required = false) Integer welfareScore,
-	    @RequestParam(required = false) Integer environmentScore,
-	    @RequestParam(required = false) Integer interviewScore,
-	    @RequestParam(required = false) String interviewComment,
-	    @RequestParam(required = false) String interviewResults,
-	    @RequestParam(required = false) String personalHistory,
-	    @RequestParam(required = false) String interviewMaterial,
-	    @RequestParam(required = false) String interviewProgress,
-	    @RequestParam(required = false) String interviewCompleted,
-	    @RequestParam(required = false) String interviewQnA,
-	    @RequestParam(required = false) String interviewTip,
-	    @RequestParam(required = false) Integer practiceScore,
-	    @RequestParam(required = false) String practiceComment,
-	    @RequestParam(required = false) String educationalBackground,
-	    @RequestParam(required = false) String practiceExperience,
-	    @RequestParam(required = false) String practiceReview,
-	    @RequestParam(required = false) String practiceAtmosphere
-	) {
-	    String salaryOptionsStr = (salaryOptions != null && !salaryOptions.isEmpty()) ? String.join(",", salaryOptions) : null;
-	    String welfareOptionsStr = (welfareOptions != null && !welfareOptions.isEmpty()) ? String.join(",", welfareOptions) : null;
+	public String doModify(@ModelAttribute ArticleModifyDTO modifyDTO, Model model) {
+	    MultipartFile file = modifyDTO.getWorkCertFile();
+	    if (file != null && !file.isEmpty()) {
+	        String savedFileName = fileService.saveFile(modifyDTO.getId(), file);
+	        modifyDTO.setWorkCertFileName(savedFileName); 
+	    }
 
-	    articleService.modifyArticle(
-	        institutionName, id, workType, city, institutionType, institutionComment,
-	        salaryOptionsStr, welfareOptionsStr, salaryComment, welfareComment, environmentComment, commuteTimeComment,
-	        salaryScore, welfareScore, environmentScore, interviewScore, interviewComment, interviewResults, personalHistory,
-	        interviewMaterial, interviewProgress, interviewCompleted, interviewQnA, interviewTip,
-	        practiceScore, practiceComment, educationalBackground, practiceExperience, practiceReview, practiceAtmosphere
-	    );
+	    articleService.modifyArticle(modifyDTO);
 
-	    return Util.jsReplace(String.format("%d번 게시물을 수정했습니다", id), String.format("detail?id=%d", id));
+	    List<FileDto> files = fileService.getFilesByRelId(modifyDTO.getId());
+	    model.addAttribute("files", files);
+
+	    return Util.jsReplace(String.format("%d번 게시물을 수정했습니다", modifyDTO.getId()), String.format("detail?id=%d", modifyDTO.getId()));
 	}
+
+
 
 
 	
