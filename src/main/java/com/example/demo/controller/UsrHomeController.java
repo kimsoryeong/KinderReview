@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +32,12 @@ public class UsrHomeController {
 
         return "usr/home/main";
     }
+
+   
+    @GetMapping("/usr/home/apiTest1")
+    public String apiTest1Page() {
+        return "usr/home/apiTest1"; 
+    }
+    
 
 }

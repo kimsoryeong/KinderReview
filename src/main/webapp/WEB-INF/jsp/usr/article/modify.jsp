@@ -287,7 +287,147 @@
               class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400">${article.practiceReview}</textarea>
           </div>
         </div>
-        </c:if>	
+        </c:if>
+      <c:if test="${article.boardId == 9}">
+	    <input type="hidden" name="id" value="${article.id}" />
+	    <div class="grid gap-6">
+	      <div>
+	        <label for="title" class="block font-semibold mb-1 text-orange-400">제목</label>
+	        <input id="title" name="title" value="${article.title}" required
+	          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-300" />
+	      </div>
+	      <div class="flex flex-row gap-2 justify-between">
+	        <div class="flex-1">
+	          <label for="phoneNumber" class="block font-semibold mb-1 text-orange-400">
+	            <i class="fa-solid fa-phone pr-2 text-orange-500"></i>전화번호
+	          </label>
+	          <input id="phoneNumber" name="phoneNumber" value="${article.phoneNumber}" required
+	            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-300" />
+	        </div>
+	        <div class="flex-1">
+	          <label for="deadline" class="block font-semibold mb-1 text-orange-400">
+	            <i class="fa-solid fa-check pr-2 text-orange-500"></i>마감일
+	          </label>
+	          <input id="deadline" name="deadline" type="date" value="${article.deadline}" required
+	            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-300" />
+	        </div>
+	        <div class="flex-1">
+	          <label for="personalHistory" class="block font-semibold mb-1 text-orange-400">
+	            <i class="fa-solid fa-briefcase pr-2 text-orange-500"></i>경력사항
+			  </label>
+			  <label>
+			    <input type="radio" name="personalHistory" value="유" 
+			      ${article.personalHistory == '유' ? 'checked' : ''} />
+			    유
+			  </label>
+			  <label class="ml-4">
+			    <input type="radio" name="personalHistory" value="무관" 
+			      ${article.personalHistory == '무관' ? 'checked' : ''} />
+			    무관
+			  </label>
+				</div>
+	      </div>
+	      <div class="flex flex-row gap-2 justify-between pb-4">
+	        <div class="flex-1">
+	            <label for="city" class="block font-semibold mb-1 text-gray-700">
+	                <i class="fa-solid fa-location-dot text-orange-400 pr-3"></i>지역
+	            </label>
+	            <select id="city" name="city" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-300" onchange="updateDistricts()">
+	                <option value="" disabled selected>지역을 선택해 주세요</option>
+	                <option value="전체" <c:if test="${article.city == '전체'}">selected</c:if>>전체</option>
+	                <option value="서울" <c:if test="${article.city == '서울'}">selected</c:if>>서울</option>
+	                <option value="대전" <c:if test="${article.city == '대전'}">selected</c:if>>대전</option>
+	                <option value="대구" <c:if test="${article.city == '대구'}">selected</c:if>>대구</option>
+	                <option value="부산" <c:if test="${article.city == '부산'}">selected</c:if>>부산</option>
+	                <option value="인천" <c:if test="${article.city == '인천'}">selected</c:if>>인천</option>
+	                <option value="광주" <c:if test="${article.city == '광주'}">selected</c:if>>광주</option>
+	                <option value="세종" <c:if test="${article.city == '세종'}">selected</c:if>>세종</option>
+	                <option value="울산" <c:if test="${article.city == '울산'}">selected</c:if>>울산</option>
+	                <option value="강원" <c:if test="${article.city == '강원'}">selected</c:if>>강원</option>
+	                <option value="경기" <c:if test="${article.city == '경기'}">selected</c:if>>경기</option>
+	                <option value="경남" <c:if test="${article.city == '경남'}">selected</c:if>>경남</option>
+	                <option value="경북" <c:if test="${article.city == '경북'}">selected</c:if>>경북</option>
+	                <option value="전남" <c:if test="${article.city == '전남'}">selected</c:if>>전남</option>
+	                <option value="전북" <c:if test="${article.city == '전북'}">selected</c:if>>전북</option>
+	                <option value="제주" <c:if test="${article.city == '제주'}">selected</c:if>>제주</option>
+	                <option value="충남" <c:if test="${article.city == '충남'}">selected</c:if>>충남</option>
+	                <option value="충북" <c:if test="${article.city == '충북'}">selected</c:if>>충북</option>
+	            </select>
+	        </div>
+	        <div class="flex-1">
+	          <label for="workType" class="block font-semibold mb-1 text-orange-400">
+	            <i class="fa-regular fa-user pr-2 text-orange-500"></i>구인 직종
+	          </label>
+	          <select id="workType" name="workType" class="rounded-md border px-3 py-2 w-60">
+		        <option value="" disabled selected>${article.workType}</option>
+		        <option value="원장">원장</option>
+		        <option value="원감">원감</option>
+		        <option value="정교사">정교사</option>
+		        <option value="보조교사">보조교사</option>
+		        <option value="방과후교사">방과후교사</option>
+		        <option value="종일반교사">종일반교사</option>
+		        <option value="파트타임">파트타임</option>
+		        <option value="방문교사">방문교사</option>
+		        <option value="영양사">영양사</option>
+		        <option value="기타">기타</option>
+		      </select>
+	        </div>
+	        <div class="flex-1">
+	          <label for="hireSalary" class="block font-semibold mb-1 text-orange-400">
+	            <i class="fa-solid fa-sack-dollar pr-2 text-orange-500"></i>급여
+	          </label>
+	          <input id="hireSalary" name="hireSalary" value="${article.hireSalary}" required
+	            class="w-50% border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-300" />
+	        </div>
+		   </div>
+	      <div>
+	        <label for="content" class="block font-semibold mb-1 text-orange-400 border-t-2 py-5">내용</label>
+	        <textarea id="content" name="content" required pattern=".{10,1000}" title="10~1000자"
+	          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400" rows="8">${article.content}</textarea>
+	      </div>
+	      <div class="file-upload">
+	        <label for="workCertFile" class="inline-block cursor-pointer bg-orange-100 text-orange-700 font-semibold py-1 px-4 rounded hover:bg-orange-200 text-sm">
+	          파일 선택
+	        </label>
+	        <input type="file" name="workCertFile" id="workCertFile" accept=".pdf,.jpg,.jpeg,.png" class="hidden" />
+	        <span id="fileName" class="ml-2 text-sm text-gray-600">
+	          <c:if test="${not empty files}">
+	            <c:forEach items="${files}" var="file">
+	              <span>${file.originName}</span>
+	            </c:forEach>
+	          </c:if>
+	          <c:if test="${empty files}">
+	            선택된 파일 없음
+	          </c:if>
+	        </span>
+	        <c:if test="${not empty files}">
+	          <ul class="mt-2">
+	            <c:forEach items="${files}" var="file">
+	              <li>
+	                ${file.originName} 
+	                <a href="/usr/member/file/delete/${file.id}?articleId=${article.id}" class="text-red-600 ml-2" onclick="return confirm('이 파일을 삭제하시겠습니까?');">삭제</a>
+	              </li>
+	            </c:forEach>
+	          </ul>
+	        </c:if>
+	        <div class="text-xs text-gray-400 mt-2">PDF, JPG, PNG 파일만 업로드 가능합니다.</div>
+	      </div>
+    	</div>
+		  <script>
+		    document.getElementById('workCertFile').addEventListener('change', function () {
+		      const fileNameSpan = document.getElementById('fileName');
+		      if (this.files.length > 0) {
+		        let names = [];
+		        for(let i=0; i < this.files.length; i++) {
+		          names.push(this.files[i].name);
+		        }
+		        fileNameSpan.textContent = names.join(', ');
+		      } else {
+		        fileNameSpan.textContent = '선택된 파일 없음';
+		      }
+		    });
+		  </script>
+		</c:if>
 	   	<c:if test="${article.boardId == 11}">
     	<div class="grid gap-6 px-6">
 	    <div class="grid grid-cols-2 gap-6">
@@ -295,20 +435,22 @@
 	            <label for="boardName" class="block font-semibold mb-1 text-gray-700">
 	                <i class="fa-solid fa-pencil text-orange-400 pr-3"></i>게시판
 	            </label>
-	            <select id="boardName" name="boardName" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400" required>
-	                <option value="" disabled selected>게시판을 선택해 주세요</option>
-	                <c:if test="${loginedMember != null && loginedMember.authLevel == 0}">
-	                    <option value="공지사항" <c:if test="${article.boardName == '공지사항'}">selected</c:if>>공지사항</option>
-	                </c:if>
-	                <option value="자유게시판" <c:if test="${article.boardName == '자유게시판'}">selected</c:if>>자유게시판</option>
-	                <option value="질문게시판" <c:if test="${article.boardName == '질문게시판'}">selected</c:if>>질문게시판</option>
-	            </select>
+	            <select id="boardName" name="boardName" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-300" required>
+				    <option value="${article.boardName}" disabled 
+				    <c:if test="${empty article.boardName}">selected</c:if>>게시판을 선택해 주세요</option>
+				    <c:if test="${loginedMember != null && loginedMember.authLevel == 0}">
+				        <option value="공지사항" <c:if test="${article.boardName == '공지사항'}">selected</c:if>>공지사항</option>
+				    </c:if>
+				    <option value="자유게시판" <c:if test="${article.boardName == '자유게시판'}">selected</c:if>>자유게시판</option>
+				    <option value="질문게시판" <c:if test="${article.boardName == '질문게시판'}">selected</c:if>>질문게시판</option>
+				</select>
+
 			</div>
 		<div>
             <label for="city" class="block font-semibold mb-1 text-gray-700">
                 <i class="fa-solid fa-location-dot text-orange-400 pr-3"></i>지역
             </label>
-            <select id="city" name="city" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400" onchange="updateDistricts()">
+            <select id="city" name="city" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-300" onchange="updateDistricts()">
                 <option value="" disabled selected>지역을 선택해 주세요</option>
                 <option value="전체" <c:if test="${article.city == '전체'}">selected</c:if>>전체</option>
                 <option value="서울" <c:if test="${article.city == '서울'}">selected</c:if>>서울</option>
@@ -334,56 +476,43 @@
         <div>
             <label for="title" class="block font-semibold mb-1 text-orange-400 border-t-2 py-5">제목</label>
             <input id="title" name="title" value="${article.title}" required title="10~100자로 작성해주세요"
-                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"/>
+                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-300"/>
         </div>
         <div>
             <label for="content" class="block font-semibold mb-1 text-orange-400">내용</label>
             <textarea id="content" name="content" pattern=".{10,500}" required title="10~500자로 작성해주세요" 
-                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400">${article.content}</textarea>
+                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-300">${article.content}</textarea>
         </div>
-	
 <div class="file-upload">
     <label for="workCertFile" class="inline-block cursor-pointer bg-orange-100 text-orange-700 font-semibold py-1 px-4 rounded hover:bg-orange-200 text-sm">
         파일 선택
     </label>
     <input type="file" name="workCertFile" id="workCertFile" accept=".pdf,.jpg,.jpeg,.png" class="hidden" />
-
-    <!-- 기존 파일 표시 -->
     <span id="fileName" class="ml-2 text-sm text-gray-600">
         <c:if test="${not empty files}">
             <c:forEach items="${files}" var="file">
-                <span>${file.originName}</span> <!-- 기존 파일 이름 표시 -->
+                <span>${file.originName}</span> <
             </c:forEach>
         </c:if>
         <c:if test="${empty files}">
             선택된 파일 없음
         </c:if>
     </span>
-
-    <!-- 기존 파일 목록 출력, 삭제 버튼 추가 -->
-    <c:if test="${not empty files}">
-        <ul class="mt-2">
-            <c:forEach items="${files}" var="file">
-                <li>
-                    ${file.originName} <!-- 기존 파일 이름 -->
-                    <!-- 삭제 버튼, 클릭 시 파일 삭제 -->
-                    <a href="/usr/member/file/delete/${file.id}?articleId=${article.id}" class="text-red-600 ml-2" onclick="return confirm('이 파일을 삭제하시겠습니까?');">삭제</a>
-                </li>
-            </c:forEach>
-        </ul>
-    </c:if>
-
-    <div class="text-xs text-gray-400 mt-2">PDF, JPG, PNG 파일만 업로드 가능합니다.</div>
-</div>
-
-
-
-		
-		
-		
-		
+	    <c:if test="${not empty files}">
+	        <ul class="mt-2">
+	            <c:forEach items="${files}" var="file">
+	                <li>
+	                    ${file.originName} 
+	                    <a href="/usr/member/file/delete/${file.id}?articleId=${article.id}" class="text-red-600 ml-2" onclick="return confirm('이 파일을 삭제하시겠습니까?');">삭제</a>
+	                </li>
+			     </c:forEach>
+			   </ul>
+		 </c:if>
+   			 <div class="text-xs text-gray-400 mt-2">PDF, JPG, PNG 파일만 업로드 가능합니다.</div>
+		</div>
     </div>
 </c:if>
+
         <div class="flex pt-10 justify-end gap-4">
           <button type="submit"
             class="bg-orange-100 hover:bg-orange-300 text-orange-700 font-bold py-2 px-4 rounded-md transition ">
@@ -394,6 +523,7 @@
             뒤로가기
           </button>
         </div>
+        
       </form>
      </div>
     </div>

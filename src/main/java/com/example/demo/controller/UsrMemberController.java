@@ -1,22 +1,17 @@
 package com.example.demo.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dto.Article;
+import com.example.demo.dto.FileDto;
 import com.example.demo.dto.LoginedMember;
 import com.example.demo.dto.Member;
 import com.example.demo.dto.Reply;
@@ -27,8 +22,6 @@ import com.example.demo.service.FileService;
 import com.example.demo.service.MemberService;
 import com.example.demo.service.ReplyService;
 import com.example.demo.util.Util;
-
-import jakarta.servlet.http.HttpServletResponse;
 
 
 @Controller
@@ -163,6 +156,13 @@ public class UsrMemberController {
 	    List<Reply> myReplies = replyService.getReplyByMemberId(member.getId());
 	    List<Article> pendingArticleList = articleService.getPendingArticlesByMemberId(member.getId());
 
+	    FileDto workChkFile = null;
+	    if (member.getWorkChkFileId() != null) {
+	        workChkFile = fileService.getFileById(member.getWorkChkFileId());
+	    }
+
+	    model.addAttribute("workChkFile", workChkFile);
+
 	    model.addAttribute("myArticles", myArticles);
 	    model.addAttribute("member", member);
 	    model.addAttribute("likedArticles", likedArticleList);
@@ -172,8 +172,6 @@ public class UsrMemberController {
 	    return "usr/member/myPage";
 	}
 	
-	
-
 
 
 

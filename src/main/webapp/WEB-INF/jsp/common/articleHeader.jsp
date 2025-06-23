@@ -15,9 +15,11 @@
 			</div>
 			<div class="bg-white rounded-2xl shadow-xl px-10 space-y-6">
 			<div class="flex justify-between border-b border-gray-300 py-2">
-					<button
-						class="border border-gray-200 hover:bg-orange-200 text-sm px-3 py-1 rounded-md transition"
-						onclick="history.back();">뒤로가기</button>
+					<a href="/usr/article/list?boardId=${article.boardId}"
+					   class="border border-gray-200 hover:bg-orange-200 text-sm px-3 py-1 rounded-md transition">
+					   목록
+					</a>
+
 					<c:if
 						test="${article.getMemberId() == req.getLoginedMember().getId()}">
 						<div class="flex gap-2">
@@ -46,7 +48,7 @@
 				  <i class="fa-solid fa-briefcase text-orange-400"></i>
 				  <span>${article.workType}</span>
 				
-				  <div class="flex items-center gap-2 text-gray-500 ml-auto">
+				  <div class="flex items-center text-sm gap-2 text-gray-500 ml-auto">
 				    <span>추천수</span>
 				    <span>
 				      <c:if test="${req.getLoginedMember().getId() == 0}">
@@ -60,6 +62,8 @@
 				      </c:if>
 				    </span>
 				    <span>조회수 ${article.views}</span>
+				    <span id="replyCount">댓글수 ${article.replyCount}</span>
 				  </div>
 				 </div>
 				 </c:if>
+				 

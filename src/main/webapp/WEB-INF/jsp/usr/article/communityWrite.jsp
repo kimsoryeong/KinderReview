@@ -20,9 +20,8 @@
 					<i class="fa-solid fa-pencil pr-5 "></i>게시판
 				</div>
 				<select style="width: 250px;" id="boardName" 
-					class="rounded-md select border" name="boardName" required>
-					<option class="text-center h-40" value="" disabled selected>게시판을
-						선택해 주세요</option>
+					class="rounded-md pl-1 select border" name="boardName" required>
+					<option class="text-center h-40" value="" disabled selected>게시판을 선택해 주세요</option>
 				 <c:if test="${loginedMember != null && loginedMember.authLevel == 0}">
 			        <option value="공지사항">공지사항</option>
 			    </c:if>
@@ -33,7 +32,7 @@
 					<i class="fa-solid fa-location-dot pr-5 "></i>지역
 				</div>
 				<select style="width: 250px;" id="city" onchange="updateDistricts()"
-					class="rounded-md select border" name="city">
+					class="rounded-md select pl-1 border" name="city">
 					<option class="text-center h-40" value="" disabled selected>지역을
 						선택해 주세요</option>
 					<option value="전체">전체</option>

@@ -1,5 +1,7 @@
 package com.example.demo.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
@@ -70,10 +72,29 @@ public interface MemberDao {
 		""")
 		Integer findWorkChkFileByMemberId(@Param("memberId") int memberId);
 	
+	
+	@Select("""
+		    SELECT *
+		    FROM member
+		    WHERE authLevel = 2
+		      AND approveStatus = 0
+		    ORDER BY regDate DESC
+		""")
+		List<Member> getPendingInstitutions();
+
+	@Update("""
+	        UPDATE member
+	        SET approveStatus = #{approveStatus},
+	            updateDate = NOW()
+	        WHERE id = #{memberId}
+	    """)
+	    void updateApproveStatus(@Param("memberId") int memberId, @Param("approveStatus") int approveStatus);
+
+
 	@Update("""
 		    UPDATE member
 		    SET workChkFile = #{savedName},
-		        updateDate = NOW()
+		     updateDate = NOW()
 		    WHERE id = #{memberId}
 		""")
 		void updateWorkChkFile(@Param("memberId") int memberId, @Param("savedName") String savedName);

@@ -43,9 +43,6 @@ public class ReplyService {
         return replyDao.getReplyByMemberId(memberId, "article");
     }
     
-    public void deleteReply(int id, int loginedMemberId) {
-        replyDao.deleteReply(id, loginedMemberId);
-    }
 
     @Transactional
     public void modifyReply(int id, String content, int memberId) {
@@ -58,6 +55,10 @@ public class ReplyService {
 
     public int getArticleIdByReplyId(int replyId) {
         return replyDao.getArticleIdByReplyId(replyId);
+    }
+
+    public void deleteReply(int id) {
+        this.replyDao.deleteReply(id);
     }
 
 

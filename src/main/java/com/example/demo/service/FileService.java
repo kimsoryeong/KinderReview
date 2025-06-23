@@ -128,6 +128,18 @@ public class FileService {
             }
         }
     }
+    
+    public void saveWorkCertFile(int memberId, MultipartFile file) {
+        try {
+            String savedName = saveFile(file, "member", memberId); 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
 
 
 	

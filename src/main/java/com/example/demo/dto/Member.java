@@ -23,6 +23,7 @@ public class Member {
 	public int approveStatus;
 	private Integer workChkFileId;
 	private String workChkFileName;
+	private String rejectReason;
 
 	public String getWorkChkFileName() {
 	    return workChkFileName;

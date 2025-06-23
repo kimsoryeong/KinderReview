@@ -27,4 +27,8 @@ public class Reply {
     public void setSecret(boolean isSecret) {
         this.isSecret = isSecret;
     }
+    
+    public class ReplyCountDto {
+        private int count;
+    }
 }

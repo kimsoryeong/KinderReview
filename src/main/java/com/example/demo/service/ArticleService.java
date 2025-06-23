@@ -117,6 +117,10 @@ public class ArticleService {
         return articleDao.getPendingArticlesByMemberId(memberId);
     }
 
+    public List<Article> getPendingReviews() {
+        return articleDao.getPendingReviews();
+    }
+
     
     public Article getArticleByIdWithFiles(int id) {
         Article article = articleDao.getArticleById(id);
@@ -144,6 +148,10 @@ public class ArticleService {
 		return articleDao.getReplyCountByArticleId(articleId);
 	}
 
+
+	public void reuploadFile(int articleId, String fileName) {
+	    articleDao.updateReuploadFile(articleId, fileName);
+	}
 
 
    

@@ -56,7 +56,8 @@ public interface ArticleDao {
 		            phoneNumber = #{phoneNumber},
 		            hireSalary = #{hireSalary},
 		            reviewStatus = #{reviewStatus},
-		            deadline = #{deadline}
+		            deadline = #{deadline},
+		            fileName = #{fileName}
 		""")
 	@Options(useGeneratedKeys = true, keyProperty = "id")
 	int writeArticle(Article article);
@@ -134,6 +135,7 @@ public interface ArticleDao {
 				a.phoneNumber,
 				a.hireSalary,
 				a.deadline,
+				a.fileName,
 			    m.loginId,
 			    m.nickname AS nickname
 			FROM article a
@@ -375,14 +377,19 @@ public interface ArticleDao {
 	public void increaseViews(int id);
 
 	@Select("""
-		    SELECT *
-		    FROM article
-		    WHERE boardId = #{boardId}
-		    AND reviewStatus = 1
-		    ORDER BY views DESC
+		    SELECT a.*, 
+		           (SELECT COUNT(*) 
+		            FROM reply r 
+		            WHERE r.relTypeCode = 'article' 
+		              AND r.relId = a.id) AS replyCount
+		    FROM article a
+		    WHERE a.boardId = #{boardId}
+		      AND a.reviewStatus = 1
+		    ORDER BY a.views DESC
 		    LIMIT 3
 		""")
-	List<Article> getTopArticlesByViews(int boardId);
+		List<Article> getTopArticlesByViews(@Param("boardId") int boardId);
+
 
 	@Select("""
 		    SELECT *
@@ -428,6 +435,25 @@ public interface ArticleDao {
 		    """)
 	int getReplyCountByArticleId(int articleId);
 
-	
+	 @Select("""
+			    SELECT a.*, m.nickname AS nickname
+			    FROM article a
+			    JOIN member m ON a.memberId = m.id
+			    WHERE a.reviewStatus = 0
+			    ORDER BY a.regDate DESC
+			""")
+			List<Article> getPendingReviews();
+
+	 
+	 @Update("""
+			    UPDATE article
+			    SET 
+			        fileName = #{fileName},
+			        reviewStatus = 0,
+			        updateDate = NOW()
+			    WHERE id = #{articleId}
+			""")
+			void updateReuploadFile(@Param("articleId") int articleId, @Param("fileName") String fileName);
+
 
 }

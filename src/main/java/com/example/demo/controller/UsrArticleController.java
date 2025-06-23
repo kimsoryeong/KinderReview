@@ -305,7 +305,11 @@ public class UsrArticleController {
 	        authLevel = req.getLoginedMember().getAuthLevel();
 	    }
 	    model.addAttribute("isAdmin", authLevel == 0);
+	    
+	    int replyCount = articleService.getReplyCountByArticleId(article.getId());
+	    article.setReplyCount(replyCount);
 
+	    
 	    List<FileDto> files = fileService.getFilesByRel("article", id);
 	    model.addAttribute("files", files);
 
@@ -416,6 +420,10 @@ public class UsrArticleController {
 	}
 	
 
+	@GetMapping("/usr/article/apiTest3")
+    public String apiTest3Page() {
+        return "usr/article/apiTest3"; 
+    }
 	
 	
 }

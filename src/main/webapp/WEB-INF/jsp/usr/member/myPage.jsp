@@ -37,7 +37,6 @@
       </aside>
 
       <div class="flex-1 min-w-0">
-       
 		<div id="sectionMyInformation" class="bg-white rounded-lg shadow px-4 py-6 mb-5">
 		  <div></div>
 		  <h2 class="text-xl font-semibold mb-4">
@@ -51,20 +50,7 @@
 		  <div class="text-gray-500">아이디 : ${member.loginId}</div>
 		  <div class="text-gray-500">기관명 : ${member.nickname}</div>
 		  <div class="text-gray-500">기관번호 : ${member.institutionNumber}</div>
-		  <div class="text-gray-500">가입 승인 상태 :
-		  <c:if test="${member.approveStatus == 0}">
-            <span class="px-2 py-1 bg-yellow-200 text-yellow-800 rounded-full text-sm">승인 대기 중</span>
-            <span class="px-2 py-1  rounded-full text-sm">관리자의 승인 후 게시글 및 댓글 작성이 가능합니다.</span>
-          </c:if>
-		  <c:if test="${member.approveStatus == 1}">
-            <span class="px-2 py-1 bg-green-200 text-green-800 rounded-full text-sm">승인 완료</span>
-          </c:if>
-		  <c:if test="${member.approveStatus == 2}">
-            <span class="px-2 py-1 bg-red-200 text-red-800 rounded-full text-sm">반려</span>
-            <span class="px-2 py-1  text-red-500 rounded-full text-sm">반려사유 : ${member.rejectReason}</span>
-            
-          </c:if>
-            <div>사업자등록증
+		  <div class="text-gray-500">사업자등록증
 			<c:choose>
 			  <c:when test="${not empty member.workChkFile}">
 			    <a href="/usr/member/file/view/${member.workChkFile}" target="_blank">[ 보기 ]</a>
@@ -74,6 +60,40 @@
 			  </c:otherwise>
 			</c:choose>
             </div>
+		  <div class="text-gray-500">가입 승인 상태 :
+		  <c:if test="${member.approveStatus == 0}">
+            <span class="px-2 py-1 bg-yellow-200 text-yellow-800 rounded-full text-sm">승인 대기 중</span>
+            <span class="px-2 py-1  rounded-full text-sm">관리자의 승인 후 게시글 및 댓글 작성이 가능합니다.</span>
+          </c:if>
+		  <c:if test="${member.approveStatus == 1}">
+            <span class="px-2 py-1 bg-green-200 text-green-800 rounded-full text-sm">승인 완료</span>
+          </c:if>
+		  <c:if test="${member.approveStatus == 2}">
+		  <span class="px-2 py-1 bg-red-200 text-red-800 rounded-full text-sm">반려</span>
+		  <span class="px-2 py-1 text-red-500 rounded-full text-sm">반려사유 : ${member.rejectReason}</span>
+		  <form id="reuploadMemberForm" method="post" enctype="multipart/form-data"
+		      action="/usr/file/reupload" onsubmit="return submitReuploadMemberForm()">
+		  <input type="hidden" name="memberId" value="${member.id}" />
+		  <input type="hidden" name="type" value="member" />
+		  
+		  <label for="workCertFileMember" class="block text-sm pt-2 font-medium text-gray-500 mb-1">
+		    사업자등록증 재업로드:
+		  </label>
+		  <label for="workCertFileMember"
+		         class="inline-block cursor-pointer bg-gray-100 text-gray-700 font-semibold py-1 px-4 rounded hover:bg-gray-200 text-sm">
+		    파일 선택 
+		  </label>
+		  <span id="fileNameMember" class="ml-2 text-sm text-gray-600">선택된 파일 없음</span>
+		  
+		  <input type="file" name="file" id="workCertFileMember"
+		         accept=".pdf,.jpg,.jpeg,.png" class="hidden" />
+		  
+		  <button type="submit"
+		          class="ml-2 px-3 py-1 bg-orange-100 text-orange-700 font-semibold rounded hover:bg-orange-200 text-sm transition">
+		    재업로드
+		  </button>
+		</form>
+		</c:if>
 		  </div>
 		  </c:if>
 		</div>
@@ -102,13 +122,31 @@
 		            <span class="px-2 py-1 bg-gray-200 text-gray-700 rounded-full text-sm">상태 없음</span>
 		          </c:otherwise>
 		        </c:choose>
-		      </c:if>
-		  </div>
-		</div>
-		
-		      <c:if test="${article.boardName eq '근무 리뷰' and  article.reviewStatus eq 2}">
-		        <div class="mb-2 text-red-600 text-sm">반려 사유: ${article.rejectReason}</div>
-		      </c:if>
+			      </c:if>
+			  </div>
+			</div>
+		      <c:if test="${article.boardName eq '근무 리뷰' and article.reviewStatus eq 2}">
+				  <div class="mb-2 text-red-600 text-sm">반려 사유: ${article.rejectReason}</div>
+				  <form id="reuploadArticleForm" method="post" enctype="multipart/form-data"
+				        action="/usr/file/reupload" onsubmit="return submitReuploadArticleForm()">
+				    <input type="hidden" name="articleId" value="${article.id}" />
+				      <input type="hidden" name="type" value="article" />
+				    <label for="workProofFileArticle" class="block text-sm pt-2 font-medium text-gray-500 mb-1">
+				      재직증빙자료 재업로드:
+				    </label>
+				    <label for="workProofFileArticle"
+				           class="inline-block cursor-pointer bg-gray-100 text-gray-700 font-semibold py-1 px-4 rounded hover:bg-gray-200 text-sm">
+				      파일 선택 
+				    </label>
+				    <span id="fileNameArticle" class="ml-2 text-sm text-gray-600">선택된 파일 없음</span>
+				    <input type="file" name="file" id="workProofFileArticle"
+				           accept=".pdf,.jpg,.jpeg,.png" class="hidden" />
+				    <button type="submit"
+				            class="ml-2 px-3 py-1 bg-orange-100 text-orange-700 font-semibold rounded hover:bg-orange-200 text-sm transition">
+				      재업로드
+				    </button>
+				  </form>
+				</c:if>
 		      <c:if test="${article.boardName != '근무 리뷰' or (article.reviewStatus eq 1)}">
 		      <a href="/usr/article/detail?id=${article.id}" 
 		         class="inline-block text-orange-500 hover:text-orange-600 font-semibold">
@@ -121,7 +159,6 @@
 		    <div class="text-center text-gray-500 py-10">작성한 글이 없습니다.</div>
 		  </c:if>
 		</div>
-
         <div id="sectionLikedArticles" class="bg-white rounded-lg shadow p-4 mb-5 hidden">
           <h2 class="text-xl font-semibold mb-4"><i class="fas fa-heart text-orange-400 mr-2"></i>
           좋아요 누른 글</h2>
@@ -143,9 +180,6 @@
             <div class="text-center text-gray-500 py-10">좋아요 누른 글이 없습니다.</div>
           </c:if>
         </div>
-
-        
-
         <div id="sectionMyReplies" class="bg-white rounded-lg shadow p-4 mb-5 hidden">
           <h2 class="text-xl font-semibold mb-4"><i class="fas fa-comments text-orange-400 mr-2"></i>
           내가 단 댓글</h2>
@@ -200,24 +234,62 @@
 </section>
 
 <script>
-  function showSection(sectionId) {
-    const sections = ['sectionMyInformation', 'sectionMyArticles', 'sectionLikedArticles', 'sectionPendingArticles', 'sectionMyReplies'];
+const fileInputMember = document.getElementById("workCertFileMember");
+const fileNameDisplayMember = document.getElementById("fileNameMember");
 
-    sections.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) {
-        if (id === sectionId) {
-          el.classList.remove('hidden');
-        } else {
-          el.classList.add('hidden');
-        }
-      }
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    showSection('sectionMyInformation');
+if (fileInputMember) {
+  fileInputMember.addEventListener("change", function () {
+    const fileName = this.files.length > 0 ? this.files[0].name : "선택된 파일 없음";
+    fileNameDisplayMember.textContent = fileName;
   });
+}
+
+function submitReuploadMemberForm() {
+  if (!fileInputMember || !fileInputMember.files.length) {
+    alert("파일을 선택해주세요.");
+    return false;
+  }
+  return true;
+}
+
+const fileInputArticle = document.getElementById("workProofFileArticle");
+const fileNameDisplayArticle = document.getElementById("fileNameArticle");
+
+if (fileInputArticle) {
+  fileInputArticle.addEventListener("change", function () {
+    const fileName = this.files.length > 0 ? this.files[0].name : "선택된 파일 없음";
+    fileNameDisplayArticle.textContent = fileName;
+  });
+}
+
+function submitReuploadArticleForm() {
+  if (!fileInputArticle || !fileInputArticle.files.length) {
+    alert("파일을 선택해주세요.");
+    return false;
+  }
+  return true;
+}
+
+
+function showSection(sectionId) {
+  const sections = ['sectionMyInformation', 'sectionMyArticles', 'sectionLikedArticles', 'sectionPendingArticles', 'sectionMyReplies'];
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      if (id === sectionId) {
+        el.classList.remove('hidden');
+      } else {
+        el.classList.add('hidden');
+      }
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  showSection('sectionMyInformation');
+});
+
 </script>
 
 <%@ include file="/WEB-INF/jsp/common/footer.jsp" %>

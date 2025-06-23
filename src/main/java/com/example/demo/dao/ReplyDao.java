@@ -54,11 +54,6 @@ public interface ReplyDao {
         """)
         Reply getReplyById(int id);
 
-    @Delete("""
-        DELETE FROM reply
-        WHERE id = #{id} AND memberId = #{memberId}
-    """)
-    void deleteReply(@Param("id") int id, @Param("memberId") int memberId);
 
     @Update("""
         UPDATE reply
@@ -72,6 +67,13 @@ public interface ReplyDao {
         FROM reply
         WHERE id = #{replyId}
     """)
-    int getArticleIdByReplyId(int replyId); 
-}
+    int getArticleIdByReplyId(int replyId);
 
+    @Delete("""
+    	    DELETE FROM reply
+    	    WHERE id = #{id}
+    	""")
+    	void deleteReply(int id);
+
+    
+}

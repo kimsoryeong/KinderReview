@@ -6,11 +6,15 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.dto.Article;
 import com.example.demo.dto.Reply;
+import com.example.demo.dto.Reply.ReplyCountDto;
 import com.example.demo.dto.Req;
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.ReplyService;
@@ -94,32 +98,51 @@ public class UsrReplyController {
     }
 
 
-    @PostMapping("/usr/reply/doDelete")
-    public String doDelete(@RequestParam int id, HttpServletRequest req, HttpServletResponse response, Model model) {
-        Integer loginedMemberId = (Integer) req.getSession().getAttribute("loginedMemberId");  
-        if (loginedMemberId == null) {
-            return "redirect:/usr/login";  
+    @PostMapping("/usr/reply/delete")
+    @ResponseBody
+    public String delete(@RequestParam int id, HttpServletRequest request, HttpServletResponse response) {
+        if (!req.isLogined()) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return "로그인이 필요합니다.";
         }
-        try {
-            replyService.deleteReply(id, loginedMemberId);
 
-            List<Reply> updatedReplies = replyService.getReplies("article", id, loginedMemberId);
-            
-            model.addAttribute("replies", updatedReplies);
+        int loginedMemberId = req.getLoginedMember().getId();
+        int authLevel = req.getLoginedMember().getAuthLevel();
 
-            return "redirect:/usr/article/detail?id=" + id;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "redirect:/usr/article/detail?id=" + id;  
+        Reply reply = replyService.getReplyById(id);
+
+        if (reply == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return "존재하지 않는 댓글입니다.";
         }
+
+        if (reply.getMemberId() != loginedMemberId && authLevel != 0) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return "삭제 권한이 없습니다.";
+        }
+
+        replyService.deleteReply(id);
+        return "댓글이 삭제되었습니다.";
+    }
+    
+    @GetMapping("/usr/reply/count")
+    @ResponseBody
+    public int getReplyCount(@RequestParam int relId) {
+        return articleService.getReplyCountByArticleId(relId);
     }
 
 
-
-
-
-
-
+   
 
 
 }
+
+
+
+
+
+
+
+
+
+

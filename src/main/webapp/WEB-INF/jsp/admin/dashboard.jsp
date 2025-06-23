@@ -16,7 +16,6 @@
                 transition-colors duration-300 hover:bg-orange-100 hover:text-orange-600">
         <i class="fas fa-pen-to-square text-orange-400 text-4xl"></i>
         <span class="text-lg">근무 리뷰 관리</span>
-        <span class="text-sm text-gray-500 text-center">대기 중인 근무 리뷰를 승인하거나 반려할 수 있습니다.</span>
       </a>
 
       <a href="/admin/institution/list" 
@@ -25,7 +24,6 @@
                 transition-colors duration-300 hover:bg-orange-100 hover:text-orange-600">
         <i class="fas fa-school text-orange-400 text-4xl"></i>
         <span class="text-lg">기관 가입 관리</span>
-        <span class="text-sm text-gray-500 text-center">가입 신청 대기 기관을 승인하거나 반려할 수 있습니다.</span>
       </a>
 
       <a href="/usr/article/list?boardId=10" 
@@ -34,7 +32,6 @@
                 transition-colors duration-300 hover:bg-orange-100 hover:text-orange-600">
         <i class="fas fa-bullhorn text-orange-400 text-4xl"></i>
         <span class="text-lg">공지사항 관리</span>
-        <span class="text-sm text-gray-500 text-center">공지사항 글을 작성, 수정 및 삭제 할 수 있습니다.</span>
       </a>
    	 </div>
   <div class="container mx-auto max-w-4xl">
@@ -76,6 +73,7 @@
         </div>
       </c:forEach>
     </div>
+       
     <div class="bg-white border-l-4 border-gray-200 p-6 mb-6">
      	 <h2 class="text-xl font-bold  text-orange-400 mb-4">근무 리뷰 관리</h2>
 	       <c:if test="${empty reviews}">
@@ -103,9 +101,9 @@
 			    </div>
 			  </div>
 			</c:forEach>
-    		</div>
-  		</div>
+    	 </div>
+    	 
+  	  </div>
   	</div>
   </div>
 </section>
-
