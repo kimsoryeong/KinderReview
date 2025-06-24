@@ -24,6 +24,9 @@ public class Member {
 	private Integer workChkFileId;
 	private String workChkFileName;
 	private String rejectReason;
+    private String zipCode;       
+    private String address;    
+	private String addressDetail;
 
 	public String getWorkChkFileName() {
 	    return workChkFileName;

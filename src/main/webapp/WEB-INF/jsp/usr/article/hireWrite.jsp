@@ -5,33 +5,44 @@
 <%@ include file="/WEB-INF/jsp/common/header.jsp"%>
 <%@ include file="/WEB-INF/jsp/common/topbar.jsp"%>
 
-
- 
-		<section class="bg-gray-100 min-h-screen py-8">
-		<form action="doWrite" method="post" id="hireWrite" enctype="multipart/form-data" onsubmit="return hireWriteForm()">
-		 <input type="hidden" name="boardName" value="채용 공고" />
-			<div class="container mx-auto max-w-4xl">
-				<div
-					class="bg-white rounded-t-lg shadow p-6 mb-4 border-b-4 border-orange-300 flex justify-between items-center">
-					<div>
-						<h1 class="text-2xl font-bold text-orange-400">채용공고 글쓰기</h1>
-					</div>
+<section class="bg-gray-100 min-h-screen py-8">
+  <form action="doWrite" method="post" id="hireWrite" enctype="multipart/form-data" onsubmit="return hireWriteForm()">
+	 <input type="hidden" name="boardName" value="채용 공고" />
+	 <input type="hidden" name="institutionName" value="${member.institutionName}"/>
+	 <input type="hidden" name="addressDetail" value="${member.addressDetail}"/>
+		<div class="container mx-auto max-w-4xl">
+			<div class="bg-white rounded-t-lg shadow p-6 mb-4 border-b-4 border-orange-300 flex justify-between items-center">
+				<div>
+					<h1 class="text-2xl font-bold text-orange-400">채용공고 글쓰기</h1>
 				</div>
-				<div class="bg-white border-b-2 rounded-t-lg px-10 py-6 shadow space-y-6">
-		
-		  <div class="flex items-center gap-4">
-		    <span class="font-bold text-orange-400 whitespace-nowrap">
-		      <i class="fa-solid fa-school pr-2"></i>기관명
-		    </span>
-		    <input class="input border rounded px-3 py-2 w-full" name="institutionName" type="text" placeholder="기관명을 입력하세요" required />
-			<div class="flex items-center gap-3">
-		      <span class="font-bold text-orange-400 whitespace-nowrap">
-		        <i class="fa-solid fa-phone pr-3"></i>전화번호
-		      </span>
-		      <input class="input border rounded px-3 py-2 w-60" name="phoneNumber" type="text" placeholder="전화번호를 입력하세요" required />
-		    </div>  
+			</div>
+			<div class="bg-white border-b-2 rounded-t-lg px-10 py-6 shadow space-y-6">
+		  <div class="space-y-2">
+			
+		  <div class="flex gap-4 w-full">
+		  <div class="w-1/2 flex items-start">
+		    <i class="fa-solid fa-school text-orange-400 pr-2 mt-1"></i>
+		    <div>
+		      <div class="flex items-center">
+		        <span class="font-bold text-orange-400 pr-5">기관명</span>
+		        <span class="font-bold text-black">${member.institutionName}</span>
+		      </div>
+		      <div class="text-sm text-gray-500  pb-4 pl-[66px]">${member.address}</div>
+		      <div class="text-sm text-gray-500  pb-4 pl-[66px]">${member.addressDetail}</div>
+		    </div>
 		  </div>
-		
+		  <div class="w-1/2 flex items-center pl-12 pb-4">
+		    <i class="fa-solid fa-phone text-orange-400 pr-2"></i>
+		    <span class="font-bold text-orange-400 pr-2">전화번호</span>
+		    <input
+		      class="input border rounded px-3 py-2 w-full max-w-[250px]"
+		      name="phoneNumber"
+		      type="text"
+		      placeholder="전화번호를 입력하세요"
+		      required
+		    />
+		  </div>
+		</div>
 		  <div class="flex flex-wrap justify-between gap-6">
 			<div>
 		      <span class="font-bold text-orange-400 pr-5 whitespace-nowrap">
@@ -40,8 +51,8 @@
 		      <input class="input border rounded px-3 py-2 w-60 " name="hireSalary" type="text" placeholder="급여를 입력하세요" required />
 			</div>
 		    <div class="font-bold text-orange-400 mb-2">
-		        <i class="fa-solid fa-briefcase pr-3"></i>
-		        <span class="pr-5">경력사항</span>
+		        <i class="fa-solid fa-briefcase pr-1"></i>
+		        <span class="pr-10">경력사항</span>
 		        <label class="px-3"><input type="radio" name="personalHistory" value="무관" class="mr-3">무관</label>
 		        <label class="pr-15 pl-8"><input type="radio" name="personalHistory" value="유" class="mr-3">유</label>
 		      	<div class="error-message-personalHistory text-red-500 text-sm mt-1 hidden">경력 사항을 선택해주세요.</div>
@@ -101,8 +112,8 @@
 			    </div>
 		     </div>
 		  </div>
-			<div class="bg-white border-b-2 rounded-b-lg px-2 py-5 ">
-				<div class="px-5 py-1">
+			<div class="bg-white border-b-2 rounded-b-lg py-5 ">
+				<div class=" py-1">
 			      <div class="pb-3">
 			      <input name="title" placeholder="제목을 작성해주세요." class="p-2 bg-gray-100 text-sm border-gray-300 rounded-sm w-full"/>  
 			      </div>
@@ -185,7 +196,7 @@
       alert('경력사항을 선택해주세요.');
       return false;
     }
-    if (!input) {
+    if (!deadline) {
       alert('마감일을 선택해주세요.');
       return false;
     }

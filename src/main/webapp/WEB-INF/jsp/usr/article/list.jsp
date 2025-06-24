@@ -25,14 +25,14 @@
 		  <button
 		    class="bg-orange-400 hover:bg-orange-500 text-white px-4 py-1 rounded-lg font-semibold shadow transition"
 		    onclick="location.href='/usr/article/mainWrite?boardId=${boardId}'">
-		    기관 리뷰 글쓰기
+		    글쓰기
 		  </button>
 		</c:if>
 	 <c:if test="${isLogined && (authLevel == 1 || authLevel == 0) && (boardId == 3 || boardId == 10 || boardId == 11 || boardId == 12)}"> 
 		  <button
 		    class="bg-orange-400 hover:bg-orange-500 text-white px-4 py-1 rounded-lg font-semibold shadow transition"
 		    onclick="location.href='/usr/article/communityWrite'">
-		    커뮤니티 글쓰기
+		    글쓰기
 		  </button>
 		</c:if>
 	 
@@ -40,7 +40,7 @@
 		  <button
 		    class="bg-orange-400 hover:bg-orange-500 text-white px-4 py-1 rounded-lg font-semibold shadow transition"
 		    onclick="location.href='/usr/article/hireWrite'">
-		    채용공고 글쓰기
+		    글쓰기
 		  </button>
 		</c:if>
 
@@ -50,7 +50,7 @@
 
     
     <div class="flex flex-col md:flex-row gap-4">
-      <c:if test="${board.id >= 1 and board.id <= 12 and board.id != 9}">
+      <c:if test="${board.id >= 1 and board.id <= 12 and board.id != 9 and board.id != 7 and board.id != 8}">
         <aside class="w-full md:w-48 min-w-40 bg-white rounded-lg shadow p-4 h-fit mb-4 md:mb-0">
           <div class="font-bold text-lg mb-4 text-gray-800 border-b-2 border-orange-400 pb-2">${board.boardName}</div>
           <c:if test="${board.id == 1 }">
@@ -225,14 +225,19 @@
 	      <span>자유게시판 인기글</span>
 	      <a href="/usr/article/list?boardId=11" class="ml-auto text-sm text-orange-400 hover:underline">더보기</a>
 	    </div>
-	    <c:forEach items="${freeTopArticles}" var="article">
+	   <c:forEach items="${freeTopArticles}" var="article">
 		  <div class="p-5 hover:bg-orange-50 transition border-b">
 		    <div class="flex justify-between items-center">
 		      <div class="flex items-center space-x-2">
 		        <span class="text-gray-500 text-sm">[${article.city}]</span>
-		        <a href="detail?id=${article.id}" class="font-bold text-gray-800 hover:text-orange-500 transition">
+		       <div class="flex flex-col">
+		        <a href="detail?id=${article.id}" class="font-bold text-lg text-gray-800 hover:text-orange-500 transition">
 		          ${article.title}
 		        </a>
+		        <div class="text-xs text-gray-400">${article.memberNickname}</div>
+		        </div>
+		        <div>
+		        </div>
 		      </div>
 		      <div class="flex items-center gap-4 text-xs text-gray-500">
 		        <span>작성일 : ${article.regDate}</span>
@@ -254,11 +259,13 @@
 		    <div class="flex justify-between items-center">
 		      <div class="flex items-center space-x-2">
 		        <span class="text-gray-500 text-sm">[${article.city}]</span>
-		        <a href="detail?id=${article.id}" class="font-bold text-gray-800 hover:text-orange-500 transition">
+		       <div class="flex flex-col">
+		        <a href="detail?id=${article.id}" class="font-bold text-lg text-gray-800 hover:text-orange-500 transition">
 		          ${article.title}
 		        </a>
+		         <div class="text-xs text-gray-400">${article.memberNickname}</div>
 		      </div>
-		
+			</div>
 		      <div class="flex items-center gap-4 text-xs text-gray-500">
 		        <span>작성일 : ${article.regDate}</span>
 		        <span>조회수 ${article.views}</span>
@@ -355,7 +362,6 @@
             <label for="city" class="text-sm font-medium text-gray-700">지역</label>
             <select id="city" name="city" onchange="updateDistricts()" class="border border-gray-300 rounded-md px-3 py-2 outline-none">
               <option value="" disabled selected>시/도</option>
-              <option value="전체">전체</option>
               <option value="서울">서울</option>
               <option value="대전">대전</option>
               <option value="대구">대구</option>
@@ -399,7 +405,7 @@
              <c:if test="${board.id != 9}">
              <div class="flex justify-between text-xs text-gray-400 pt-2">
 			    <div class="flex justify-start space-x-2">
-			        <span>${article.nickname}</span>
+			        <span>${article.memberNickname}</span>
 			    </div>
 			    <div class="flex justify-end space-x-2">
 			        <span>작성일 ${article.regDate}</span>
@@ -536,9 +542,9 @@
 
                         html += `
                             <div class="p-4 mb-4 border-b bg-white">
-                        	   <h2 class="text-lg font-bold text-orange-600">${'$'}{name}</h2>
-						    <p>대전광역시 ${'$'}{city} | 대전광역시 ${'$'}{addr}</p>
-						    <p>042-${'$'}{tel}</p>
+                        	   <div class="text-lg font-bold text-orange-600">${'$'}{name}</div>
+						    <div>대전광역시 ${'$'}{city} | 대전광역시 ${'$'}{addr}</div>
+						    <div>042-${'$'}{tel}</div>
 						  </div>
                         `;
                     });
@@ -547,7 +553,7 @@
                 document.getElementById("dataContainer").innerHTML = html;
             },
             error: function (xhr, status, error) {
-                console.error("❌ API 호출 실패", error);
+                console.error("API 호출 실패", error);
             }
         });
     }

@@ -26,7 +26,11 @@ CREATE TABLE `member` (
     ,approveStatus TINYINT NOT NULL DEFAULT 1 COMMENT '0: 대기, 1: 승인, 2: 반려'
     ,workChkFile VARCHAR(255) DEFAULT NULL COMMENT '사업자등록증 파일체크'
     ,rejectReason VARCHAR(255) DEFAULT NULL COMMENT '반려 사유'
+    ,zipCode VARCHAR(10)
+    ,address VARCHAR(255)
+    ,addressDetail VARCHAR(255)
 );
+
 
 
 CREATE TABLE article(
@@ -112,9 +116,10 @@ CREATE TABLE reply(
     , isAnonymous BOOLEAN DEFAULT FALSE
     , parentId INT DEFAULT 0   
 );
- 
+
 
  
+
 SELECT * FROM board;
 SELECT * FROM article;
 SELECT * FROM `member`;
@@ -122,7 +127,6 @@ SELECT * FROM likePoint;
 SELECT * FROM reply;
 SELECT * FROM `file`;
 SELECT * FROM article_option;
-
 
 
 INSERT INTO likePoint
@@ -170,69 +174,51 @@ INSERT INTO board
     
 INSERT INTO board
     SET boardName = '질문게시판';  
-    
-INSERT INTO article
-    SET regDate = NOW()
-        , updateDate = NOW()
-        , memberId = 1
-        , boardId = 4
-        , boardName = '근무 리뷰'
-        , reviewStatus = 1
-        , institutionName = '기관명 예시'
-        , institutionComment = '기관명 한줄평'
-        , city = '서울'
-        , workType = '담임교사'
-        , institutionType = '어린이집'
-        , salaryScore = 4
-        , welfareScore = 3
-        , environmentScore = 5
-        , salaryComment = '급여 만족'
-        , welfareComment = '복지 괜찮음'
-        , environmentComment = '환경 좋아요'
-        , commuteTimeComment = '8:00~ 19:00';
-        
-INSERT INTO article
-    SET regDate = NOW()
-        ,updateDate = NOW()
-        ,memberId = 1
-        ,boardId = 5
-        ,reviewStatus = 1
-        ,boardName = '면접 리뷰'
-        ,institutionName = '햇살 어린이집'
-        ,institutionComment = '친절한 면접분위기입니다'
-        ,city = '부산'
-        ,workType = '보조교사'
-        ,institutionType = '어린이집'
-        ,interviewScore = 3
-        ,interviewProgress = '면접진행과정'
-        ,interviewTip = '면접 조언과 팁'
-        ,interviewCompleted ='면접 마무리 진행과정'
-        ,interviewComment = '친절하고 편안한 분위기였어요.'
-        ,personalHistory = '신입 교사'
-        ,interviewMaterial = '면접 준비물'
-        ,interviewQnA = '1. 지원동기, 2. 갈등상황 해결법'
-        ,interviewResults = '합격'
-        , reviewStatus = 1;             
 
-INSERT INTO article
-    SET regDate = NOW()
-        , updateDate = NOW()
-        , memberId = 1
-        , boardId = 6
-        , reviewStatus = 1
-        , boardName = '실습 및 봉사 리뷰'
-        , institutionName = '굿모닝 어린이집'
-        , practiceComment = '친절한 실습분위기입니다'
-        , city = '대전'
-        , workType = '실습 및 봉사생'
-        , institutionType = '어린이집'
-        , practiceExperience ='실습하며 나의 경험'
-        , practiceReview ='실습봉사소감'
-        , educationalBackground = '4년제'
-        , practiceAtmosphere = '기관분위기는 어저구'
-        , practiceScore ='3'
-        , reviewStatus = 1;            
- 
+INSERT INTO article 
+(regDate, updateDate, memberId, boardId, boardName, city, views, title, content, reviewStatus)
+VALUES
+(NOW(), NOW(), 3, 10, '공지사항', '전체', 34, '공지사항 첫글입니다' , 'ㅈㄱㄴ', 1);  
+
+INSERT INTO article 
+(regDate, updateDate, memberId, boardId, boardName, city, views, title, content, reviewStatus)
+VALUES
+(NOW(), NOW(), 3, 10, '공지사항', '전체', 22, '두번째 공지글입니다' , 'ㅈㄱㄴ', 1);  
+
+INSERT INTO article 
+(regDate, updateDate, memberId, boardId, boardName, institutionName, personalHistory ,city, views, title, content, workType
+, deadline, phoneNumber, hireSalary, reviewStatus)
+VALUES
+(NOW(), NOW(), 2, 9, '채용 공고', '폴스유치원', '유', '대전', 3, '교사구인합니다' , '교사모집해용', '담임교사'
+, '2025-06-27', '042-625-4324', '220만원', 1);  
+    
+INSERT INTO article 
+(regDate, updateDate, memberId, boardId, boardName, institutionName, personalHistory, city, views, title, content, workType
+, deadline, phoneNumber, hireSalary, reviewStatus)
+VALUES
+(NOW(), NOW(), 5, 9, '채용 공고', '바론숲유치원',  '무관', '서울', 15, '함께 할 교사 모집해요', 'ㅈㄱㄴ', '원감'
+, '2025-07-05', '042-625-4324', '220만원',1 );    
+    
+INSERT INTO article 
+(regDate, updateDate, memberId, boardId, boardName, city, views, title, content, reviewStatus)
+VALUES
+(NOW(), NOW(), 1, 12, '질문게시판', '대전', 2, '질문합니다' , 'ㅈㄱㄴ',1);
+
+INSERT INTO article 
+(regDate, updateDate, memberId, boardId, boardName, city, views, title, content, reviewStatus)
+VALUES
+(NOW(), NOW(), 4, 12, '질문게시판', '충북', 12, '여기 어때요' , 'ㅈㄱㄴ',1);
+
+INSERT INTO article 
+(regDate, updateDate, memberId, boardId, boardName, city, views, title, content, reviewStatus)
+VALUES
+(NOW(), NOW(), 1, 11, '자유게시판', '대전', 20, '자유로운글' , 'ㅈㄱㄴ',1);
+    
+ INSERT INTO article 
+(regDate, updateDate, memberId, boardId, boardName, city, views, title, content, reviewStatus)
+VALUES
+(NOW(), NOW(), 4, 11, '자유게시판', '부산', 3, '수업추천', 'ㅈㄱㄴ',1);
+
 INSERT INTO article 
 (regDate, updateDate, memberId, boardId, boardName, institutionType, institutionName, reviewStatus,
   practiceScore, educationalBackground, practiceAtmosphere,
@@ -240,16 +226,34 @@ INSERT INTO article
 VALUES
 (NOW(), NOW(), 1, 6, '실습 및 봉사 리뷰', '유치원', '즐거운유치원', 1,
   5, '학점은행제', '친절한 선생님들',
- '다양한 경험 쌓음', '전반적으로 만족', '대전', 8, '좋았던 실습');
+ '다양한 경험 쌓음', '전반적으로 만족', '대전', 25, '좋았던 실습');
+ 
+ INSERT INTO article 
+(regDate, updateDate, memberId, boardId, boardName, institutionType, institutionName, reviewStatus,
+  practiceScore, educationalBackground, practiceAtmosphere,
+ practiceExperience, practiceReview, city, views, practiceComment)
+VALUES
+(NOW(), NOW(), 1, 6, '실습 및 봉사 리뷰', '어린이집', '교육청어린이집', 1,
+  2, '학점은행제', '친절한 선생님들',
+ '다양한 경험 쌓음', '전반적으로 만족', '서울', 8, '귀여운아가들과실습');
 
 INSERT INTO article 
 (regDate, updateDate, memberId, boardId, boardName, reviewStatus,
- interviewScore,  personalHistory, institutionType, institutionName, interviewMaterial, interviewQnA,
- interviewResults, interviewProgress, interviewTip, interviewCompleted, city, views, interviewComment)
+ interviewScore,  personalHistory, institutionType, institutionName, interviewMaterial, interviewQnA, interviewCompleted
+ ,interviewResults, interviewProgress, interviewTip, city, views, interviewComment)
 VALUES
 (NOW(), NOW(), 1, 5, '면접 리뷰', 1,
- 4,  '경력교사','어린이집', '사랑어린이집', '자료 준비 잘 했음', '주요 질문 리스트',
- '합격', '진행 중', '복장 단정히', '합격', '부산', 5, '좋았던면접');
+ 2,  '경력교사','어린이집', '사랑어린이집', '자료 준비 잘 했음', '주요 질문 리스트', '면접결과 문자로 옴'
+ ,'합격', '진행 중', '복장 단정히', '경북', 5, '1대1 면접이라 긴장됩니다');
+ 
+ INSERT INTO article 
+(regDate, updateDate, memberId, boardId, boardName, reviewStatus,
+ interviewScore,  personalHistory, institutionType, institutionName, interviewMaterial, interviewQnA, interviewCompleted
+ ,interviewResults, interviewProgress, interviewTip, city, views, interviewComment)
+VALUES
+(NOW(), NOW(), 1, 5, '면접 리뷰', 1,
+ 4,  '경력교사','유치원', '해맑은유치원', '이력서랑 포트폴리오', '주요 질문 리스트', '면접결과 바로 나옴'
+ ,'합격', '1대 다 면접', '복장 단정히', '부산', 5, '원장님이 너무 좋았던 면접');
 
  INSERT INTO article 
 (regDate, updateDate, memberId, boardId, boardName, institutionType, institutionName, reviewStatus,
@@ -257,60 +261,117 @@ VALUES
  salaryComment, welfareComment, environmentComment, commuteTimeComment, workType, city, views, institutionComment)
 VALUES
 (NOW(), NOW(), 1, 4, '근무 리뷰', '어린이집', '행복어린이집', 1,
- 4, 3, 5, '연봉,상여금', '방학',
- '연봉이 만족스러움', '복지가 좋음', '환경 깨끗함', '통근 시간 30분', '정규직', '서울', 10, '좋았던근무');
+ 1, 3, 5, '연봉,상여금', '방학',
+ '연봉이 만족스러움', '복지가 좋음', '환경 깨끗함', '통근 시간 30분', '정규직', '서울', 10, '월급이 높고 좋은 곳');
    
+  INSERT INTO article 
+(regDate, updateDate, memberId, boardId, boardName, institutionType, institutionName, reviewStatus,
+ salaryScore, welfareScore, environmentScore, salaryOptionsStr, welfareOptionsStr,
+ salaryComment, welfareComment, environmentComment, commuteTimeComment, workType, city, views, institutionComment)
+VALUES
+(NOW(), NOW(), 1, 4, '근무 리뷰', '유치원', '폴스유치원', 1,
+ 2, 3, 3, '연봉,상여금', '방학',
+ '연봉이 만족스러움', '복지가 좋음', '환경 깨끗함', '통근 시간 30분', '정규직', '서울', 10, '좋았던근무');
+ 
  INSERT INTO article 
 (regDate, updateDate, memberId, boardId, boardName, institutionName, phoneNumber, hireSalary, 
- personalHistory, workType, city, deadline, title, content, reviewStatus, views)
+ personalHistory, workType, city, deadline, title, content, views)
 VALUES
 (NOW(), NOW(), 2, 9, '채용 공고', '행복유치원', '02-1234-5678', '월 230만', 
- '무관', '정교사', '서울', '2025-07-10', '행복유치원 담임교사  채용합니다.', '근무환경 매우 좋습니다.', 0, 3 );
+ '무관', '정교사', '서울', '2025-07-10', '행복유치원 담임교사  채용합니다.', '근무환경 매우 좋습니다.', 3 );
  
   INSERT INTO article 
 (regDate, updateDate, memberId, boardId, boardName, institutionName, phoneNumber, hireSalary, 
- personalHistory, workType, city, deadline, title, content, reviewStatus, views)
+ personalHistory, workType, city, deadline, title, content, views)
 VALUES
 (NOW(), NOW(), 2, 9, '채용 공고', '사랑유치원', '023-1234-5678', '월 230만', 
- '유', '원감', '대전', '2025-07-10', '정교사 채용합니다.', '근무환경 매우 좋습니다.', 1, 20 );
+ '유', '원감', '대전', '2025-07-10', '정교사 채용합니다.', '근무환경 매우 좋습니다.', 20 );
  
   INSERT INTO article 
 (regDate, updateDate, memberId, boardId, boardName, institutionName, phoneNumber, hireSalary, 
- personalHistory, workType, city, deadline, title, content, reviewStatus, views)
+ personalHistory, workType, city, deadline, title, content, views)
 VALUES
-(NOW(), NOW(), 2, 9, '채용 공고', '44어린이집', '034-5678', '월 230만', 
- '무관', '정교사', '부산', '2025-06-28', '교사구합니다', '근무환경 매우 좋습니다.', 0, 3 );
+(NOW(), NOW(), 2, 9, '채용 공고', '해맑은어린이집', '034-5678', '월 230만', 
+ '무관', '보조교사', '부산', '2025-06-28', '교사모집', '근무환경 매우 좋습니다.', 3 );
   
 INSERT INTO `member`
     SET regDate = NOW()
         , updateDate = NOW()
         , loginId = 'test1'
         , loginPw = 'test1'
-        , nickname = '유저'
-        , authLevel = 1 ;
+        , nickname = '테스트개인회원1'
+        , authLevel = 1 
+        , address = '제주'
+        ;
 
 INSERT INTO `member`
     SET regDate = NOW()
         , updateDate = NOW()
         , loginId = 'test2'
         , loginPw = 'test2'
-        , nickname = '기업'
+        , nickname = '사랑어린이집'
+        , institutionName = '사랑어린이집'
         , authLevel = 2 
-        , institutionName ='사랑어린이집'
         , institutionNumber = '4234324-4132412'
         , approveStatus = 1
+        , zipCode = '34385'
+        , address = '대전'
+        , addressDetail = '대덕구 계족로663번길 29-14'
         ;
         
+   
 INSERT INTO `member`
     SET regDate = NOW()
         , updateDate = NOW()
         , loginId = 'admin'
         , loginPw = 'admin'
         , nickname = '관리자'
-        , authLevel = 0 ;
+        , authLevel = 0 
+        ;
         
         
+INSERT INTO `member`
+    SET regDate = NOW()
+        , updateDate = NOW()
+        , loginId = 'test4'
+        , loginPw = 'test4'
+        , nickname = '4유저'
+        , authLevel = 1 
+        , address = '경북'
+        ;       
        
+ INSERT INTO `member`
+    SET regDate = NOW()
+        , updateDate = NOW()
+        , loginId = 'test5'
+        , loginPw = 'test5'
+        , nickname = '우리아이어린이집'
+        , institutionName = '우리아이어린이집'
+        , authLevel = 2 
+        , institutionNumber = '4234324-4132412'
+        , approveStatus = 1
+        , zipCode = '34185'
+        , address = '서울'
+        ;
 
+INSERT INTO reply
+(regDate, updateDate, memberId, nickname, relTypeCode, relId, content, isSecret, isAnonymous, parentId)
+VALUES
+(NOW(), NOW(), 1, '익명', 'article', 10, '댓글 작성입니다.', TRUE, TRUE, 0);
+
+INSERT INTO reply
+(regDate, updateDate, memberId, nickname, relTypeCode, relId, content, isSecret, isAnonymous, parentId)
+VALUES
+(NOW(), NOW(), 4, '익명', 'article', 10, 'ㅁㅇㄹㄴㅇㄹ', FALSE, TRUE, 0);
+
+INSERT INTO reply
+(regDate, updateDate, memberId, nickname, relTypeCode, relId, content, isSecret, isAnonymous, parentId)
+VALUES
+(NOW(), NOW(), 1, '테스트개인회원1', 'article', 7, '댓글 작성입니다.', FALSE, TRUE, 0);
+
+INSERT INTO reply
+(regDate, updateDate, memberId, nickname, relTypeCode, relId, content, isSecret, isAnonymous, parentId)
+VALUES
+(NOW(), NOW(), 4, '4유저', 'article', 7, 'ㅁㅇㄹㄴㅇㄹ', FALSE, TRUE, 0);
 
         

@@ -153,6 +153,15 @@ public class ArticleService {
 	    articleDao.updateReuploadFile(articleId, fileName);
 	}
 
+	public List<Article> getArticlesByMemberIdWithPaging(int memberId, int startIndex, int itemsPerPage) {
+	    return articleDao.getArticlesByMemberIdWithPaging(memberId, startIndex, itemsPerPage);
+	}
+
+	public int countArticlesByMemberId(int memberId) {
+	    return articleDao.countArticlesByMemberId(memberId);
+	}
+
+
 
    
 

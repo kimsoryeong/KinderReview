@@ -4,6 +4,7 @@
 
 <c:set var="pageTitle" value="기업 회원가입" />
 <%@ include file="/WEB-INF/jsp/common/header.jsp" %> 
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <section class="h-screen flex items-center pt-10 justify-center bg-gray-100">
   <div class="bg-white shadow-xl rounded-xl p-10 mb-30 w-full max-w-md">
@@ -60,63 +61,88 @@
       </div>
 
       <div id="step2" class="hidden">
-        <div class="mb-4">
-          <label class="block text-sm font-medium text-gray-700 mb-1">기업명</label>
-          <div class="joininput flex items-center border border-gray-300 rounded-md px-3 py-2">
-            <svg class="w-5 h-5 text-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A4 4 0 018 16h8a4 4 0 012.879 1.804M15 11a3 3 0 10-6 0 3 3 0 006 0z" />
-            </svg>
-            <input required type="text" id="nickname" name="nickname" class="w-full outline-none border-none" placeholder="기업명 입력" />
-          </div>
-          <div id="institutionNameChkMsg" class="mt-2 text-sm h-5 text-center"></div>
-        </div>
-
-        <div class="mb-4">
-          <label class="block text-sm font-medium text-gray-700 mb-1">사업자등록증 첨부</label>
-          <input required type="file" name="bizFile" accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-sm text-gray-500
-              file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold
-              file:bg-orange-100 file:text-orange-700 hover:file:bg-orange-200
-            " />
-          <div class="text-xs text-gray-400 mt-1">PDF, JPG, PNG 파일만 업로드 가능합니다.</div>
-        </div>
-        
-        <div class="mb-4">
-          <label class="block text-sm font-medium text-gray-700 mb-1">사업자등록번호</label>
-          <div class="joininput flex items-center border border-gray-300 rounded-md px-3 py-2">
-            <svg class="w-5 h-5 text-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6a3 3 0 116 0v6m-6 4h6" />
-            </svg>
-            <input type="text" id="institutionNumber" name="institutionNumber" required class="w-full outline-none border-none" placeholder="사업자등록번호 입력 (숫자만)" />
-          </div>
-          <div id="businessNumberChkMsg" class="mt-2 text-sm h-5 text-center"></div>
-        </div>
-
-        <div class="mb-6">
-          <label class="block text-sm font-medium text-gray-700 mb-1">대표자명</label>
-          <div class="joininput flex items-center border border-gray-300 rounded-md px-3 py-2">
-            <svg class="w-5 h-5 text-gray-400 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A4 4 0 018 16h8a4 4 0 012.879 1.804M15 11a3 3 0 10-6 0 3 3 0 006 0z" />
-            </svg>
-            <input required type="text" id="ceoName" name="ceoName" class="w-full outline-none border-none" placeholder="대표자명 입력" />
-          </div>
-          <div id="ceoNameChkMsg" class="mt-2 text-sm h-5 text-center"></div>
-        </div>
-
-        <div class="flex justify-between">
-          <button type="button" id="prevStepBtn" class="px-6 py-2 rounded-md bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold transition">
-            이전 단계
-          </button>
-          <button type="submit" class="px-6 py-2 rounded-md bg-orange-400 hover:bg-orange-500 text-white font-semibold transition">
-            회원가입 완료
-          </button>
-        </div>
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700 mb-1">기업명</label>
+      <div class="joininput flex items-center border border-gray-300 rounded-md px-3 py-2">
+        <input required type="text" id="institutionName" name="institutionName" class="w-full outline-none border-none" placeholder="기업명 입력" />
       </div>
+    </div>
 
-    </form>
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700 mb-1">우편번호</label>
+      <div class="flex">
+        <input required type="text" id="zipCode" name="zipCode" class="w-1/3 border border-gray-300 rounded-md px-3 py-2 mr-2" placeholder="우편번호" readonly />
+        <button type="button" id="searchZipBtn" class="bg-orange-400 hover:bg-orange-500 text-white px-4 rounded-md">우편번호 찾기</button>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700 mb-1">주소</label>
+      <input required type="text" id="address" name="address" class="w-full border border-gray-300 rounded-md px-3 py-2" placeholder="주소" readonly />
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700 mb-1">상세 주소</label>
+      <input type="text" id="addressDetail" name="addressDetail" class="w-full border border-gray-300 rounded-md px-3 py-2" placeholder="상세 주소 입력" />
+    </div>
+
+    <div class="flex justify-between">
+      <button type="button" id="prevStepBtn2" class="px-6 py-2 rounded-md bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold transition">
+        이전 단계
+      </button>
+      <button type="button" id="nextStepBtn2" class="px-6 py-2 rounded-md bg-orange-400 hover:bg-orange-500 text-white font-semibold transition">
+        다음 단계
+      </button>
+    </div>
+  </div>
+
+  <div id="step3" class="hidden">
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700 mb-1">사업자등록증 첨부</label>
+      <input required type="file" name="bizFile" accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-sm text-gray-500
+          file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold
+          file:bg-orange-100 file:text-orange-700 hover:file:bg-orange-200
+        " />
+      <div class="text-xs text-gray-400 mt-1">PDF, JPG, PNG 파일만 업로드 가능합니다.</div>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700 mb-1">사업자등록번호</label>
+      <div class="joininput flex items-center border border-gray-300 rounded-md px-3 py-2">
+        <input type="text" id="institutionNumber" name="institutionNumber" required class="w-full outline-none border-none" placeholder="사업자등록번호 입력 (숫자만)" />
+      </div>
+    </div>
+
+    <div class="mb-6">
+      <label class="block text-sm font-medium text-gray-700 mb-1">대표자명</label>
+      <div class="joininput flex items-center border border-gray-300 rounded-md px-3 py-2">
+        <input required type="text" id="ceoName" name="ceoName" class="w-full outline-none border-none" placeholder="대표자명 입력" />
+      </div>
+    </div>
+
+    <div class="flex justify-between">
+      <button type="button" id="prevStepBtn3" class="px-6 py-2 rounded-md bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold transition">
+        이전 단계
+      </button>
+      <button type="submit" class="px-6 py-2 rounded-md bg-orange-400 hover:bg-orange-500 text-white font-semibold transition">
+        회원가입 완료
+      </button>
+   	 </div>
+ 	 </div>
+	</form>
   </div>
 </section>
-
 <script>
+$('#searchZipBtn').click(function() {
+  new daum.Postcode({
+    oncomplete: function(data) {
+      $('#zipCode').val(data.zonecode);
+      $('#address').val(data.address);
+      $('#addressDetail').focus();
+    }
+  }).open();
+});
+
 $(function() {
   $('.joininput')
     .css({'border-color': 'gray', 'border-width': '1px', 'border-style': 'solid'})
@@ -250,9 +276,9 @@ $(function() {
 
   function validateStep2() {
     const institutionName = $('#institutionName').val().trim();
-    const businessNumber = $('#businessNumber').val().trim();
-    const ceoName = $('#ceoName').val().trim();
-    const bizFileCount = $('input[name="bizFile"]')[0].files.length;
+    const zipCode = $('#zipCode').val().trim();
+    const address = $('#address').val().trim();
+    const addressDetail = $('#addressDetail').val().trim();
 
     if (institutionName.length === 0) {
       alert('기업명을 입력해주세요.');
@@ -260,21 +286,47 @@ $(function() {
       return false;
     }
 
+    if (zipCode.length === 0) {
+      alert('우편번호를 입력해주세요.');
+      $('#zipCode').focus();
+      return false;
+    }
+
+    if (address.length === 0) {
+      alert('주소를 입력해주세요.');
+      $('#address').focus();
+      return false;
+    }
+
+    if (addressDetail.length === 0) {
+      alert('상세 주소를 입력해주세요.');
+      $('#addressDetail').focus();
+      return false;
+    }
+
+    return true;
+  }
+
+  function validateStep3() {
+    const bizFileCount = $('input[name="bizFile"]')[0].files.length;
+    const businessNumber = $('#institutionNumber').val().trim();
+    const ceoName = $('#ceoName').val().trim();
+
+    if (bizFileCount === 0) {
+      alert('사업자등록증 첨부 파일을 선택해주세요.');
+      $('input[name="bizFile"]').focus();
+      return false;
+    }
+
     if (businessNumber.length === 0) {
       alert('사업자등록번호를 입력해주세요.');
-      $('#businessNumber').focus();
+      $('#institutionNumber').focus();
       return false;
     }
 
     if (!/^\d+$/.test(businessNumber)) {
       alert('사업자등록번호는 숫자만 입력해야 합니다.');
-      $('#businessNumber').focus();
-      return false;
-    }
-
-    if (bizFileCount === 0) {
-      alert('사업자등록증 첨부 파일을 선택해주세요.');
-      $('input[name="bizFile"]').focus();
+      $('#institutionNumber').focus();
       return false;
     }
 
@@ -288,18 +340,37 @@ $(function() {
   }
 
   $('#nextStepBtn').click(function() {
-    if (!validateStep1()) return;
-    $('#step1').hide();
-    $('#step2').show();
-  });
+	  if ($('#step1').is(':visible')) {
+	    if (!validateStep1()) return;
+	    $('#step1').hide();
+	    $('#step2').show();
+	  }
+	});
 
-  $('#prevStepBtn').click(function() {
-    $('#step2').hide();
-    $('#step1').show();
-  });
+	$('#prevStepBtn2').click(function() {
+	  if ($('#step2').is(':visible')) {
+	    $('#step2').hide();
+	    $('#step1').show();
+	  }
+	});
+	
+	$('#nextStepBtn2').click(function() {
+	  if ($('#step2').is(':visible')) {
+	    if (!validateStep2()) return;
+	    $('#step2').hide();
+	    $('#step3').show();
+	  }
+	});
+
+	$('#prevStepBtn3').click(function() {
+	  if ($('#step3').is(':visible')) {
+	    $('#step3').hide();
+	    $('#step2').show();
+	  }
+	});
 
   $('#institutionJoinForm').on('submit', function(e) {
-    if (!validateStep2()) {
+    if (!validateStep3()) {
       e.preventDefault();
     }
   });

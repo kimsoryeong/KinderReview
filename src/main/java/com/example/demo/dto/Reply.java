@@ -19,7 +19,9 @@ public class Reply {
 	private Boolean isSecret;
 	private Boolean isAnonymous;
 	private int parentId;
-
+	private int authLevel;
+	private String institutionName;
+	
 	public boolean isSecret() {
         return isSecret;
     }

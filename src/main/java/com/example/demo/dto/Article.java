@@ -65,6 +65,8 @@ public class Article {
 	private List<FileDto> files;
 	private int replyCount;
 	private String fileName;
+	private String memberNickname;
+	private String memberAddress;
 
 
 

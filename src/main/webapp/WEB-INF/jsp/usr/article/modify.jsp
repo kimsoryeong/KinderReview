@@ -358,7 +358,7 @@
 	          <label for="workType" class="block font-semibold mb-1 text-orange-400">
 	            <i class="fa-regular fa-user pr-2 text-orange-500"></i>구인 직종
 	          </label>
-	          <select id="workType" name="workType" class="rounded-md border px-3 py-2 w-60">
+	          <select id="workType" name="workType" class="focus:outline-none focus:ring-2 focus:ring-orange-300 rounded-md border px-3 py-2 w-60">
 		        <option value="" disabled selected>${article.workType}</option>
 		        <option value="원장">원장</option>
 		        <option value="원감">원감</option>
@@ -383,7 +383,7 @@
 	      <div>
 	        <label for="content" class="block font-semibold mb-1 text-orange-400 border-t-2 py-5">내용</label>
 	        <textarea id="content" name="content" required pattern=".{10,1000}" title="10~1000자"
-	          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400" rows="8">${article.content}</textarea>
+	          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-300" rows="8">${article.content}</textarea>
 	      </div>
 	      <div class="file-upload">
 	        <label for="workCertFile" class="inline-block cursor-pointer bg-orange-100 text-orange-700 font-semibold py-1 px-4 rounded hover:bg-orange-200 text-sm">

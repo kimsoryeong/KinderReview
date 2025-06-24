@@ -275,7 +275,6 @@
 				    </div>
 				  </div>
 				</div>
-				
 				<jsp:include page="/WEB-INF/jsp/common/replyBox.jsp">
 				    <jsp:param name="relTypeCode" value="${relTypeCode}" />
 				    <jsp:param name="relId" value="${relId}" />
@@ -363,9 +362,11 @@
 				  </div>
 				</div>
 				<div class="flex flex-row gap-2 justify-between">
-				<div><i class="fa-solid fa-school pr-2 text-orange-500 "></i>${article.institutionName}</div>
-				<div><i class="fa-solid fa-phone pr-2 text-orange-500"></i> 전화번호 : ${article.phoneNumber}</div>
-				<div><i class="fa-solid fa-check pr-2 text-orange-500"></i> 마감일 : ${article.deadline}</div>
+				<div class="flex- flex-col-2 ">
+				<div><i class="fa-solid fa-school pr-2 text-orange-500 "></i>${member.institutionName}</div>
+				</div>
+				<div class="whitespace-nowrap"><i class="fa-solid fa-phone pr-2 text-orange-500"></i> 전화번호 : ${article.phoneNumber}</div>
+				<div class="whitespace-nowrap"><i class="fa-solid fa-check pr-2 text-orange-500"></i> 마감일 : ${article.deadline}</div>
 				</div>
 				<div class="flex flex-row gap-2 justify-between border-b pb-4 ">
 				<div><i class="fa-solid fa-location-dot pr-2 text-orange-500"></i>근무지역 : ${article.city}</div>

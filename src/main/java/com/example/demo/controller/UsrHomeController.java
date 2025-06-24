@@ -33,11 +33,7 @@ public class UsrHomeController {
         return "usr/home/main";
     }
 
-   
-    @GetMapping("/usr/home/apiTest1")
-    public String apiTest1Page() {
-        return "usr/home/apiTest1"; 
-    }
+
     
 
 }

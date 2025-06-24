@@ -30,13 +30,17 @@ public interface ReplyDao {
     void writeReply(Integer memberId, String nickname, String relTypeCode, int relId, String content, boolean isSecret, boolean isAnonymous, int parentId);
 
     @Select("""
-        SELECT *
-        FROM reply
-        WHERE relTypeCode = #{relTypeCode}
-          AND relId = #{relId}
-        ORDER BY regDate ASC
-    """)
-    List<Reply> getReplies(String relTypeCode, int relId);
+    	    SELECT r.*, 
+    	           m.authLevel, 
+    	           m.institutionName
+    	    FROM reply r
+    	    LEFT JOIN member m ON r.memberId = m.id
+    	    WHERE r.relTypeCode = #{relTypeCode}
+    	      AND r.relId = #{relId}
+    	    ORDER BY r.regDate ASC
+    	""")
+    	List<Reply> getReplies(@Param("relTypeCode") String relTypeCode, @Param("relId") int relId);
+
 
     @Select("""
         SELECT *

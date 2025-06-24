@@ -7,8 +7,11 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+
 import com.example.demo.dto.Article;
 import com.example.demo.dto.ArticleModifyDTO;
 
@@ -83,15 +86,26 @@ public interface ArticleDao {
 	int getLastInsertId();
 
 	@Select("""
-			SELECT a.*, m.loginId AS writerName
-			    FROM article a
-			    INNER JOIN `member` m ON a.memberId = m.id
-			    WHERE boardId = #{boardId}
-			    AND reviewStatus = 1
-				ORDER BY a.id DESC
-				LIMIT #{limitFrom}, #{articlesInPage}
-			""")
-	public List<Article> getArticles(int boardId, int articlesInPage, int limitFrom);
+		    SELECT a.*,
+			       a.institutionName,
+		           m.loginId AS writerName,
+		           m.nickname AS memberNickname,
+		           m.address AS memberAddress
+		    FROM article a
+		    INNER JOIN `member` m ON a.memberId = m.id
+		    WHERE boardId = #{boardId}
+		      AND reviewStatus = 1
+		    ORDER BY a.id DESC
+		    LIMIT #{limitFrom}, #{articlesInPage}
+		""")
+		@Results({
+		    @Result(property = "memberNickname", column = "memberNickname"),
+		    @Result(property = "memberAddress", column = "memberAddress"),
+		    @Result(property = "writerName", column = "writerName"),
+		    @Result(property = "institutionName", column = "institutionName")
+		})
+		public List<Article> getArticles(int boardId, int articlesInPage, int limitFrom);
+
 	
 	@Select("""
 	        SELECT
@@ -454,6 +468,22 @@ public interface ArticleDao {
 			    WHERE id = #{articleId}
 			""")
 			void updateReuploadFile(@Param("articleId") int articleId, @Param("fileName") String fileName);
+
+	 @Select("""
+		        SELECT *
+			    FROM article
+			    WHERE memberId = #{memberId}
+			    ORDER BY id DESC
+			    LIMIT #{startIndex}, #{itemsPerPage}
+		    """)
+	List<Article> getArticlesByMemberIdWithPaging(int memberId, int startIndex, int itemsPerPage);
+
+	 @Select("""
+			    SELECT COUNT(*)
+			    FROM article
+			    WHERE memberId = #{memberId}
+			""")
+			int countArticlesByMemberId(@Param("memberId") int memberId);
 
 
 }

@@ -15,23 +15,28 @@
 			</div>
 			<div class="bg-white rounded-2xl shadow-xl px-10 space-y-6">
 			<div class="flex justify-between border-b border-gray-300 py-2">
-					<a href="/usr/article/list?boardId=${article.boardId}"
-					   class="border border-gray-200 hover:bg-orange-200 text-sm px-3 py-1 rounded-md transition">
-					   목록
-					</a>
+			  <a href="/usr/article/list?boardId=${article.boardId}"
+			     class="border border-gray-200 hover:bg-orange-200 text-sm px-3 py-1 rounded-md transition">
+			     목록
+			  </a>
+			
+			  <div class="flex gap-2">
+			    <c:if test="${article.getMemberId() == req.getLoginedMember().getId()}">
+			      <a class="border border-gray-200 hover:bg-orange-200 text-sm px-3 py-1 rounded-sm transition"
+			         href="modify?id=${article.getId()}">수정</a>
+			      <a class="border border-gray-200 hover:bg-orange-200 text-sm px-3 py-1 rounded-sm transition"
+			         href="delete?id=${article.getId()}&boardId=${article.getBoardId()}"
+			         onclick="return confirm('정말로 삭제하시겠습니까?');">삭제</a>
+			    </c:if>
+			
+			    <c:if test="${article.getMemberId() != req.getLoginedMember().getId() and req.getLoginedMember().authLevel == 0}">
+			      <a class="border border-gray-200 hover:bg-orange-200 text-sm px-3 py-1 rounded-sm transition"
+			         href="delete?id=${article.getId()}&boardId=${article.getBoardId()}"
+			         onclick="return confirm('관리자로서 해당 글을 삭제하시겠습니까?');">삭제</a>
+			    </c:if>
+			  </div>
+			</div>
 
-					<c:if
-						test="${article.getMemberId() == req.getLoginedMember().getId()}">
-						<div class="flex gap-2">
-							<a
-								class="border border-gray-200 hover:bg-orange-200  text-sm px-3 py-1 rounded-sm transition"
-								href="modify?id=${article.getId()}">수정</a> <a
-								class="border border-gray-200 hover:bg-orange-200 text-sm px-3 py-1 rounded-sm transition"
-								href="delete?id=${article.getId()}&boardId=${article.getBoardId()}"
-								onclick="return confirm('정말로 삭제하시겠습니까?');">삭제</a>
-						</div>
-					</c:if>
-				</div>
 				<div class="flex justify-between text-xs text-gray-500">
 					<div class="truncate max-w-full sm:max-w-[45%]">번호:
 						${article.getId()}</div> 
@@ -39,7 +44,7 @@
 					작성일 : ${article.getRegDate()}<br>
 					수정일 : ${article.getUpdateDate() }</div>
 				</div>
-				<c:if test="${board.id == 3 or board.id == 4 or board.id == 5}">
+				<c:if test="${board.id == 3 or board.id == 4 or board.id == 5 or board.id == 6}">
 				<div class="flex pb-3 items-center gap-4 text-gray-700 mb-4">
 				  <i class="fa-solid fa-location-dot text-orange-400"></i>
 				  <span>${article.city}</span>

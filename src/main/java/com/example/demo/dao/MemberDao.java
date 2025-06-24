@@ -21,10 +21,11 @@ public interface MemberDao {
 			, loginId = #{loginId}
 			, loginPw = #{loginPw}
 			, nickname = #{nickname}
+			, address = #{address}
 			, approveStatus = 1
 			, authLevel = 1  
 	""")
-	void joinPersonalMember(@Param("loginId") String loginId, @Param("loginPw") String loginPw, @Param("nickname") String nickname);
+	void joinPersonalMember(@Param("loginId") String loginId, @Param("loginPw") String loginPw, @Param("nickname") String nickname, @Param("address")String address);
 	
 	@Insert("""
 	        INSERT INTO `member`
@@ -32,10 +33,13 @@ public interface MemberDao {
 	            , updateDate = NOW()
 	            , loginId = #{loginId}
 	            , loginPw = #{loginPw}
-	            , nickname = #{nickname}
+	            , institutionName = #{institutionName}
 	            , institutionNumber = #{institutionNumber}
 	            , approveStatus = 0
 	            , authLevel = 2
+	            , zipCode = #{zipCode}
+	            , address = #{address}
+	            , addressDetail = #{addressDetail}
 	    """)
 	    @Options(useGeneratedKeys = true, keyProperty = "id") 
 	    void joinInstitutionMember(Member member);
@@ -49,13 +53,27 @@ public interface MemberDao {
 		Member getMemberByLoginId(String loginId);
 
 	@Select("""
-		    SELECT m.*, 
-		           (SELECT id FROM file WHERE relTypeCode = 'member' AND relId = m.id LIMIT 1) AS workChkFileId
+		    SELECT 
+		        m.id,
+		        m.loginId,
+		        m.loginPw,
+		        m.nickname,
+		        m.authLevel,
+		        m.approveStatus,
+		        m.institutionName,
+		        m.institutionNumber,
+		        m.zipCode,
+		        m.address,
+		        m.addressDetail,
+		        m.workChkFile,
+		        (SELECT id FROM file
+		         WHERE relTypeCode = 'member'
+		           AND relId = m.id
+		         LIMIT 1) AS workChkFileId
 		    FROM member m
-		    WHERE id = #{id}
+		    WHERE m.id = #{id}
 		""")
 		Member getMemberById(@Param("id") int id);
-
 
 
 	@Select("""

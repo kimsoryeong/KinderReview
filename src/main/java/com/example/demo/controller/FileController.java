@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.dto.Article;
 import com.example.demo.dto.FileDto;
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.FileService;

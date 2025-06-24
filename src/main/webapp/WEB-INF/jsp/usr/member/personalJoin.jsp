@@ -6,7 +6,7 @@
 <%@ include file="/WEB-INF/jsp/common/header.jsp" %> 
 
 <section class="h-screen flex items-center pt-10 justify-center bg-gray-100">
-	<div class="bg-white shadow-xl rounded-xl p-10 mb-30 w-full max-w-md">
+	<div class="bg-white shadow-xl rounded-xl mt-20 p-10 mb-30 w-full max-w-md">
 		<div class="flex justify-end text-orange-300 hover:text-orange-400 mb-5 items-center">
 			<a href="/"><i class="fa-solid fa-house fa-2xl"></i></a>
 		</div>	
@@ -56,6 +56,31 @@
 					<input type="text" id="nickname" name="nickname" class="w-full outline-none border-none" placeholder="닉네임 입력" />
 				</div>
 				<div id="nicknameChkMsg" class="mt-2 text-sm h-5 text-center"></div>
+			</div>
+			<div class="mb-6">
+				<label class="block text-sm font-medium text-gray-700 mb-1">지역</label>
+					<select id="address" name="address" onchange="updateDistricts()"
+				        class="focus:outline-none focus:ring-2 focus:ring-orange-400 rounded-md border border-gray-500 px-3 py-2 w-full">
+				        <option value="" disabled selected>시/도 선택</option>
+				        <option value="서울">서울</option>
+				        <option value="대전">대전</option>
+				        <option value="대구">대구</option>
+				        <option value="부산">부산</option>
+				        <option value="인천">인천</option>
+				        <option value="광주">광주</option>
+				        <option value="세종">세종</option>
+				        <option value="울산">울산</option>
+				        <option value="강원">강원</option>
+				        <option value="경기">경기</option>
+				        <option value="경남">경남</option>
+				        <option value="경북">경북</option>
+				        <option value="전남">전남</option>
+				        <option value="전북">전북</option>
+				        <option value="제주">제주</option>
+				        <option value="충남">충남</option>
+				        <option value="충북">충북</option>
+				      </select>
+				<div id="addressChkMsg" class="mt-2 text-sm h-5 text-center"></div>
 			</div>
 			<button type="submit" class="w-full bg-orange-400 hover:bg-orange-500 text-white font-semibold py-2 rounded-md transition">
 				회원가입
@@ -154,6 +179,7 @@
 			validNickname = null;
 			return;
 		}
+		
 		$.ajax({
 			url : '/usr/member/nicknameDupChk',
 			type : 'GET',
@@ -173,6 +199,16 @@
 			}
 		});
 	});
+	
+	$('#address').on('blur change', function () {
+		  const val = $(this).val();
+		  const msgEl = $('#addressChkMsg');
+		  if (!val) {
+		    msgEl.text('지역은 필수 입력 정보입니다').removeClass('text-green-500').addClass('text-red-500');
+		  } else {
+		    msgEl.text('').removeClass('text-red-500');
+		  }
+		});
 
 	const joinFormChk = function (form) {
 		form.loginId.value = form.loginId.value.trim();
@@ -216,6 +252,11 @@
 		if (form.nickname.value.length == 0) {
 			alert('닉네임은 필수 입력 정보입니다');
 			form.nickname.focus();
+			return false;
+		}
+		if (form.address.value.length == 0) {
+			alert('지역은 필수 입력 정보입니다');
+			form.address.focus();
 			return false;
 		}
 		if (!validateNickname(form.nickname.value)) {

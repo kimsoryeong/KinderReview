@@ -212,10 +212,20 @@ public class UsrArticleController {
 	
 	@GetMapping("/usr/article/hireWritePage")
 	public String hireWritePage(Model model) {
-		Article article = new Article(); 
-		model.addAttribute("article", article);
-	    return "usr/article/hireWrite"; 
+	    LoginedMember loginedMember = req.getLoginedMember();
+	    if (loginedMember == null) {
+	        return "redirect:/usr/member/login";  
+	    }
+	    
+	    Member member = memberService.getMemberById(loginedMember.getId());
+	    Article article = new Article();
+
+	    model.addAttribute("article", article);
+	    model.addAttribute("member", member); 
+
+	    return "usr/article/hireWrite";
 	}
+
 	
 	@GetMapping("/usr/article/communityWrite")
 	@ResponseBody
@@ -250,8 +260,16 @@ public class UsrArticleController {
 	}
 	
 	@GetMapping("/usr/article/detail")
-	public String detail(HttpServletRequest request, HttpServletResponse response, Model model, int id) {
+	public String detail(HttpServletRequest request, HttpServletResponse response, Model model, int id)  throws IOException {
 
+		Req req = (Req) request.getAttribute("req");
+		  if (req == null || !req.isLogined()) {
+		        response.setContentType("text/html; charset=UTF-8");
+		        response.getWriter().println("<script>alert('로그인 후 게시글을 볼 수 있습니다.'); location.href='/'</script>");
+		        response.getWriter().flush();
+		        return null; 
+		    }
+	    
 	    Cookie[] cookies = request.getCookies();
 	    boolean isViewed = false;
 
@@ -292,6 +310,7 @@ public class UsrArticleController {
 
 	    article.calculateStar();
 	    model.addAttribute("article", article);
+	    model.addAttribute("member", memberService.getMemberById(article.getMemberId()));
 	    model.addAttribute("board", board);
 	    model.addAttribute("replies", replies);  
 	    model.addAttribute("relId", id);
@@ -299,7 +318,6 @@ public class UsrArticleController {
 	    model.addAttribute("salaryOptions", salaryOptions);
 	    model.addAttribute("welfareOptions", welfareOptions);
 
-	    Req req = (Req) request.getAttribute("req");
 	    int authLevel = 999;
 	    if (req != null && req.isLogined()) {
 	        authLevel = req.getLoginedMember().getAuthLevel();
@@ -337,6 +355,7 @@ public class UsrArticleController {
 	    int limitFrom = (cPage - 1) * articlesInPage;
 
 	    List<Article> articles;
+	    
 	    int articlesCnt;
 
 	    if (keyword != null && !keyword.trim().isEmpty()) {
@@ -350,6 +369,25 @@ public class UsrArticleController {
 	    for (Article article : articles) {
 	        int replyCount = articleService.getReplyCountByArticleId(article.getId());
 	        article.setReplyCount(replyCount);
+	        
+	        Member member = memberService.getMemberById(article.getMemberId());
+	        if (member != null) {
+	            article.setMemberNickname(member.getNickname());
+	        } else {
+	            article.setMemberNickname("알 수 없음");
+	        }
+	    }
+	    
+	    List<Article> freeTopArticles = articleService.getTopArticlesByViews(11);
+	    for (Article article : freeTopArticles) {
+	        Member member = memberService.getMemberById(article.getMemberId());
+	        article.setMemberNickname(member != null ? member.getNickname() : "알 수 없음");
+	    }
+
+	    List<Article> qnaTopArticles = articleService.getTopArticlesByViews(12);
+	    for (Article article : qnaTopArticles) {
+	        Member member = memberService.getMemberById(article.getMemberId());
+	        article.setMemberNickname(member != null ? member.getNickname() : "알 수 없음");
 	    }
 	    
 	    int totalPagesCnt = (int) Math.ceil(articlesCnt / (double) articlesInPage);
@@ -372,7 +410,8 @@ public class UsrArticleController {
 	    model.addAttribute("practiceTopArticles", articleService.getTopArticlesByViews(6));
 	    model.addAttribute("freeTopArticles", articleService.getTopArticlesByViews(11));
 	    model.addAttribute("qnaTopArticles", articleService.getTopArticlesByViews(12));
-	    
+	    model.addAttribute("freeTopArticles", freeTopArticles);
+	    model.addAttribute("qnaTopArticles", qnaTopArticles);
 	    return "usr/article/list";
 	}
 
@@ -412,18 +451,30 @@ public class UsrArticleController {
 
 	@GetMapping("/usr/article/delete")
 	@ResponseBody
-	public String delete(int id, int boardId) {
-		
-		this.articleService.deleteArticle(id);
-		
-		return Util.jsReplace(String.format("%d번 게시글이 삭제되었습니다", id), String.format("list?boardId=%d", boardId));
-	}
-	
+	public String delete(@RequestParam int id, @RequestParam int boardId, HttpServletRequest req) {
 
-	@GetMapping("/usr/article/apiTest3")
-    public String apiTest3Page() {
-        return "usr/article/apiTest3"; 
-    }
-	
+	    LoginedMember loginedMember = (LoginedMember) req.getAttribute("loginedMember");
+
+	    Article article = articleService.getArticleById(id);
+
+	    if (article == null) {
+	        return Util.jsBack("존재하지 않는 게시글입니다.");
+	    }
+
+	    if (loginedMember.getAuthLevel() != 0 && article.getMemberId() != loginedMember.getId()) {
+	        return Util.jsBack("삭제 권한이 없습니다.");
+	    }
+
+	    articleService.deleteArticle(id);
+
+	    return Util.jsReplace(String.format("%d번 게시글이 삭제되었습니다", id), String.format("list?boardId=%d", boardId));
+	}
+
+
+	@GetMapping("/usr/article/institutionXml")
+	public String institutionXmlPage() {
+		return "usr/article/institutionXml"; 
+	}
+
 	
 }
